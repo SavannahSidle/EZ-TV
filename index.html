@@ -17,7 +17,8 @@
     <header class="system-bar">
       <button class="logo" data-action="home" aria-label="Return home"><span>EZ</span><b>TV</b></button>
       <div class="view-switch" role="group" aria-label="Choose interface">
-        <button class="view-option active" data-view="resident">TV view</button>
+        <button class="view-option active" data-view="overview">Overview</button>
+        <button class="view-option" data-view="resident">TV view</button>
         <button class="view-option" data-view="caregiver">Caregiver view</button>
         <button class="view-option" data-view="facility">Facility</button>
         <button class="view-option" data-view="plans">Plans</button>
@@ -26,7 +27,25 @@
     </header>
 
     <main>
-      <section class="resident-view active-view" id="residentView" aria-label="TV view">
+      <section class="overview-view active-view" id="overviewView" aria-label="EZ-TV overview">
+        <div class="overview-shell">
+          <div class="overview-copy">
+            <p class="mono-label">ACCESSIBLE MEDIA FOR PEOPLE LIVING WITH DEMENTIA</p>
+            <h1>What if the television stayed familiar?</h1>
+            <p class="overview-lead">EZ-TV keeps family photographs, favourite television, familiar music, and daily routines within reach as memory, attention, and navigation abilities change.</p>
+            <div class="overview-actions"><button class="primary-action" data-view-jump="resident">Open the TV experience</button><button class="secondary-action" data-view-jump="caregiver">See the caregiver tools</button></div>
+            <p class="overview-origin">Designed independently by Savannah Sidle. Project originated in 2024.</p>
+          </div>
+          <div class="overview-map" aria-label="How EZ-TV works">
+            <div class="overview-screen"><span class="screen-label">RESIDENT</span><strong>Three familiar choices.</strong><div><i>▧<small>Photos</small></i><i>▶<small>Show</small></i><i>♪<small>Music</small></i></div></div>
+            <div class="overview-links"><span>SMART TV APP</span><span>EZ-TV HUB</span><span>USB OFFLINE</span><span>CELLULAR</span></div>
+            <div class="overview-control"><span class="screen-label">FAMILY OR CARE TEAM</span><strong>Prepare the experience elsewhere.</strong><small>Residents never manage settings, accounts, networks, or updates.</small></div>
+          </div>
+        </div>
+        <div class="overview-principles"><article><span>01</span><b>Recognition before navigation</b><p>Stable choices reduce the need to remember steps.</p></article><article><span>02</span><b>Works across circumstances</b><p>Smart TV, conventional TV, internet, cellular, or USB.</p></article><article><span>03</span><b>Connection without surveillance</b><p>No cameras, passive listening, or behavioural scoring.</p></article></div>
+      </section>
+
+      <section class="resident-view" id="residentView" aria-label="TV view">
         <div class="ambient ambient-one"></div><div class="ambient ambient-two"></div>
         <div class="resident-home" id="residentHome">
           <div class="welcome-row">
@@ -140,10 +159,10 @@
               <div class="panel-heading"><h3>Resident access</h3><span>24 PROFILES</span></div>
               <div class="facility-table" role="table" aria-label="Resident device status">
                 <div class="facility-row facility-table-head" role="row"><span>Resident</span><span>Room</span><span>Mode</span><span>Last update</span><span>Status</span></div>
-                <button class="facility-row" role="row" data-resident="Rose S."><span><i class="resident-initials aqua">RS</i><b>Rose S.</b></span><span>214</span><span>Connected</span><span>Just now</span><span class="status-pill online">Ready</span></button>
-                <button class="facility-row" role="row" data-resident="Arthur M."><span><i class="resident-initials violet">AM</i><b>Arthur M.</b></span><span>218</span><span>Local</span><span>Yesterday</span><span class="status-pill local">Offline ready</span></button>
-                <button class="facility-row" role="row" data-resident="June P."><span><i class="resident-initials blue">JP</i><b>June P.</b></span><span>221</span><span>USB</span><span>6 days ago</span><span class="status-pill update">Update ready</span></button>
-                <button class="facility-row" role="row" data-resident="Henry L."><span><i class="resident-initials green">HL</i><b>Henry L.</b></span><span>223</span><span>Connected</span><span>2 min ago</span><span class="status-pill online">Ready</span></button>
+                <button class="facility-row" role="row" aria-haspopup="dialog" data-resident="Rose S." data-room="214" data-mode="Connected" data-updated="Just now" data-status="Ready" data-routine="Family photographs at 1:30 PM" data-media="18 photos · 6 episodes · 21 songs"><span><i class="resident-initials aqua">RS</i><b>Rose S.</b></span><span>214</span><span>Connected</span><span>Just now</span><span class="status-pill online">Ready</span></button>
+                <button class="facility-row" role="row" aria-haspopup="dialog" data-resident="Arthur M." data-room="218" data-mode="Local" data-updated="Yesterday" data-status="Offline ready" data-routine="Jazz favourites at 3:00 PM" data-media="24 photos · 4 episodes · 16 songs"><span><i class="resident-initials violet">AM</i><b>Arthur M.</b></span><span>218</span><span>Local</span><span>Yesterday</span><span class="status-pill local">Offline ready</span></button>
+                <button class="facility-row" role="row" aria-haspopup="dialog" data-resident="June P." data-room="221" data-mode="USB" data-updated="6 days ago" data-status="Update ready" data-routine="Garden photographs at 10:00 AM" data-media="12 photos · 8 episodes · 9 songs"><span><i class="resident-initials blue">JP</i><b>June P.</b></span><span>221</span><span>USB</span><span>6 days ago</span><span class="status-pill update">Update ready</span></button>
+                <button class="facility-row" role="row" aria-haspopup="dialog" data-resident="Henry L." data-room="223" data-mode="Connected" data-updated="2 min ago" data-status="Ready" data-routine="Hockey replay at 7:00 PM" data-media="31 photos · 10 episodes · 14 songs"><span><i class="resident-initials green">HL</i><b>Henry L.</b></span><span>223</span><span>Connected</span><span>2 min ago</span><span class="status-pill online">Ready</span></button>
               </div>
             </section>
             <section class="panel facility-rhythm">
@@ -209,7 +228,8 @@
   <dialog class="modal" id="routineModal">
     <form method="dialog" id="routineForm"><div class="modal-heading"><div><p class="mono-label">NEW ROUTINE</p><h2>Schedule media</h2></div><button value="cancel" class="modal-close" aria-label="Close">×</button></div><label>Media<select id="routineMedia"><option>Quiet evening</option><option>Morning favourites</option><option>Family photographs</option><option>The Coast Road</option></select></label><label>Time<input id="routineTime" type="time" value="20:00"></label><label class="repeat-row"><span><b>Repeat every day</b><small>Keep this part of Rose’s routine</small></span><input id="routineRepeat" type="checkbox" checked><i></i></label><button class="modal-submit" value="default">Add to today</button></form>
   </dialog>
-  <dialog class="modal about-modal" id="aboutModal"><div class="modal-heading"><div><p class="mono-label">ABOUT THE PROTOTYPE</p><h2>EZ-TV</h2></div><button class="modal-close" id="aboutClose" aria-label="Close">×</button></div><p>EZ-TV explores how familiar media can remain accessible as memory, attention, and navigation abilities change.</p><dl><div><dt>Designed for</dt><dd>People living with dementia</dd></div><div><dt>Interaction</dt><dd>Direct touch and one-word voice commands</dd></div><div><dt>Media</dt><dd>Family photographs, familiar television, and music</dd></div><div><dt>Compatibility</dt><dd>Conventional televisions</dd></div></dl><footer>Designed by Savannah Sidle through the 2024 Mila Entrepreneurship Lab.</footer></dialog>
+  <dialog class="modal resident-modal" id="residentModal"><div class="modal-heading"><div><p class="mono-label">RESIDENT ACCESS</p><h2 id="residentModalName">Resident</h2></div><button class="modal-close" id="residentModalClose" aria-label="Close">×</button></div><div class="resident-summary"><div><small>ROOM</small><b id="residentModalRoom"></b></div><div><small>ACCESS MODE</small><b id="residentModalMode"></b></div><div><small>STATUS</small><b id="residentModalStatus"></b></div><div><small>LAST UPDATE</small><b id="residentModalUpdated"></b></div></div><div class="resident-detail"><span>NEXT FAMILIAR ROUTINE</span><b id="residentModalRoutine"></b></div><div class="resident-detail"><span>SELECTED MEDIA</span><b id="residentModalMedia"></b></div><div class="resident-modal-actions"><button class="secondary-action" id="residentPrepareUpdate">Prepare update</button><button class="primary-action" id="residentOpenTv">Open TV view</button></div></dialog>
+  <dialog class="modal about-modal" id="aboutModal"><div class="modal-heading"><div><p class="mono-label">ABOUT THE PROTOTYPE</p><h2>EZ-TV</h2></div><button class="modal-close" id="aboutClose" aria-label="Close">×</button></div><p>EZ-TV explores how familiar media can remain accessible as memory, attention, and navigation abilities change.</p><dl><div><dt>Designed for</dt><dd>People living with dementia</dd></div><div><dt>Interaction</dt><dd>Direct touch and one-word voice commands</dd></div><div><dt>Media</dt><dd>Family photographs, familiar television, and music</dd></div><div><dt>Compatibility</dt><dd>Smart TVs and conventional televisions</dd></div></dl><footer>Designed independently by Savannah Sidle. Project originated in 2024.</footer></dialog>
   <div class="toast" id="toast" role="status"></div>
   <script src="app.js"></script>
 </body>

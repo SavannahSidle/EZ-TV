@@ -2,9 +2,10 @@
 
 EZ-TV is an accessible media interface concept for people living with dementia. It reduces navigation complexity by offering a small set of familiar, task-oriented choices for photographs, television, and music.
 
-The prototype includes four connected experiences:
+The prototype includes five connected experiences:
 
-- **Resident mode:** direct access to familiar media through large touch targets and simulated one-word voice commands.
+- **Overview:** product context, access routes, and direct entry into each prototype.
+- **Resident mode:** direct access to familiar media through large touch targets and one-word browser voice commands where supported.
 - **Caregiver mode:** media selection, scheduling, routines, and a live preview of the television interface.
 - **Facility dashboard:** resident profiles, device modes, update status, and shared scheduling without behavioural surveillance.
 - **Plans:** a proposed app or hub model with Local, Connected, Supported, and facility service options.
@@ -21,6 +22,6 @@ Open `index.html` in a browser or serve the directory with any static web server
 
 ## Project origin
 
-Designed by Savannah Sidle through the 2024 Mila Entrepreneurship Lab as a Human-Computer Interaction and accessibility prototype.
+Designed independently by Savannah Sidle. The Human-Computer Interaction and accessibility project originated in 2024.
 
 All rights reserved. No permission is granted to copy, modify, distribute, sublicense, or sell this code.

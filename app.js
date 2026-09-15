@@ -1,4 +1,4 @@
-const views={resident:document.querySelector("#residentView"),caregiver:document.querySelector("#caregiverView"),facility:document.querySelector("#facilityView"),plans:document.querySelector("#plansView")};
+const views={overview:document.querySelector("#overviewView"),resident:document.querySelector("#residentView"),caregiver:document.querySelector("#caregiverView"),facility:document.querySelector("#facilityView"),plans:document.querySelector("#plansView")};
 const residentHome=document.querySelector("#residentHome");
 const player=document.querySelector("#player");
 const playerContent=document.querySelector("#playerContent");
@@ -44,16 +44,50 @@ function updateClock(){
 document.querySelectorAll(".view-option").forEach(button=>button.addEventListener("click",()=>setView(button.dataset.view)));
 document.querySelectorAll(".media-choice").forEach(button=>button.addEventListener("click",()=>openMedia(button.dataset.media)));
 document.querySelector("#backButton").addEventListener("click",returnHome);
-document.querySelector("[data-action='home']").addEventListener("click",()=>{setView("resident");returnHome()});
+document.querySelector("[data-action='home']").addEventListener("click",()=>{setView("overview");returnHome()});
 document.querySelector("#playPauseButton").addEventListener("click",event=>{isPlaying=!isPlaying;event.currentTarget.textContent=isPlaying?"Ⅱ":"▶";showToast(isPlaying?"Playing":"Paused")});
 document.querySelector("#previousButton").addEventListener("click",()=>showToast(currentMedia==="photos"?"Previous photograph":"Previous item"));
 document.querySelector("#nextButton").addEventListener("click",()=>showToast(currentMedia==="photos"?"Next photograph":"Next item"));
 
 document.querySelector("#voiceControl").addEventListener("click",event=>{
   const control=event.currentTarget,title=document.querySelector("#voiceTitle"),instruction=document.querySelector("#voiceInstruction");
-  control.classList.add("listening");title.textContent="Listening";instruction.textContent="You can say one word";
-  window.setTimeout(()=>{title.textContent="I heard “music”";instruction.textContent="Opening relaxing music";control.classList.remove("listening")},1000);
-  window.setTimeout(()=>{openMedia("music");title.textContent="Use your voice";instruction.textContent='Say “photos,” “show,” or “music”'},1900);
+  const Recognition=window.SpeechRecognition||window.webkitSpeechRecognition;
+  if(!Recognition){
+    title.textContent="Voice is unavailable here";
+    instruction.textContent="Please use one of the three choices";
+    showToast("This browser does not support voice recognition");
+    window.setTimeout(()=>{title.textContent="Use your voice";instruction.textContent='Say “photos,” “show,” or “music”'},3000);
+    return;
+  }
+  const recognition=new Recognition();
+  recognition.lang="en-CA";
+  recognition.continuous=false;
+  recognition.interimResults=false;
+  recognition.maxAlternatives=3;
+  let handled=false;
+  recognition.onstart=()=>{control.classList.add("listening");control.setAttribute("aria-pressed","true");title.textContent="Listening";instruction.textContent="Say photos, show, or music"};
+  recognition.onresult=result=>{
+    const words=Array.from(result.results[0]).map(option=>option.transcript.toLowerCase()).join(" ");
+    const match=words.match(/photo|picture|family/)?"photos":words.match(/show|television|tv/)?"television":words.match(/music|song/)?"music":null;
+    if(match){
+      handled=true;
+      const labels={photos:"photos",television:"show",music:"music"};
+      title.textContent=`Opening ${labels[match]}`;
+      instruction.textContent="Voice command recognized";
+      window.setTimeout(()=>{resetVoice();openMedia(match)},450);
+    }else{
+      title.textContent="I did not recognize that";
+      instruction.textContent="Try photos, show, or music";
+    }
+  };
+  recognition.onerror=error=>{
+    const denied=error.error==="not-allowed"||error.error==="service-not-allowed";
+    title.textContent=denied?"Microphone permission is off":"I could not hear that";
+    instruction.textContent=denied?"Allow microphone access or use a choice":"Try again or use one of the choices";
+  };
+  recognition.onend=()=>{if(!handled){control.classList.remove("listening");control.setAttribute("aria-pressed","false")}};
+  function resetVoice(){control.classList.remove("listening");control.setAttribute("aria-pressed","false");title.textContent="Use your voice";instruction.textContent='Say “photos,” “show,” or “music”'}
+  try{recognition.start()}catch(error){showToast("Voice recognition is already listening")}
 });
 
 const supportPanel=document.querySelector("#supportPanel");
@@ -131,7 +165,20 @@ document.querySelector("#importUsbInput").addEventListener("change",event=>{
 
 document.querySelector("#facilityUsbButton").addEventListener("click",()=>showToast("USB updates prepared for one resident"));
 document.querySelector("#addResidentButton").addEventListener("click",()=>showToast("Resident setup opened in the full product"));
-document.querySelectorAll(".facility-row[data-resident]").forEach(row=>row.addEventListener("click",()=>showToast(`${row.dataset.resident} profile selected`)));
+const residentModal=document.querySelector("#residentModal");
+document.querySelectorAll(".facility-row[data-resident]").forEach(row=>row.addEventListener("click",()=>{
+  document.querySelector("#residentModalName").textContent=row.dataset.resident;
+  document.querySelector("#residentModalRoom").textContent=row.dataset.room;
+  document.querySelector("#residentModalMode").textContent=row.dataset.mode;
+  document.querySelector("#residentModalStatus").textContent=row.dataset.status;
+  document.querySelector("#residentModalUpdated").textContent=row.dataset.updated;
+  document.querySelector("#residentModalRoutine").textContent=row.dataset.routine;
+  document.querySelector("#residentModalMedia").textContent=row.dataset.media;
+  residentModal.showModal();
+}));
+document.querySelector("#residentModalClose").addEventListener("click",()=>residentModal.close());
+document.querySelector("#residentPrepareUpdate").addEventListener("click",()=>showToast("Resident update package prepared"));
+document.querySelector("#residentOpenTv").addEventListener("click",()=>{residentModal.close();setView("resident")});
 document.querySelectorAll("[data-plan]").forEach(button=>button.addEventListener("click",()=>showToast(`${button.dataset.plan} plan selected for this prototype`)));
 document.querySelectorAll("[data-view-jump]").forEach(button=>button.addEventListener("click",()=>setView(button.dataset.viewJump)));
 const aboutModal=document.querySelector("#aboutModal");
