@@ -13,6 +13,8 @@ Connected uses the customer’s Wi-Fi or Ethernet. Supported includes an EZ-TV-m
 
 The Local concept supports offline operation. Caregivers can prepare an update package on a phone or computer, copy it to a USB drive, and import it through the EZ-TV Hub. The website includes a working demonstration of the update-file export and import flow.
 
+EZ-TV is designed for several access situations: an app on a supported smart TV or streaming device, an EZ-TV Hub attached to a conventional HDMI television, offline USB updates, managed cellular service, and optional physical installation.
+
 ## Run locally
 
 Open `index.html` in a browser or serve the directory with any static web server.

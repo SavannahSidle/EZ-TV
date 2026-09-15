@@ -30,9 +30,10 @@ function openMedia(type){
   currentMedia=type;isPlaying=true;playerContent.innerHTML=mediaMarkup(type);
   document.querySelector("#playPauseButton").textContent="Ⅱ";
   residentHome.hidden=true;player.classList.add("active");
+  window.scrollTo({top:0,behavior:"auto"});
 }
 
-function returnHome(){player.classList.remove("active");residentHome.hidden=false}
+function returnHome(){player.classList.remove("active");residentHome.hidden=false;window.scrollTo({top:0,behavior:"auto"})}
 
 function updateClock(){
   const now=new Date();
