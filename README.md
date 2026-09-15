@@ -9,6 +9,8 @@ The prototype includes four connected experiences:
 - **Facility dashboard:** resident profiles, device modes, update status, and shared scheduling without behavioural surveillance.
 - **Plans:** a proposed app or hub model with Local, Connected, Supported, and facility service options.
 
+Connected uses the customer’s Wi-Fi or Ethernet. Supported includes an EZ-TV-managed cellular connection for product data such as remote commands, schedules, messages, family uploads, and software updates. Third-party video streaming is not included in the managed cellular service.
+
 The Local concept supports offline operation. Caregivers can prepare an update package on a phone or computer, copy it to a USB drive, and import it through the EZ-TV Hub. The website includes a working demonstration of the update-file export and import flow.
 
 ## Run locally
