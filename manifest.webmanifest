@@ -1,0 +1,9 @@
+{
+  "name": "EZ-TV",
+  "short_name": "EZ-TV",
+  "description": "Accessible media for people living with dementia.",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#03070d",
+  "theme_color": "#07111f"
+}
