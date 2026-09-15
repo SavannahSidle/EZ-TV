@@ -1,4 +1,4 @@
-const views={resident:document.querySelector("#residentView"),caregiver:document.querySelector("#caregiverView")};
+const views={resident:document.querySelector("#residentView"),caregiver:document.querySelector("#caregiverView"),facility:document.querySelector("#facilityView"),plans:document.querySelector("#plansView")};
 const residentHome=document.querySelector("#residentHome");
 const player=document.querySelector("#player");
 const playerContent=document.querySelector("#playerContent");
@@ -9,6 +9,7 @@ let isPlaying=true;
 function setView(name){
   Object.entries(views).forEach(([key,view])=>view.classList.toggle("active-view",key===name));
   document.querySelectorAll(".view-option").forEach(button=>button.classList.toggle("active",button.dataset.view===name));
+  window.scrollTo({top:0,behavior:"smooth"});
 }
 
 function showToast(message){
@@ -94,6 +95,44 @@ document.querySelector("#routineForm").addEventListener("submit",event=>{
 
 document.querySelector("#addMediaButton").addEventListener("click",()=>showToast("Media upload is represented in this prototype"));
 document.querySelector("#addPersonButton").addEventListener("click",()=>showToast("Person setup is represented in this prototype"));
+
+document.querySelector("#exportUsbButton").addEventListener("click",()=>{
+  const update={
+    format:"EZ-TV update prototype",
+    created:new Date().toISOString(),
+    profile:"Rose",
+    media:["Our family","Morning favourites","Quiet evening","The Coast Road"],
+    routines:[{time:"09:00",media:"Morning favourites"},{time:"13:30",media:"Our family"},{time:"18:00",media:"The Coast Road"}],
+    note:"Demo data only. Production packages will be encrypted."
+  };
+  const blob=new Blob([JSON.stringify(update,null,2)],{type:"application/json"});
+  const url=URL.createObjectURL(blob);
+  const link=document.createElement("a");
+  link.href=url;link.download="EZ-TV-demo-update.json";link.click();
+  window.setTimeout(()=>URL.revokeObjectURL(url),1000);
+  showToast("Demo USB update created");
+});
+
+document.querySelector("#importUsbInput").addEventListener("change",event=>{
+  const file=event.target.files[0];
+  if(!file)return;
+  const reader=new FileReader();
+  reader.addEventListener("load",()=>{
+    try{
+      const update=JSON.parse(reader.result);
+      if(update.format!=="EZ-TV update prototype")throw new Error("Unknown package");
+      showToast(`Update for ${update.profile||"resident"} is ready to import`);
+    }catch(error){showToast("That is not a valid EZ-TV update")}
+    event.target.value="";
+  });
+  reader.readAsText(file);
+});
+
+document.querySelector("#facilityUsbButton").addEventListener("click",()=>showToast("USB updates prepared for one resident"));
+document.querySelector("#addResidentButton").addEventListener("click",()=>showToast("Resident setup opened in the full product"));
+document.querySelectorAll(".facility-row[data-resident]").forEach(row=>row.addEventListener("click",()=>showToast(`${row.dataset.resident} profile selected`)));
+document.querySelectorAll("[data-plan]").forEach(button=>button.addEventListener("click",()=>showToast(`${button.dataset.plan} plan selected for this prototype`)));
+document.querySelectorAll("[data-view-jump]").forEach(button=>button.addEventListener("click",()=>setView(button.dataset.viewJump)));
 const aboutModal=document.querySelector("#aboutModal");
 document.querySelector("#aboutButton").addEventListener("click",()=>aboutModal.showModal());
 document.querySelector("#aboutClose").addEventListener("click",()=>aboutModal.close());

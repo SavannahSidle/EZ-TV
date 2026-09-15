@@ -19,6 +19,8 @@
       <div class="view-switch" role="group" aria-label="Choose interface">
         <button class="view-option active" data-view="resident">TV view</button>
         <button class="view-option" data-view="caregiver">Caregiver view</button>
+        <button class="view-option" data-view="facility">Facility</button>
+        <button class="view-option" data-view="plans">Plans</button>
       </div>
       <div class="system-state"><span class="connection-dot"></span><span>Living room connected</span><button class="icon-button" id="aboutButton" aria-label="About EZ-TV">i</button></div>
     </header>
@@ -110,7 +112,85 @@
             <div class="settings-list panel">
               <label><span><b>Voice commands</b><small>Listen for one-word media choices</small></span><input type="checkbox" checked><i></i></label><label><span><b>Gentle support response</b><small>Offer familiar reassurance when help is requested</small></span><input type="checkbox" checked><i></i></label><label><span><b>Show current time</b><small>Display time and date on the home screen</small></span><input type="checkbox" checked><i></i></label><label><span><b>High contrast</b><small>Increase separation between controls and background</small></span><input type="checkbox" checked><i></i></label>
             </div>
+            <div class="offline-update panel">
+              <div><p class="mono-label">NO INTERNET REQUIRED</p><h3>Update by USB</h3><p>Prepare photos, music, familiar people, and routines on a phone or computer. Save the package to a USB drive, then insert it into the EZ-TV Hub.</p></div>
+              <div class="offline-actions"><button class="primary-action" id="exportUsbButton">Create demo USB update</button><label class="secondary-action" for="importUsbInput">Import an update<input id="importUsbInput" type="file" accept=".json,application/json"></label></div>
+              <small>Production update packages will be encrypted. This prototype downloads demo data only.</small>
+            </div>
           </section>
+        </div>
+      </section>
+
+      <section class="facility-view" id="facilityView" aria-label="Facility dashboard">
+        <aside class="facility-rail">
+          <div class="facility-mark">FH</div>
+          <nav aria-label="Facility sections"><button class="active" aria-label="Overview">⌂</button><button aria-label="Residents">◎</button><button aria-label="Devices">▣</button><button aria-label="Schedules">◷</button></nav>
+          <button class="facility-account" aria-label="Facility account">AD</button>
+        </aside>
+        <div class="facility-workspace">
+          <div class="workspace-heading facility-heading"><div><p class="mono-label">FOREST HOUSE · EAST WING</p><h2>Facility overview</h2><p>Access status for resident televisions. No cameras, health records, or passive monitoring.</p></div><div class="facility-actions"><button class="secondary-action" id="facilityUsbButton">Prepare USB updates</button><button class="primary-action" id="addResidentButton">+ Add resident</button></div></div>
+          <div class="facility-stats">
+            <article><small>RESIDENT PROFILES</small><strong>24</strong><span>Across one wing</span></article>
+            <article><small>CONNECTED NOW</small><strong>21</strong><span class="healthy">All services ready</span></article>
+            <article><small>LOCAL MODE</small><strong>2</strong><span>Working without internet</span></article>
+            <article><small>NEEDS UPDATE</small><strong>1</strong><span class="attention">USB package ready</span></article>
+          </div>
+          <div class="facility-grid">
+            <section class="panel resident-status-panel">
+              <div class="panel-heading"><h3>Resident access</h3><span>24 PROFILES</span></div>
+              <div class="facility-table" role="table" aria-label="Resident device status">
+                <div class="facility-row facility-table-head" role="row"><span>Resident</span><span>Room</span><span>Mode</span><span>Last update</span><span>Status</span></div>
+                <button class="facility-row" role="row" data-resident="Rose S."><span><i class="resident-initials aqua">RS</i><b>Rose S.</b></span><span>214</span><span>Connected</span><span>Just now</span><span class="status-pill online">Ready</span></button>
+                <button class="facility-row" role="row" data-resident="Arthur M."><span><i class="resident-initials violet">AM</i><b>Arthur M.</b></span><span>218</span><span>Local</span><span>Yesterday</span><span class="status-pill local">Offline ready</span></button>
+                <button class="facility-row" role="row" data-resident="June P."><span><i class="resident-initials blue">JP</i><b>June P.</b></span><span>221</span><span>USB</span><span>6 days ago</span><span class="status-pill update">Update ready</span></button>
+                <button class="facility-row" role="row" data-resident="Henry L."><span><i class="resident-initials green">HL</i><b>Henry L.</b></span><span>223</span><span>Connected</span><span>2 min ago</span><span class="status-pill online">Ready</span></button>
+              </div>
+            </section>
+            <section class="panel facility-rhythm">
+              <div class="panel-heading"><h3>Today across the wing</h3><span>5 ACTIVE</span></div>
+              <div class="rhythm-total"><strong>38</strong><span>familiar-media routines scheduled</span></div>
+              <div class="rhythm-bars" aria-label="Scheduled routines by time of day"><span style="--value:45%"><b>Morning</b></span><span style="--value:74%"><b>Afternoon</b></span><span style="--value:58%"><b>Evening</b></span></div>
+              <p>Schedules show what the interface is prepared to offer. They do not track resident behaviour.</p>
+            </section>
+          </div>
+        </div>
+      </section>
+
+      <section class="plans-view" id="plansView" aria-label="EZ-TV plans">
+        <div class="plans-wrap">
+          <div class="plans-intro"><p class="mono-label">SIMPLE BY DESIGN</p><h2>Choose the device.<br>Then choose the service.</h2><p>Hardware and service are separate. Use a compatible device you already own, or add the EZ-TV Hub to a conventional television.</p></div>
+
+          <section class="device-choice" aria-labelledby="deviceHeading">
+            <div class="section-label"><span>01</span><div><h3 id="deviceHeading">How will EZ-TV run?</h3><p>Choose one. The resident experience stays the same.</p></div></div>
+            <div class="device-options">
+              <article><span class="plan-kicker">APP ONLY</span><h4>Your compatible device</h4><strong>$0 <small>EZ-TV hardware</small></strong><p>Install EZ-TV on a supported smart TV or streaming device.</p><ul><li>No new EZ-TV hardware</li><li>Device compatibility required</li><li>USB support varies by device</li></ul></article>
+              <article class="featured-device"><span class="plan-kicker">MOST COMPATIBLE</span><h4>EZ-TV Hub</h4><strong>$249 <small>one time</small></strong><p>Connects EZ-TV to a conventional television through HDMI.</p><ul><li>Guaranteed USB updates</li><li>Local storage included</li><li>Works without home internet</li></ul></article>
+            </div>
+          </section>
+
+          <section class="service-choice" aria-labelledby="serviceHeading">
+            <div class="section-label"><span>02</span><div><h3 id="serviceHeading">How will it be updated?</h3><p>Every plan keeps the resident interface calm and familiar.</p></div></div>
+            <div class="pricing-grid">
+              <article class="price-card"><span class="plan-kicker">NO INTERNET NEEDED</span><h4>Local</h4><strong>$0 <small>/ month</small></strong><p>Update in person with a USB drive.</p><ul><li>Resident interface</li><li>Photos, music, and routines</li><li>Local voice commands</li><li>No remote access</li></ul><button data-plan="Local">Choose Local</button></article>
+              <article class="price-card preferred"><span class="plan-kicker">REMOTE FAMILY ACCESS</span><h4>Connected</h4><strong>$19.99 <small>/ month</small></strong><p class="annual-price">$199 yearly · two months free</p><ul><li>Everything in Local</li><li>Remote updates and scheduling</li><li>Up to three caregivers</li><li>Secure cloud backup</li></ul><button data-plan="Connected">Choose Connected</button></article>
+              <article class="price-card"><span class="plan-kicker">EXTRA HUMAN HELP</span><h4>Supported</h4><strong>$34.99 <small>/ month</small></strong><p class="annual-price">$349 yearly · two months free</p><ul><li>Everything in Connected</li><li>Unlimited caregivers</li><li>Priority setup support</li><li>Hub replacement coverage</li></ul><button data-plan="Supported">Choose Supported</button></article>
+            </div>
+            <p class="connectivity-note">Connected plans require Wi-Fi or Ethernet. Optional cellular connectivity will be priced separately based on location and usage.</p>
+          </section>
+
+          <section class="facility-plan">
+            <div><p class="mono-label">FOR CARE HOMES</p><h3>One dashboard. Every resident keeps their own familiar world.</h3><p>Facility plans start at $15 per resident each month, with annual agreements and pilot programs available.</p></div><button class="primary-action" data-view-jump="facility">Open facility dashboard</button>
+          </section>
+
+          <section class="difference-section">
+            <div class="section-label"><span>03</span><div><h3>Built around dementia, not surveillance</h3><p>The interface adapts access to familiar media while protecting the resident’s dignity.</p></div></div>
+            <div class="difference-grid"><article><b>Offline first</b><p>Core access continues without internet through local storage and USB updates.</p></article><article><b>Recognition before navigation</b><p>Stable choices, familiar people, and meaningful routines reduce the need to remember steps.</p></article><article><b>Quiet technology</b><p>No cameras, passive listening, behavioural scoring, or health-record collection.</p></article><article><b>Individual and institutional</b><p>The same resident experience works at home or across an entire care facility.</p></article></div>
+          </section>
+          <section class="origin-section">
+            <p class="mono-label">WHY EZ-TV EXISTS</p>
+            <div><h3>Connection should not disappear when someone enters long-term care.</h3><div class="origin-copy"><p>EZ-TV began after designer Savannah Sidle’s mother developed early-onset Alzheimer’s disease. When her mother entered long-term care, Savannah encountered a painful gap in accessible services that helped residents remain connected with the people and experiences they knew.</p><p>The project grew from a simple purpose: help families stay present through familiar photographs, voices, music, television, and daily routines, even as memory and navigation abilities change.</p><p>Technology should carry more of the burden, not place it on the person living with dementia.</p></div></div>
+          </section>
+          <p class="prototype-pricing">Proposed Canadian pricing for the EZ-TV product concept. Final availability and pricing may change.</p>
         </div>
       </section>
     </main>

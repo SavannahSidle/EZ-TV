@@ -2,10 +2,14 @@
 
 EZ-TV is an accessible media interface concept for people living with dementia. It reduces navigation complexity by offering a small set of familiar, task-oriented choices for photographs, television, and music.
 
-The prototype includes two connected experiences:
+The prototype includes four connected experiences:
 
 - **Resident mode:** direct access to familiar media through large touch targets and simulated one-word voice commands.
 - **Caregiver mode:** media selection, scheduling, routines, and a live preview of the television interface.
+- **Facility dashboard:** resident profiles, device modes, update status, and shared scheduling without behavioural surveillance.
+- **Plans:** a proposed app or hub model with Local, Connected, Supported, and facility service options.
+
+The Local concept supports offline operation. Caregivers can prepare an update package on a phone or computer, copy it to a USB drive, and import it through the EZ-TV Hub. The website includes a working demonstration of the update-file export and import flow.
 
 ## Run locally
 
