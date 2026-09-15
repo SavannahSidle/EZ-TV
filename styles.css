@@ -26,3 +26,38 @@ main{min-height:calc(100vh - 72px)}.overview-view,.resident-view,.caregiver-view
 @media(max-width:680px){.overview-view,.resident-view,.caregiver-view,.facility-view,.plans-view,main{min-height:calc(100vh - 110px)}.overview-shell{padding:42px 16px;gap:45px}.overview-copy h1{font-size:3.25rem}.overview-actions{display:grid}.overview-actions .primary-action{margin-top:0}.overview-map{min-height:410px}.overview-screen,.overview-control{padding:20px}.overview-screen i{min-height:82px}.overview-links{grid-template-columns:repeat(2,1fr)}.resident-modal-actions{display:grid}.resident-modal-actions .primary-action{margin-top:0}}
 @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;animation:none!important;transition:none!important}}
 .section-label{display:block}
+.resident-home{grid-template-rows:auto minmax(0,1fr) auto}
+.resident-main{min-height:0;display:grid;grid-template-columns:minmax(230px,28%) minmax(0,1fr);gap:18px;margin:22px 0}
+.resident-main .media-choices{min-height:0;display:grid;grid-template-columns:1fr;grid-template-rows:repeat(3,minmax(0,1fr));gap:10px;margin:0}
+.resident-main .media-choice{min-height:0;height:auto;padding:12px}
+.resident-main .media-choice.active{border-color:var(--aqua);background:linear-gradient(145deg,rgba(18,48,65,.96),rgba(7,19,31,.96));box-shadow:inset 0 0 35px rgba(125,242,255,.06)}
+.resident-main .choice-visual{inset:10px 60% 10px 6px}
+.resident-main .photo-stack .portrait{width:38px}
+.resident-main .photo-stack .portrait b{width:25px;height:25px;font-size:.42rem}
+.resident-main .tv-visual{inset:13px 63% 13px 8px}
+.resident-main .tv-visual i{width:42px;height:42px;font-size:.82rem}
+.resident-main .waveform{gap:3px}
+.resident-main .waveform i{width:3px;height:38px!important}
+.resident-main .choice-copy{left:46%;right:10px;bottom:auto;top:50%;transform:translateY(-50%)}
+.resident-main .choice-copy b{font-size:clamp(.85rem,1.2vw,1.1rem)}
+.resident-main .choice-copy small{font-size:.62rem}
+.resident-main .player.active{position:relative;inset:auto;min-height:0;height:auto;padding:18px 24px;display:grid;grid-template-rows:minmax(0,1fr) auto;border:1px solid var(--line);border-radius:6px;background:linear-gradient(145deg,rgba(9,24,38,.94),rgba(4,11,19,.96))}
+.resident-main .player-content{min-height:0;overflow:hidden}
+.resident-main .player-content h2{font-size:clamp(1.7rem,3.4vw,3.8rem);margin:7px 0 3px}
+.resident-main .player-content p{margin:0}
+.resident-main .player-photos{height:min(27vh,250px);margin-bottom:8px}
+.resident-main .player-photo{width:min(16vw,155px)}
+.resident-main .player-photo span{width:58px;height:58px;font-size:.75rem}
+.resident-main .player-show{width:min(52vw,610px);height:min(26vh,245px);margin:0 auto 10px}
+.resident-main .player-music{height:min(24vh,220px)}
+.resident-main .player-music i{max-height:180px}
+.resident-main .player-controls{margin-top:8px}
+.library-card[hidden],.library-details[hidden]{display:none!important}
+.library-status{margin:0 0 15px;color:#607689;font:.62rem var(--mono)}
+.library-card .library-open{align-self:center;border:1px solid var(--line-strong);border-radius:4px;padding:8px 10px;color:var(--aqua);font-size:.65rem}
+.library-card .library-open:hover,.library-card .library-open:focus-visible{background:var(--aqua);color:var(--void)}
+.library-details{margin-top:18px;padding:22px;display:flex;align-items:center;justify-content:space-between;gap:25px}
+.library-details h3{margin:0 0 6px;font-size:1.25rem}
+.library-details p{margin:5px 0;color:#70869a;font-size:.72rem;line-height:1.5}
+.library-details .mono-label{color:var(--aqua);font-size:.56rem}
+@media(max-width:680px){.resident-main{grid-template-columns:1fr;grid-template-rows:auto minmax(0,1fr);gap:8px;margin:10px 0}.resident-main .media-choices{grid-template-columns:repeat(3,1fr);grid-template-rows:1fr;gap:6px}.resident-main .media-choice{min-height:48px}.resident-main .choice-visual{display:none}.resident-main .choice-copy{position:static;transform:none;text-align:center}.resident-main .choice-copy small{display:none}.resident-main .player.active{padding:10px 12px}.resident-main .player-photos{height:min(18vh,145px)}.resident-main .player-photo{width:min(23vw,95px)}.resident-main .player-show{width:100%;height:min(18vh,145px)}.resident-main .player-music{height:min(16vh,125px)}.resident-main .player-controls button{width:38px;height:38px}.resident-main .player-controls .play-pause{width:48px;height:48px}.library-details{align-items:stretch;flex-direction:column}.library-details .primary-action{width:100%;margin-top:0}}

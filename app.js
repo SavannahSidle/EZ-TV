@@ -29,11 +29,14 @@ function mediaMarkup(type){
 function openMedia(type){
   currentMedia=type;isPlaying=true;playerContent.innerHTML=mediaMarkup(type);
   document.querySelector("#playPauseButton").textContent="Ⅱ";
-  residentHome.hidden=true;player.classList.add("active");
-  window.scrollTo({top:0,behavior:"auto"});
+  document.querySelectorAll(".media-choice").forEach(button=>{
+    const selected=button.dataset.media===type;
+    button.classList.toggle("active",selected);
+    button.setAttribute("aria-pressed",String(selected));
+  });
 }
 
-function returnHome(){player.classList.remove("active");residentHome.hidden=false;window.scrollTo({top:0,behavior:"auto"})}
+function returnHome(){openMedia("photos")}
 
 function updateClock(){
   const now=new Date();
@@ -43,7 +46,6 @@ function updateClock(){
 
 document.querySelectorAll(".view-option").forEach(button=>button.addEventListener("click",()=>setView(button.dataset.view)));
 document.querySelectorAll(".media-choice").forEach(button=>button.addEventListener("click",()=>openMedia(button.dataset.media)));
-document.querySelector("#backButton").addEventListener("click",returnHome);
 document.querySelector("[data-action='home']").addEventListener("click",()=>{setView("overview");returnHome()});
 document.querySelector("#playPauseButton").addEventListener("click",event=>{isPlaying=!isPlaying;event.currentTarget.textContent=isPlaying?"Ⅱ":"▶";showToast(isPlaying?"Playing":"Paused")});
 document.querySelector("#previousButton").addEventListener("click",()=>showToast(currentMedia==="photos"?"Previous photograph":"Previous item"));
@@ -111,9 +113,34 @@ document.querySelectorAll("[data-send]").forEach(button=>button.addEventListener
 }));
 
 document.querySelectorAll(".library-filters button").forEach(button=>button.addEventListener("click",()=>{
-  document.querySelectorAll(".library-filters button").forEach(filter=>filter.classList.toggle("active",filter===button));
-  document.querySelectorAll(".library-card").forEach(card=>card.hidden=button.dataset.filter!=="all"&&card.dataset.type!==button.dataset.filter);
+  document.querySelectorAll(".library-filters button").forEach(filter=>{
+    const selected=filter===button;
+    filter.classList.toggle("active",selected);
+    filter.setAttribute("aria-pressed",String(selected));
+  });
+  const cards=[...document.querySelectorAll(".library-card")];
+  cards.forEach(card=>card.hidden=button.dataset.filter!=="all"&&card.dataset.type!==button.dataset.filter);
+  const visible=cards.filter(card=>!card.hidden).length;
+  const label=button.dataset.filter==="all"?"all":button.textContent.toLowerCase();
+  document.querySelector("#libraryStatus").textContent=`Showing ${visible} ${label} ${visible===1?"collection":"collections"}.`;
+  document.querySelector("#libraryDetails").hidden=true;
 }));
+
+let selectedLibraryType="photos";
+document.querySelectorAll(".library-open").forEach(button=>button.addEventListener("click",()=>{
+  const card=button.closest(".library-card");
+  selectedLibraryType=card.dataset.type;
+  document.querySelector("#libraryDetailType").textContent=card.dataset.type.toUpperCase();
+  document.querySelector("#libraryDetailTitle").textContent=card.dataset.title;
+  document.querySelector("#libraryDetailMeta").textContent=card.dataset.meta;
+  document.querySelector("#libraryDetailCopy").textContent=card.dataset.detail;
+  document.querySelector("#libraryDetails").hidden=false;
+}));
+document.querySelector("#librarySendButton").addEventListener("click",()=>{
+  setView("resident");
+  openMedia(selectedLibraryType);
+  showToast("Media sent to the TV view");
+});
 
 const routineModal=document.querySelector("#routineModal");
 document.querySelector("[data-modal='routineModal']").addEventListener("click",()=>routineModal.showModal());
@@ -184,4 +211,4 @@ document.querySelectorAll("[data-view-jump]").forEach(button=>button.addEventLis
 const aboutModal=document.querySelector("#aboutModal");
 document.querySelector("#aboutButton").addEventListener("click",()=>aboutModal.showModal());
 document.querySelector("#aboutClose").addEventListener("click",()=>aboutModal.close());
-updateClock();window.setInterval(updateClock,30000);
+openMedia("photos");updateClock();window.setInterval(updateClock,30000);

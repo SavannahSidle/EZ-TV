@@ -52,28 +52,30 @@
             <div><p class="context-label"><span></span> GOOD EVENING</p><h1>What would you<br>like, Rose?</h1></div>
             <div class="clock" aria-label="Current time"><strong id="clockTime">7:42</strong><span id="clockDate">MONDAY · SEPTEMBER 14</span></div>
           </div>
-          <div class="media-choices" role="group" aria-label="Choose something to watch or listen to">
-            <button class="media-choice photos" data-media="photos">
-              <span class="choice-visual photo-stack" aria-hidden="true"><i class="portrait portrait-a"><b>MH</b></i><i class="portrait portrait-b"><b>DS</b></i><i class="portrait portrait-c"><b>LP</b></i></span>
-              <span class="choice-copy"><b>Family photos</b><small>People you know</small></span><span class="choice-arrow">↗</span>
-            </button>
-            <button class="media-choice television" data-media="television">
-              <span class="choice-visual tv-visual" aria-hidden="true"><i>▶</i></span>
-              <span class="choice-copy"><b>Favourite show</b><small>Your next episode</small></span><span class="choice-arrow">↗</span>
-            </button>
-            <button class="media-choice music" data-media="music">
-              <span class="choice-visual waveform" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span>
-              <span class="choice-copy"><b>Relaxing music</b><small>Songs you remember</small></span><span class="choice-arrow">↗</span>
-            </button>
+          <div class="resident-main">
+            <div class="media-choices" role="group" aria-label="Choose something to watch or listen to">
+              <button class="media-choice photos active" data-media="photos" aria-pressed="true">
+                <span class="choice-visual photo-stack" aria-hidden="true"><i class="portrait portrait-a"><b>MH</b></i><i class="portrait portrait-b"><b>DS</b></i><i class="portrait portrait-c"><b>LP</b></i></span>
+                <span class="choice-copy"><b>Family photos</b><small>People you know</small></span>
+              </button>
+              <button class="media-choice television" data-media="television" aria-pressed="false">
+                <span class="choice-visual tv-visual" aria-hidden="true"><i>▶</i></span>
+                <span class="choice-copy"><b>Favourite show</b><small>Your next episode</small></span>
+              </button>
+              <button class="media-choice music" data-media="music" aria-pressed="false">
+                <span class="choice-visual waveform" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span>
+                <span class="choice-copy"><b>Relaxing music</b><small>Songs you remember</small></span>
+              </button>
+            </div>
+            <div class="player active" id="player" aria-live="polite">
+              <div class="player-content" id="playerContent"></div>
+              <div class="player-controls"><button id="previousButton" aria-label="Previous">|◀</button><button class="play-pause" id="playPauseButton" aria-label="Pause">Ⅱ</button><button id="nextButton" aria-label="Next">▶|</button></div>
+            </div>
           </div>
           <div class="voice-zone">
             <button class="voice-control" id="voiceControl"><span class="voice-core"><i></i></span><span><b id="voiceTitle">Use your voice</b><small id="voiceInstruction">Say “photos,” “show,” or “music”</small></span></button>
             <button class="help-control" id="helpControl"><span>?</span> I need help</button>
           </div>
-        </div>
-        <div class="player" id="player" aria-live="polite">
-          <button class="back-button" id="backButton">← Back to choices</button><div class="player-content" id="playerContent"></div>
-          <div class="player-controls"><button id="previousButton" aria-label="Previous">|◀</button><button class="play-pause" id="playPauseButton" aria-label="Pause">Ⅱ</button><button id="nextButton" aria-label="Next">▶|</button></div>
         </div>
         <div class="support-panel" id="supportPanel" role="dialog" aria-modal="true" aria-labelledby="supportTitle">
           <div class="support-orb"><span></span></div><p>YOU ARE SAFE AT HOME</p><h2 id="supportTitle">Maya is nearby.</h2><p class="support-copy">Would you like relaxing music while you wait?</p>
@@ -112,13 +114,15 @@
 
           <section class="care-page" data-page="library">
             <div class="workspace-heading"><div><p class="mono-label">SELECTED FOR ROSE</p><h2>Media library</h2><p>Keep the choices small, familiar, and meaningful.</p></div><button class="primary-action" id="addMediaButton">+ Add media</button></div>
-            <div class="library-filters"><button class="active" data-filter="all">All</button><button data-filter="photos">Photos</button><button data-filter="television">Television</button><button data-filter="music">Music</button></div>
-            <div class="library-grid">
-              <article class="library-card" data-type="photos"><div class="library-art family-art"><span>MH</span><span>DS</span><span>LP</span></div><div><small>PHOTOS</small><h3>Our family</h3><p>18 photographs</p></div><button aria-label="More options">•••</button></article>
-              <article class="library-card" data-type="television"><div class="library-art series-art"><span>THE<br>COAST<br>ROAD</span></div><div><small>TELEVISION</small><h3>The Coast Road</h3><p>6 familiar episodes</p></div><button aria-label="More options">•••</button></article>
-              <article class="library-card" data-type="music"><div class="library-art album-art"><span>♪</span></div><div><small>MUSIC</small><h3>Morning favourites</h3><p>12 songs · 42 min</p></div><button aria-label="More options">•••</button></article>
-              <article class="library-card" data-type="music"><div class="library-art evening-art"><span>♪</span></div><div><small>MUSIC</small><h3>Quiet evening</h3><p>9 songs · 31 min</p></div><button aria-label="More options">•••</button></article>
+            <div class="library-filters" role="group" aria-label="Filter media"><button class="active" data-filter="all" aria-pressed="true">All</button><button data-filter="photos" aria-pressed="false">Photos</button><button data-filter="television" aria-pressed="false">Television</button><button data-filter="music" aria-pressed="false">Music</button></div>
+            <p class="library-status" id="libraryStatus" aria-live="polite">Showing all 4 media collections.</p>
+            <div class="library-grid" id="libraryGrid">
+              <article class="library-card" data-type="photos" data-title="Our family" data-meta="18 photographs" data-detail="Familiar family photographs labelled with names and relationships."><div class="library-art family-art"><span>MH</span><span>DS</span><span>LP</span></div><div><small>PHOTOS</small><h3>Our family</h3><p>18 photographs</p></div><button class="library-open" aria-label="Open Our family">Open</button></article>
+              <article class="library-card" data-type="television" data-title="The Coast Road" data-meta="6 familiar episodes" data-detail="Rose’s selected series, prepared to resume at Season 2, Episode 4."><div class="library-art series-art"><span>THE<br>COAST<br>ROAD</span></div><div><small>TELEVISION</small><h3>The Coast Road</h3><p>6 familiar episodes</p></div><button class="library-open" aria-label="Open The Coast Road">Open</button></article>
+              <article class="library-card" data-type="music" data-title="Morning favourites" data-meta="12 songs · 42 min" data-detail="A familiar morning playlist featuring Frank Sinatra and similar favourites."><div class="library-art album-art"><span>♪</span></div><div><small>MUSIC</small><h3>Morning favourites</h3><p>12 songs · 42 min</p></div><button class="library-open" aria-label="Open Morning favourites">Open</button></article>
+              <article class="library-card" data-type="music" data-title="Quiet evening" data-meta="9 songs · 31 min" data-detail="A slower playlist selected for Rose’s evening routine."><div class="library-art evening-art"><span>♪</span></div><div><small>MUSIC</small><h3>Quiet evening</h3><p>9 songs · 31 min</p></div><button class="library-open" aria-label="Open Quiet evening">Open</button></article>
             </div>
+            <section class="library-details panel" id="libraryDetails" hidden aria-live="polite"><div><p class="mono-label" id="libraryDetailType">MEDIA</p><h3 id="libraryDetailTitle"></h3><p id="libraryDetailMeta"></p><p id="libraryDetailCopy"></p></div><button class="primary-action" id="librarySendButton">Send to TV</button></section>
           </section>
 
           <section class="care-page" data-page="people">
