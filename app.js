@@ -162,7 +162,7 @@ document.querySelector("#exportUsbButton").addEventListener("click",()=>{
   const update={
     format:"EZ-TV update prototype",
     created:new Date().toISOString(),
-    profile:"Rose",
+    profile:"Wanda",
     media:["Our family","Morning favourites","Quiet evening","The Coast Road"],
     routines:[{time:"09:00",media:"Morning favourites"},{time:"13:30",media:"Our family"},{time:"18:00",media:"The Coast Road"}],
     note:"Demo data only. Production packages will be encrypted."
