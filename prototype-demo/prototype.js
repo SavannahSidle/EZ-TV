@@ -179,13 +179,13 @@ $("#inviteButton").addEventListener("click",async()=>{
 async function initializeCloud(){
   if(!window.ezCloud.configured)return;
   $("#connectionTitle").textContent="Secure connection";
-  $("#connectionCopy").textContent="Sign in once, then pair the Resident View with its temporary code.";
+  $("#connectionCopy").textContent="1. Sign in once. 2. Enter the code shown on Wanda’s screen.";
   cloudSession=await window.ezCloud.session();
   if(!cloudSession){$("#authForm").hidden=false;setSync("Sign in to connect");return}
   const inviteToken=new URLSearchParams(location.search).get("invite");
   if(inviteToken)await window.ezCloud.acceptInvite(inviteToken);
   cloudResident=await window.ezCloud.getResident(cloudSession.user);
-  $("#pairForm").hidden=false;$("#accessSection").hidden=false;
+  $("#pairForm").hidden=false;$("#pairCodeInput").disabled=false;$("#pairButton").disabled=false;$("#accessSection").hidden=false;
   $("#connectionMessage").textContent="Signed in. Your content is encrypted while stored and sent.";
   await hydrateCloud();await refreshDevices();
   setSync("Securely connected");$("#saveStatus").textContent="Wanda’s TV is up to date.";
