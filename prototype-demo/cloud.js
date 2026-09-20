@@ -1,7 +1,13 @@
 (function(){
   const config=window.EZTV_CONFIG||{};
   const configured=Boolean(config.supabaseUrl&&config.supabaseAnonKey&&window.supabase);
-  const client=configured?window.supabase.createClient(config.supabaseUrl,config.supabaseAnonKey,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}}):null;
+  const isResidentView=location.pathname.endsWith("/tv.html");
+  const client=configured?window.supabase.createClient(config.supabaseUrl,config.supabaseAnonKey,{auth:{
+    persistSession:true,
+    autoRefreshToken:true,
+    detectSessionInUrl:!isResidentView,
+    storageKey:isResidentView?"eztv-resident-auth":"eztv-caregiver-auth"
+  }}):null;
 
   async function getResident(user){
     const accessible=await client.from("residents").select("*").limit(1).maybeSingle();
