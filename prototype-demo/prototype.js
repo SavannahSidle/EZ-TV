@@ -10,6 +10,8 @@ const helpStage=document.querySelector("#helpStage");
 const toast=document.querySelector("#toast");
 let objectUrls=[];
 let photoIndex=0;
+let workingPhotos=[];
+let thumbnailUrls=[];
 
 function openDatabase(){
   return new Promise((resolve,reject)=>{
@@ -71,6 +73,29 @@ function updateFileStatus(input,status,multiple=false){
   status.textContent=files.length?multiple?`${files.length} photograph${files.length===1?"":"s"} selected.`:files[0].name:status.dataset.empty;
 }
 
+function renderPhotoManager(){
+  thumbnailUrls.forEach(URL.revokeObjectURL);
+  thumbnailUrls=[];
+  const manager=document.querySelector("#photoManager");
+  manager.innerHTML="";
+  workingPhotos.forEach((photo,index)=>{
+    const url=URL.createObjectURL(photo);
+    thumbnailUrls.push(url);
+    const item=document.createElement("div");
+    item.className="photo-item";
+    item.innerHTML=`<img src="${url}" alt="Photograph ${index+1}"><div class="photo-actions"><button type="button" data-photo-action="left" aria-label="Move photograph ${index+1} left" ${index===0?"disabled":""}>←</button><button type="button" class="delete-photo" data-photo-action="delete" aria-label="Delete photograph ${index+1}">Delete</button><button type="button" data-photo-action="right" aria-label="Move photograph ${index+1} right" ${index===workingPhotos.length-1?"disabled":""}>→</button></div>`;
+    item.querySelectorAll("button").forEach(button=>button.addEventListener("click",()=>{
+      const action=button.dataset.photoAction;
+      if(action==="delete")workingPhotos.splice(index,1);
+      if(action==="left"&&index>0)[workingPhotos[index-1],workingPhotos[index]]=[workingPhotos[index],workingPhotos[index-1]];
+      if(action==="right"&&index<workingPhotos.length-1)[workingPhotos[index+1],workingPhotos[index]]=[workingPhotos[index],workingPhotos[index+1]];
+      renderPhotoManager();
+    }));
+    manager.append(item);
+  });
+  photoStatus.textContent=workingPhotos.length?`${workingPhotos.length} photograph${workingPhotos.length===1?"":"s"} ready. Use the arrows to reorder.`:photoStatus.dataset.empty;
+}
+
 async function loadProfile(){
   const profile=await getValue("profile")||{name:"Wanda",help:"You are safe. Someone from your care team is nearby."};
   document.querySelector("#tvResidentName").textContent=profile.name;
@@ -130,7 +155,11 @@ const photoStatus=document.querySelector("#photoStatus");
 const videoStatus=document.querySelector("#videoStatus");
 const audioStatus=document.querySelector("#audioStatus");
 [photoStatus,videoStatus,audioStatus].forEach(element=>element.dataset.empty=element.textContent);
-photoInput.addEventListener("change",()=>updateFileStatus(photoInput,photoStatus,true));
+photoInput.addEventListener("change",()=>{
+  workingPhotos.push(...photoInput.files);
+  photoInput.value="";
+  renderPhotoManager();
+});
 videoInput.addEventListener("change",()=>updateFileStatus(videoInput,videoStatus));
 audioInput.addEventListener("change",()=>updateFileStatus(audioInput,audioStatus));
 
@@ -141,7 +170,7 @@ document.querySelector("#setupForm").addEventListener("submit",async event=>{
   button.textContent="Saving…";
   try{
     await putValue("profile",{name:document.querySelector("#residentName").value.trim()||"Wanda",help:document.querySelector("#helpMessage").value.trim()||"You are safe. Someone from your care team is nearby."});
-    if(photoInput.files.length)await putValue("photos",[...photoInput.files]);
+    await putValue("photos",workingPhotos);
     if(videoInput.files[0])await putValue("video",videoInput.files[0]);
     if(audioInput.files[0])await putValue("audio",audioInput.files[0]);
     document.querySelector("#saveStatus").textContent="Saved on this device.";
@@ -162,6 +191,8 @@ document.querySelector("#resetButton").addEventListener("click",async()=>{
   document.querySelector("#setupForm").reset();
   document.querySelector("#residentName").value="Wanda";
   document.querySelector("#helpMessage").value="You are safe. Someone from your care team is nearby.";
+  workingPhotos=[];
+  renderPhotoManager();
   [photoStatus,videoStatus,audioStatus].forEach(element=>element.textContent=element.dataset.empty);
   document.querySelector("#saveStatus").textContent="Stored only on this device.";
   showToast("Demo reset");
@@ -171,7 +202,8 @@ async function hydrateSetup(){
   const profile=await getValue("profile");
   if(profile){document.querySelector("#residentName").value=profile.name;document.querySelector("#helpMessage").value=profile.help}
   const [photos,video,audio]=await Promise.all([getValue("photos"),getValue("video"),getValue("audio")]);
-  if(photos?.length)photoStatus.textContent=`${photos.length} saved photograph${photos.length===1?"":"s"}.`;
+  workingPhotos=photos||[];
+  renderPhotoManager();
   if(video)videoStatus.textContent=`Saved: ${video.name}`;
   if(audio)audioStatus.textContent=`Saved: ${audio.name}`;
 }
