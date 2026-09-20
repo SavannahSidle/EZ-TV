@@ -156,12 +156,15 @@ $("#resetButton").addEventListener("click",async()=>{
 
 $("#signInButton").addEventListener("click",async()=>{
   const email=$("#caregiverEmail").value.trim();if(!email)return showToast("Enter your email address");
+  const pendingCode=$("#pairCodeInput").value.trim();
+  if(/^\d{6}$/.test(pendingCode))localStorage.setItem("eztv-pending-pair-code",pendingCode);
   const result=await window.ezCloud.sendSignIn(email);
-  $("#connectionMessage").textContent=result.error?result.error.message:"Check your email. The secure link returns you here.";
+  $("#connectionMessage").textContent=result.error?result.error.message:"Check your email. Open the secure link and pairing will finish automatically.";
 });
 
 $("#pairButton").addEventListener("click",async()=>{
   const code=$("#pairCodeInput").value.trim();if(!/^\d{6}$/.test(code))return showToast("Enter the six-digit code");
+  if(!cloudSession){localStorage.setItem("eztv-pending-pair-code",code);$("#connectionMessage").textContent="Code saved. Enter your email above, then open the secure sign-in link.";return}
   const result=await window.ezCloud.client.rpc("claim_pair_code",{p_code:code,p_resident_id:cloudResident.id});
   if(result.error){$("#connectionMessage").textContent=result.error.message;return}
   if(result.data!==true){$("#connectionMessage").textContent="That code is invalid or expired.";return}
@@ -187,6 +190,13 @@ async function initializeCloud(){
   cloudResident=await window.ezCloud.getResident(cloudSession.user);
   $("#pairForm").hidden=false;$("#pairCodeInput").disabled=false;$("#pairButton").disabled=false;$("#accessSection").hidden=false;
   $("#connectionMessage").textContent="Signed in. Your content is encrypted while stored and sent.";
+  const pendingCode=localStorage.getItem("eztv-pending-pair-code");
+  if(/^\d{6}$/.test(pendingCode||"")){
+    $("#pairCodeInput").value=pendingCode;
+    const paired=await window.ezCloud.client.rpc("claim_pair_code",{p_code:pendingCode,p_resident_id:cloudResident.id});
+    if(!paired.error&&paired.data===true){localStorage.removeItem("eztv-pending-pair-code");$("#pairCodeInput").value="";$("#connectionMessage").textContent="Resident View connected.";setSync("TV connected");showToast("Resident View paired")}
+    else $("#connectionMessage").textContent="That saved code expired. Enter the new code shown on Wanda’s screen.";
+  }
   await hydrateCloud();await refreshDevices();
   setSync("Securely connected");$("#saveStatus").textContent="Wanda’s TV is up to date.";
 }
@@ -197,6 +207,7 @@ window.addEventListener("beforeunload",()=>{thumbnailUrls.forEach(URL.revokeObje
 
 (async function start(){
   await hydrateLocal();
+  const pendingCode=localStorage.getItem("eztv-pending-pair-code");if(/^\d{6}$/.test(pendingCode||""))$("#pairCodeInput").value=pendingCode;
   try{await initializeCloud()}catch(error){console.error(error);$("#connectionMessage").textContent="Secure connection needs attention. Local content is still available.";setSync("Needs attention",true)}
   if("serviceWorker" in navigator)navigator.serviceWorker.register("service-worker.js").catch(()=>{});
 })();
