@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow, noarchive">
+  <meta name="theme-color" content="#03070d">
+  <title>EZ-TV Resident Screen</title>
+  <link rel="manifest" href="tv.webmanifest">
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="prototype.css">
+</head>
+<body class="resident-only">
+  <main>
+    <section class="pair-screen" id="pairScreen" hidden>
+      <p class="eyebrow">ONE-TIME SETUP</p>
+      <h1>Connect this television</h1>
+      <p>Enter this code in Caregiver Setup.</p>
+      <strong id="pairCode">••••••</strong>
+      <small>This screen disappears permanently after pairing.</small>
+    </section>
+
+    <section class="tv-screen active-screen" id="tvScreen" aria-label="Resident television">
+      <div class="tv-home" id="tvHome">
+        <div class="tv-heading">
+          <div><p class="eyebrow">GOOD EVENING</p><h1>What would you like, <span id="tvResidentName">Wanda</span>?</h1></div>
+          <div class="clock"><strong id="clockTime"></strong><span id="clockDate"></span></div>
+        </div>
+        <div class="tv-choices" role="group" aria-label="Choose media">
+          <button data-media="photos"><span class="choice-icon photo-icon"><img id="photoTileImage" alt="A familiar family photograph" hidden><span id="photoTileFallback">▧</span></span><b>Family photos</b><small>People you know</small></button>
+          <button data-media="video"><span class="choice-icon play-icon">▶</span><b>Favourite show</b><small>Something familiar</small></button>
+          <button data-media="audio"><span class="choice-icon music-icon">♪</span><b>Relaxing music</b><small>Songs you remember</small></button>
+        </div>
+        <button class="help-button" id="helpButton"><span>?</span> I need help</button>
+      </div>
+      <div class="media-stage" id="mediaStage" hidden><button class="back-button" id="backButton">← Back to choices</button><div class="media-content" id="mediaContent"></div></div>
+      <div class="help-stage" id="helpStage" hidden><span class="help-orb">♥</span><p class="eyebrow">YOU ARE SAFE</p><h2 id="helpText">Someone from your care team is nearby.</h2><button class="primary-button" id="closeHelp">I'm okay</button></div>
+      <div class="quiet-status" id="quietStatus" aria-live="polite"></div>
+    </section>
+  </main>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="config.js"></script>
+  <script src="cloud.js"></script>
+  <script src="tv.js"></script>
+</body>
+</html>

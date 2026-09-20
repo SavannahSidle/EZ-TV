@@ -1,0 +1,4 @@
+window.EZTV_CONFIG={
+  supabaseUrl:"https://deqtqtxddndhhwbzskro.supabase.co",
+  supabaseAnonKey:"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRlcXRxdHhkZG5kaGh3Ynpza3JvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODk4Mzc5NjMsImV4cCI6MjEwNTQxMzk2M30.jaVYaR8dLOn7kNU26JD0eqyBXJTPiYxynZH2Gow0CHg"
+};
