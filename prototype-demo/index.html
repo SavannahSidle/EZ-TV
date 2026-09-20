@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow, noarchive">
+  <meta name="theme-color" content="#06101a">
+  <title>EZ-TV Private Prototype</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="prototype.css">
+</head>
+<body>
+  <header class="prototype-bar">
+    <a class="wordmark" href="../" aria-label="Return to EZ-TV"><span>EZ</span>TV</a>
+    <div class="prototype-switch" role="group" aria-label="Prototype view">
+      <button class="active" data-screen="setup">Caregiver setup</button>
+      <button data-screen="tv">Wanda's TV</button>
+    </div>
+    <span class="local-badge">LOCAL DEMO</span>
+  </header>
+
+  <main>
+    <section class="setup-screen active-screen" id="setupScreen">
+      <div class="setup-wrap">
+        <div class="setup-heading">
+          <div>
+            <p class="eyebrow">PRIVATE PROTOTYPE</p>
+            <h1>Prepare the familiar.</h1>
+            <p>Choose what appears on this browser's TV view. Nothing is uploaded online.</p>
+          </div>
+          <button class="secondary-button" id="resetButton">Reset demo</button>
+        </div>
+
+        <form id="setupForm">
+          <section class="setup-card profile-card">
+            <div class="card-heading"><span>Resident</span><small>Text</small></div>
+            <label>First name<input id="residentName" maxlength="30" value="Wanda" required></label>
+            <label>Help message<textarea id="helpMessage" maxlength="180" rows="3">You are safe. Someone from your care team is nearby.</textarea></label>
+          </section>
+
+          <section class="setup-card">
+            <div class="card-heading"><span>Family photos</span><small>Images</small></div>
+            <label class="file-drop" for="photoInput"><b>Choose photographs</b><span>JPG, PNG, or WebP</span><input id="photoInput" type="file" accept="image/jpeg,image/png,image/webp" multiple></label>
+            <p class="file-status" id="photoStatus">No personal photos saved yet.</p>
+          </section>
+
+          <section class="setup-card">
+            <div class="card-heading"><span>Favourite show</span><small>Video</small></div>
+            <label class="file-drop" for="videoInput"><b>Choose one video</b><span>MP4 or browser-supported video</span><input id="videoInput" type="file" accept="video/*"></label>
+            <p class="file-status" id="videoStatus">No video saved yet.</p>
+          </section>
+
+          <section class="setup-card">
+            <div class="card-heading"><span>Relaxing music</span><small>Audio</small></div>
+            <label class="file-drop" for="audioInput"><b>Choose one song</b><span>MP3, M4A, or browser-supported audio</span><input id="audioInput" type="file" accept="audio/*"></label>
+            <p class="file-status" id="audioStatus">No music saved yet.</p>
+          </section>
+
+          <div class="save-row">
+            <p id="saveStatus" role="status">Stored only on this device.</p>
+            <button class="primary-button" type="submit">Save and open TV view</button>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <section class="tv-screen" id="tvScreen" aria-label="Resident television prototype">
+      <div class="tv-home" id="tvHome">
+        <div class="tv-heading">
+          <div><p class="eyebrow">GOOD EVENING</p><h1>What would you like, <span id="tvResidentName">Wanda</span>?</h1></div>
+          <div class="clock"><strong id="clockTime"></strong><span id="clockDate"></span></div>
+        </div>
+
+        <div class="tv-choices" role="group" aria-label="Choose media">
+          <button data-media="photos"><span class="choice-icon photo-icon">▧</span><b>Family photos</b><small>People you know</small></button>
+          <button data-media="video"><span class="choice-icon play-icon">▶</span><b>Favourite show</b><small>Something familiar</small></button>
+          <button data-media="audio"><span class="choice-icon music-icon">♪</span><b>Relaxing music</b><small>Songs you remember</small></button>
+        </div>
+
+        <button class="help-button" id="helpButton"><span>?</span> I need help</button>
+      </div>
+
+      <div class="media-stage" id="mediaStage" hidden>
+        <button class="back-button" id="backButton">← Back to choices</button>
+        <div class="media-content" id="mediaContent"></div>
+      </div>
+
+      <div class="help-stage" id="helpStage" hidden>
+        <span class="help-orb">♥</span>
+        <p class="eyebrow">YOU ARE SAFE</p>
+        <h2 id="helpText">Someone from your care team is nearby.</h2>
+        <button class="primary-button" id="closeHelp">I'm okay</button>
+      </div>
+    </section>
+  </main>
+
+  <div class="toast" id="toast" role="status"></div>
+  <script src="prototype.js"></script>
+</body>
+</html>
