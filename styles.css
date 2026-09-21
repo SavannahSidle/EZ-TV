@@ -307,3 +307,5 @@ h1,h2,h3,h4{letter-spacing:-.035em}
   .facility-view.active-view{display:block}
   .shared-memory-preview img{height:90px}
 }
+
+.memory-card:not(:nth-child(2)) small{display:none}
