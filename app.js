@@ -32,11 +32,44 @@ function showToast(message){
   showToast.timeout=window.setTimeout(()=>toast.classList.remove("show"),2300);
 }
 
+const demoMedia={
+  photos:[
+    {title:"Garden afternoon",detail:"A sunny visit together",icon:"🌿",tone:"garden"},
+    {title:"Birthday cake",detail:"A familiar family celebration",icon:"🎂",tone:"birthday"},
+    {title:"Lake day",detail:"A quiet summer memory",icon:"☀",tone:"lake"}
+  ],
+  television:[
+    {title:"Harbour Stories",detail:"Season 2 · Episode 4",tone:"harbour"},
+    {title:"The Garden Hour",detail:"Episode 7 · Spring flowers",tone:"garden-show"},
+    {title:"Sunday Matinee",detail:"A gentle classic comedy",tone:"matinee"}
+  ],
+  music:[
+    {title:"Sunday favourites",detail:"Classic songs · Playing now",tone:"sunday"},
+    {title:"Quiet piano",detail:"Soft instrumentals · Playing now",tone:"piano"},
+    {title:"Kitchen sing-along",detail:"Familiar favourites · Playing now",tone:"kitchen"}
+  ]
+};
+const mediaIndex={photos:0,television:0,music:0};
+
 function mediaMarkup(type){
-  if(type==="photos")return `<div class="player-photos"><div class="player-photo"><span>MH</span></div><div class="player-photo"><span>DS</span></div><div class="player-photo"><span>LP</span></div></div><span class="playing-label">FAMILY PHOTOS</span><h2>Your family</h2><p>Photo 7 of 18</p>`;
-  if(type==="television")return `<div class="player-show"><span>THE COAST ROAD</span></div><span class="playing-label">FAVOURITE SHOW</span><h2>The Coast Road</h2><p>Season 2 · Episode 4</p>`;
-  const bars=[74,125,190,238,280,238,190,125,74].map((height,index)=>`<i style="--h:${height}px;--d:${index*-.08}s"></i>`).join("");
-  return `<div class="player-music">${bars}</div><span class="playing-label">RELAXING MUSIC</span><h2>Morning favourites</h2><p>Frank Sinatra · Playing now</p>`;
+  const items=demoMedia[type],index=mediaIndex[type],item=items[index];
+  if(type==="photos"){
+    const cards=[-1,0,1].map(offset=>{
+      const memory=items[(index+offset+items.length)%items.length];
+      return `<div class="player-photo memory-card ${memory.tone}"><span aria-hidden="true">${memory.icon}</span><small>${memory.title}</small></div>`;
+    }).join("");
+    return `<div class="player-photos demo-memory-stack" aria-label="Illustrated demo family memories">${cards}</div><span class="playing-label">FAMILY PHOTOS · FICTIONAL DEMO</span><h2>${item.title}</h2><p>${item.detail} · Photo ${index+1} of ${items.length}</p>`;
+  }
+  if(type==="television")return `<div class="player-show demo-show ${item.tone}" aria-label="Fictional programme preview"><div class="show-landscape"><i></i><b></b></div><small>FICTIONAL DEMO PROGRAMME</small></div><span class="playing-label">FAVOURITE SHOW</span><h2>${item.title}</h2><p>${item.detail}</p>`;
+  const bars=[74,125,190,238,280,238,190,125,74].map((height,barIndex)=>`<i style="--h:${height}px;--d:${barIndex*-.08}s"></i>`).join("");
+  return `<div class="player-music demo-album ${item.tone}" aria-label="Fictional music collection"><div class="album-mark">♪</div><div class="music-bars">${bars}</div></div><span class="playing-label">RELAXING MUSIC · FICTIONAL DEMO</span><h2>${item.title}</h2><p>${item.detail}</p>`;
+}
+
+function stepMedia(direction){
+  const items=demoMedia[currentMedia];
+  mediaIndex[currentMedia]=(mediaIndex[currentMedia]+direction+items.length)%items.length;
+  playerContent.innerHTML=mediaMarkup(currentMedia);
+  showToast(direction>0?"Next item":"Previous item");
 }
 
 function openMedia(type){
@@ -71,8 +104,8 @@ document.querySelectorAll(".view-option").forEach(button=>button.addEventListene
 document.querySelectorAll(".media-choice").forEach(button=>button.addEventListener("click",()=>openMedia(button.dataset.media)));
 document.querySelector("[data-action='home']").addEventListener("click",()=>{setView("overview");returnHome()});
 document.querySelector("#playPauseButton").addEventListener("click",event=>{isPlaying=!isPlaying;event.currentTarget.textContent=isPlaying?"Ⅱ":"▶";showToast(isPlaying?"Playing":"Paused")});
-document.querySelector("#previousButton").addEventListener("click",()=>showToast(currentMedia==="photos"?"Previous photograph":"Previous item"));
-document.querySelector("#nextButton").addEventListener("click",()=>showToast(currentMedia==="photos"?"Next photograph":"Next item"));
+document.querySelector("#previousButton").addEventListener("click",()=>stepMedia(-1));
+document.querySelector("#nextButton").addEventListener("click",()=>stepMedia(1));
 document.querySelector("#residentBackButton").addEventListener("click",returnHome);
 
 document.querySelector("#voiceControl").addEventListener("click",event=>{
@@ -232,6 +265,22 @@ document.querySelector("#residentPrepareUpdate").addEventListener("click",()=>sh
 document.querySelector("#residentOpenTv").addEventListener("click",()=>{residentModal.close();setView("resident")});
 document.querySelectorAll("[data-plan]").forEach(button=>button.addEventListener("click",()=>showToast(`${button.dataset.plan} plan selected for this prototype`)));
 document.querySelectorAll("[data-view-jump]").forEach(button=>button.addEventListener("click",()=>setView(button.dataset.viewJump)));
+document.querySelectorAll("[data-overview-media]").forEach(button=>button.addEventListener("click",()=>{
+  setView("resident");
+  openMedia(button.dataset.overviewMedia);
+}));
+document.querySelectorAll("[data-overview-target]").forEach(button=>button.addEventListener("click",()=>{
+  setView("plans");
+  window.setTimeout(()=>document.querySelector("#"+button.dataset.overviewTarget)?.scrollIntoView({behavior:"smooth",block:"center"}),250);
+}));
+document.querySelectorAll("[data-facility-target]").forEach(button=>button.addEventListener("click",()=>{
+  document.querySelectorAll("[data-facility-target]").forEach(item=>item.classList.toggle("active",item===button));
+  const target=document.querySelector("#"+button.dataset.facilityTarget);
+  target?.scrollIntoView({behavior:"smooth",block:"center"});
+  target?.focus({preventScroll:true});
+  const labels={facilityHeading:"Facility overview",residentStatus:"Resident access",facilityStats:"Device status",facilityRhythm:"Today’s schedules"};
+  showToast(labels[button.dataset.facilityTarget]);
+}));
 const aboutModal=document.querySelector("#aboutModal");
 document.querySelector("#aboutButton").addEventListener("click",()=>aboutModal.showModal());
 document.querySelector("#aboutClose").addEventListener("click",()=>aboutModal.close());
