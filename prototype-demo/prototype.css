@@ -1,4 +1,4 @@
-:root{color-scheme:dark;--void:#03070d;--panel:#071522;--panel2:#0a1c2b;--line:rgba(145,188,224,.18);--text:#f3f8fc;--muted:#8094a8;--aqua:#7df2ff;--violet:#9c82ff;--green:#5df2b3;--danger:#ff98a4;--sans:"Atkinson Hyperlegible",Arial,sans-serif;--mono:"IBM Plex Mono",monospace}
+:root{color-scheme:dark;--void:#03070d;--panel:#071522;--panel2:#0a1c2b;--line:rgba(145,188,224,.18);--text:#f3f8fc;--muted:#8094a8;--aqua:#7df2ff;--violet:#9c82ff;--green:#5df2b3;--danger:#ff98a4;--sans:"DM Sans",system-ui,sans-serif;--mono:"IBM Plex Mono",monospace}
 *{box-sizing:border-box}html,body{margin:0;min-height:100%;background:var(--void);color:var(--text);font-family:var(--sans)}button,input,textarea{font:inherit}button{cursor:pointer}[hidden]{display:none!important}.eyebrow{color:var(--aqua);font:.63rem var(--mono);letter-spacing:.12em;margin:0 0 10px}.primary-button,.secondary-button{border-radius:8px;padding:13px 17px;font-size:.78rem;font-weight:700}.primary-button{border:0;background:var(--aqua);color:#031015}.primary-button:disabled{opacity:.45;cursor:wait}.secondary-button{border:1px solid var(--line);background:transparent;color:#b6c5d1}
 
 /* Caregiver app */
