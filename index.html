@@ -10,7 +10,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=14">
+  <link rel="stylesheet" href="styles.css?v=15">
 </head>
 <body>
   <div class="app-shell">
@@ -39,7 +39,7 @@
           <div class="overview-map" aria-label="How EZ-TV works">
             <div class="overview-screen"><span class="screen-label">RESIDENT</span><strong>Three familiar choices.</strong><div><button type="button" data-overview-media="photos" aria-label="Open family photos">▧<small>Photos</small></button><button type="button" data-overview-media="television" aria-label="Open favourite show">▶<small>Show</small></button><button type="button" data-overview-media="music" aria-label="Open relaxing music">♪<small>Music</small></button></div></div>
             <div class="overview-links" aria-label="Explore ways to use EZ-TV"><button type="button" data-overview-target="smartTvPlan">SMART TV APP</button><button type="button" data-overview-target="hubPlan">EZ-TV HUB</button><button type="button" data-overview-target="usbPlan">USB OFFLINE</button><button type="button" data-overview-target="cellularPlan">CELLULAR</button></div>
-            <div class="overview-control"><span class="screen-label">FAMILY OR CARE TEAM</span><strong>Set it up once. Keep it simple for Wanda.</strong><small>Residents never manage settings, accounts, networks, or updates.</small></div>
+            <div class="overview-control"><span class="screen-label">FAMILY OR CARE TEAM</span><strong>Set it up once. Keep it simple for your loved one.</strong><small>Residents never manage settings, accounts, networks, or updates.</small></div>
           </div>
         </div>
         <div class="overview-principles"><article><b>Recognition before navigation</b><p>Stable choices reduce the need to remember steps.</p></article><article><b>Works across circumstances</b><p>Smart TV, conventional TV, internet, cellular, or USB.</p></article><article><b>Connection without surveillance</b><p>No cameras, passive listening, or behavioural scoring.</p></article></div>
@@ -50,12 +50,12 @@
         <div class="resident-home" id="residentHome">
           <div class="welcome-row">
             <div><p class="context-label"><span></span> GOOD EVENING</p><h1>What would you<br>like, Wanda?</h1></div>
-            <div class="clock" aria-label="Current time"><strong id="clockTime">7:42</strong><span id="clockDate">MONDAY · SEPTEMBER 14</span></div>
+            <div class="resident-side"><div class="clock" aria-label="Current time"><strong id="clockTime">7:42</strong><span id="clockDate">MONDAY · SEPTEMBER 14</span></div><div class="resident-theme-picker" role="group" aria-label="Choose Resident View appearance"><small>DEMO APPEARANCE</small><div><button type="button" class="active" data-resident-theme="original">Original</button><button type="button" data-resident-theme="warm">Warm Home</button><button type="button" data-resident-theme="garden">Garden Calm</button></div></div></div>
           </div>
           <div class="resident-main">
             <div class="media-choices" role="group" aria-label="Choose something to watch or listen to">
               <button class="media-choice photos active" data-media="photos" aria-pressed="true">
-                <span class="choice-visual photo-stack" aria-hidden="true"><i class="portrait portrait-a"><b>MH</b></i><i class="portrait portrait-b"><b>DS</b></i><i class="portrait portrait-c"><b>LP</b></i></span>
+                <span class="choice-visual photo-stack" aria-hidden="true"><i class="portrait portrait-a"><img src="assets/memories/garden-afternoon.jpg" alt=""></i><i class="portrait portrait-b"><img src="assets/memories/birthday-cake.jpg" alt=""></i><i class="portrait portrait-c"><img src="assets/memories/lake-day.jpg" alt=""></i></span>
                 <span class="choice-copy"><b>Family photos</b><small>People you know</small></span>
               </button>
               <button class="media-choice television" data-media="television" aria-pressed="false">
@@ -64,7 +64,7 @@
               </button>
               <button class="media-choice music" data-media="music" aria-pressed="false">
                 <span class="choice-visual waveform" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span>
-                <span class="choice-copy"><b>Relaxing music</b><small>Songs you remember</small></span>
+                <span class="choice-copy"><b>Relaxing music</b><small>Your favourite music</small></span>
               </button>
             </div>
             <div class="player" id="player" aria-live="polite">
@@ -99,16 +99,16 @@
               <div class="schedule-panel panel">
                 <div class="panel-heading"><h3>Schedule</h3><span>3 ITEMS</span></div>
                 <div class="schedule-list" id="scheduleList">
-                  <article class="schedule-item complete"><time>9:00<small>AM</small></time><span class="schedule-line"><i></i></span><div class="schedule-icon">♪</div><div><b>Morning favourites</b><small>Relaxing music · 42 min</small></div><span class="item-state">Finished</span></article>
-                  <article class="schedule-item current"><time>1:30<small>PM</small></time><span class="schedule-line"><i></i></span><div class="schedule-icon">▧</div><div><b>Family photographs</b><small>18 selected photos</small></div><span class="item-state">Playing now</span></article>
+                  <article class="schedule-item complete"><time>9:00<small>AM</small></time><span class="schedule-line"><i></i></span><div class="schedule-icon">♪</div><div><b>Morning favourites</b><small>Relaxing music · 3 demo tracks</small></div><span class="item-state">Finished</span></article>
+                  <article class="schedule-item current"><time>1:30<small>PM</small></time><span class="schedule-line"><i></i></span><div class="schedule-icon">▧</div><div><b>Family photographs</b><small>3 demo photographs</small></div><span class="item-state">Showing now</span></article>
                   <article class="schedule-item"><time>6:00<small>PM</small></time><span class="schedule-line"><i></i></span><div class="schedule-icon">▶</div><div><b>Favourite show</b><small>Season 2 · Episode 4</small></div><button class="item-menu" aria-label="Schedule options">•••</button></article>
                 </div>
               </div>
               <div class="remote-panel panel">
-                <div class="panel-heading"><h3>Live TV preview</h3><span class="live-badge"><i></i> LIVE</span></div>
-                <div class="mini-tv" id="miniTv"><span class="mini-label">NOW PLAYING</span><div class="mini-photos"><i>MH</i><i>DS</i><i>LP</i></div><b>Family photographs</b><small>Photo 7 of 18</small></div>
+                <div class="panel-heading"><h3>Wanda’s TV preview</h3><span class="live-badge"><i></i> MIRROR</span></div>
+                <div class="mini-tv" id="miniTv"><span class="mini-label">WANDA’S TV PREVIEW</span><div class="mini-photos"><i><img src="assets/memories/garden-afternoon.jpg" alt=""></i><i><img src="assets/memories/birthday-cake.jpg" alt=""></i><i><img src="assets/memories/lake-day.jpg" alt=""></i></div><b>Family photographs</b><small>Photo 1 of 3 demo photographs</small></div>
                 <div class="remote-actions"><button data-send="photos">▧<span>Photos</span></button><button data-send="television">▶<span>Show</span></button><button data-send="music">♪<span>Music</span></button><button data-send="home">⌂<span>Home</span></button></div>
-                <p class="remote-note">Changes appear on the living room television.</p>
+                <p class="remote-note">This preview mirrors Wanda’s television. In the real paired setup, choosing media here starts it on her TV. Wanda does not manage this screen.</p>
               </div>
             </div>
           </section>
@@ -118,12 +118,12 @@
             <div class="library-filters" role="group" aria-label="Filter media"><button class="active" data-filter="all" aria-pressed="true">All</button><button data-filter="photos" aria-pressed="false">Photos</button><button data-filter="television" aria-pressed="false">Television</button><button data-filter="music" aria-pressed="false">Music</button></div>
             <p class="library-status" id="libraryStatus" aria-live="polite">Showing all 4 media collections.</p>
             <div class="library-grid" id="libraryGrid">
-              <article class="library-card" data-type="photos" data-title="Our family" data-meta="18 photographs" data-detail="Familiar family photographs labelled with names and relationships."><div class="library-art family-art"><span>MH</span><span>DS</span><span>LP</span></div><div><small>PHOTOS</small><h3>Our family</h3><p>18 photographs</p></div><button class="library-open" aria-label="Open Our family">Open</button></article>
-              <article class="library-card" data-type="television" data-title="The Coast Road" data-meta="6 familiar episodes" data-detail="Wanda’s selected series, prepared to resume at Season 2, Episode 4."><div class="library-art series-art"><span>THE<br>COAST<br>ROAD</span></div><div><small>TELEVISION</small><h3>The Coast Road</h3><p>6 familiar episodes</p></div><button class="library-open" aria-label="Open The Coast Road">Open</button></article>
-              <article class="library-card" data-type="music" data-title="Morning favourites" data-meta="12 songs · 42 min" data-detail="A familiar morning playlist featuring Frank Sinatra and similar favourites."><div class="library-art album-art"><span>♪</span></div><div><small>MUSIC</small><h3>Morning favourites</h3><p>12 songs · 42 min</p></div><button class="library-open" aria-label="Open Morning favourites">Open</button></article>
-              <article class="library-card" data-type="music" data-title="Quiet evening" data-meta="9 songs · 31 min" data-detail="A slower playlist selected for Wanda’s evening routine."><div class="library-art evening-art"><span>♪</span></div><div><small>MUSIC</small><h3>Quiet evening</h3><p>9 songs · 31 min</p></div><button class="library-open" aria-label="Open Quiet evening">Open</button></article>
+              <article class="library-card" data-type="photos" data-title="Our family" data-meta="3 demo photographs" data-detail="Three fictional, anonymous memories demonstrate how Wanda’s real private family album will work."><div class="library-art family-art"><img src="assets/memories/garden-afternoon.jpg" alt=""><img src="assets/memories/birthday-cake.jpg" alt=""><img src="assets/memories/lake-day.jpg" alt=""></div><div><small>PHOTOS</small><h3>Our family</h3><p>3 demo photographs</p></div><button class="library-open" aria-label="Open Our family">Open</button></article>
+              <article class="library-card" data-type="television" data-title="The Coast Road" data-meta="3 demo episodes" data-detail="Three fictional episodes demonstrate how a familiar series can resume with one selection."><div class="library-art series-art"><span>THE<br>COAST<br>ROAD</span></div><div><small>TELEVISION</small><h3>The Coast Road</h3><p>3 demo episodes</p></div><button class="library-open" aria-label="Open The Coast Road">Open</button></article>
+              <article class="library-card" data-type="music" data-title="Morning favourites" data-meta="3 demo tracks" data-detail="Three fictional tracks demonstrate how Wanda’s real familiar playlist will open."><div class="library-art album-art"><span>♪</span></div><div><small>MUSIC</small><h3>Morning favourites</h3><p>3 demo tracks</p></div><button class="library-open" aria-label="Open Morning favourites">Open</button></article>
+              <article class="library-card" data-type="music" data-title="Quiet evening" data-meta="3 demo tracks" data-detail="Three fictional tracks demonstrate a slower evening playlist for Wanda."><div class="library-art evening-art"><span>♪</span></div><div><small>MUSIC</small><h3>Quiet evening</h3><p>3 demo tracks</p></div><button class="library-open" aria-label="Open Quiet evening">Open</button></article>
             </div>
-            <section class="library-details panel" id="libraryDetails" hidden aria-live="polite"><div><p class="mono-label" id="libraryDetailType">MEDIA</p><h3 id="libraryDetailTitle"></h3><p id="libraryDetailMeta"></p><p id="libraryDetailCopy"></p></div><button class="primary-action" id="librarySendButton">Send to TV</button></section>
+            <section class="library-details panel" id="libraryDetails" hidden aria-live="polite"><div><p class="mono-label" id="libraryDetailType">MEDIA</p><h3 id="libraryDetailTitle"></h3><p id="libraryDetailMeta"></p><p id="libraryDetailCopy"></p><small class="library-action-note">Prototype: this opens Resident View. In the paired product, it starts on Wanda’s television.</small></div><button class="primary-action" id="librarySendButton">Preview on Wanda’s TV</button></section>
           </section>
 
           <section class="care-page" data-page="people">
@@ -148,7 +148,7 @@
       <section class="facility-view" id="facilityView" aria-label="Facility dashboard">
         <aside class="facility-rail">
           <div class="facility-mark">FH</div>
-          <nav aria-label="Facility sections"><button class="active" aria-label="Overview" data-facility-target="facilityHeading">⌂</button><button aria-label="Residents" data-facility-target="residentStatus">◎</button><button aria-label="Devices" data-facility-target="facilityStats">▣</button><button aria-label="Schedules" data-facility-target="facilityRhythm">◷</button></nav>
+          <nav aria-label="Facility sections"><button class="active" aria-label="Facility overview" data-facility-target="facilityHeading"><span>⌂</span><b>Overview</b></button><button aria-label="Resident access" data-facility-target="residentStatus"><span>◎</span><b>Residents</b></button><button aria-label="Device status" data-facility-target="facilityStats"><span>▣</span><b>Devices</b></button><button aria-label="Today’s schedules" data-facility-target="facilityRhythm"><span>◷</span><b>Schedules</b></button></nav>
           <button class="facility-account" aria-label="Facility account">AD</button>
         </aside>
         <div class="facility-workspace">
@@ -177,6 +177,10 @@
               <p>Schedules show what the interface is prepared to offer. They do not track resident behaviour.</p>
             </section>
           </div>
+          <section class="panel shared-memories" id="sharedMemories" tabindex="-1">
+            <div class="shared-memory-copy"><p class="mono-label">OPTIONAL · OFF BY DEFAULT</p><h3>Shared-screen memories</h3><p>During group television time, a facility can show a calm rotation of family-approved photographs from residents who choose to participate. Every family controls what is included.</p><div class="shared-memory-status"><span id="sharedMemoryStatus">Demo off</span><button class="secondary-action" id="sharedMemoriesToggle" type="button">Turn on demo</button></div></div>
+            <div class="shared-memory-preview" aria-label="Anonymous demonstration photographs"><img src="assets/memories/garden-afternoon.jpg" alt="Anonymous family silhouettes in a garden"><img src="assets/memories/lake-day.jpg" alt="Anonymous family silhouettes beside a lake"><img src="assets/memories/birthday-cake.jpg" alt="Anonymous family silhouettes around a birthday cake"></div>
+          </section>
         </div>
       </section>
 
@@ -188,7 +192,7 @@
             <div class="section-label"><div><h3 id="deviceHeading">How will EZ-TV run?</h3><p>Choose one. The resident experience stays the same.</p></div></div>
             <div class="device-options">
               <article id="smartTvPlan"><span class="plan-kicker">APP ONLY</span><h4>Smart TV or streaming device</h4><strong>$0 <small>EZ-TV hardware</small></strong><p>Install EZ-TV directly on a supported smart TV or streaming device.</p><ul><li>No new EZ-TV hardware</li><li>Same simple resident interface</li><li>USB support varies by device</li></ul></article>
-              <article class="featured-device" id="hubPlan"><span class="plan-kicker">MOST COMPATIBLE</span><h4>EZ-TV Hub</h4><strong>$249 <small>one time</small></strong><p>Connects EZ-TV to a conventional television through HDMI.</p><ul><li>Guaranteed USB updates</li><li>Local storage included</li><li>Works without home internet</li></ul></article>
+              <article class="featured-device" id="hubPlan"><span class="plan-kicker">MOST COMPATIBLE</span><h4>EZ-TV Hub</h4><strong>$249 <small>one time</small></strong><p>A small box that plugs into a conventional television through HDMI and runs the same EZ-TV resident screen.</p><ul><li>Use it only when the TV cannot install the app</li><li>A caregiver sets it up once</li><li>Wanda never needs to operate the box</li><li>Local storage and USB updates</li><li>Works without home internet</li></ul></article>
             </div>
           </section>
 
@@ -230,12 +234,23 @@
     </main>
   </div>
 
+  <dialog class="modal" id="addResidentModal">
+    <form id="addResidentForm">
+      <div class="modal-heading"><div><p class="mono-label">DEMO RESIDENT</p><h2>Add resident</h2></div><button type="button" class="modal-close" id="addResidentClose" aria-label="Close">×</button></div>
+      <p class="modal-intro">Create a demonstration profile. Nothing entered here is saved after the page is refreshed.</p>
+      <label>Resident name<input id="newResidentName" type="text" value="Margaret L." required></label>
+      <label>Room<input id="newResidentRoom" type="text" value="225" required></label>
+      <label>Connection<select id="newResidentMode"><option>Connected</option><option>Local</option><option>USB</option></select></label>
+      <button class="modal-submit" type="submit">Add demonstration resident</button>
+    </form>
+  </dialog>
+
   <dialog class="modal" id="routineModal">
     <form method="dialog" id="routineForm"><div class="modal-heading"><div><p class="mono-label">NEW ROUTINE</p><h2>Schedule media</h2></div><button value="cancel" class="modal-close" aria-label="Close">×</button></div><label>Media<select id="routineMedia"><option>Quiet evening</option><option>Morning favourites</option><option>Family photographs</option><option>The Coast Road</option></select></label><label>Time<input id="routineTime" type="time" value="20:00"></label><label class="repeat-row"><span><b>Repeat every day</b><small>Keep this part of Wanda’s routine</small></span><input id="routineRepeat" type="checkbox" checked><i></i></label><button class="modal-submit" value="default">Add to today</button></form>
   </dialog>
   <dialog class="modal resident-modal" id="residentModal"><div class="modal-heading"><div><p class="mono-label">RESIDENT ACCESS</p><h2 id="residentModalName">Resident</h2></div><button class="modal-close" id="residentModalClose" aria-label="Close">×</button></div><div class="resident-summary"><div><small>ROOM</small><b id="residentModalRoom"></b></div><div><small>ACCESS MODE</small><b id="residentModalMode"></b></div><div><small>STATUS</small><b id="residentModalStatus"></b></div><div><small>LAST UPDATE</small><b id="residentModalUpdated"></b></div></div><div class="resident-detail"><span>NEXT FAMILIAR ROUTINE</span><b id="residentModalRoutine"></b></div><div class="resident-detail"><span>SELECTED MEDIA</span><b id="residentModalMedia"></b></div><div class="resident-modal-actions"><button class="secondary-action" id="residentPrepareUpdate">Prepare update</button><button class="primary-action" id="residentOpenTv">Open TV view</button></div></dialog>
   <dialog class="modal about-modal" id="aboutModal"><div class="modal-heading"><div><p class="mono-label">ABOUT THE PROTOTYPE</p><h2>EZ-TV</h2></div><button class="modal-close" id="aboutClose" aria-label="Close">×</button></div><p>EZ-TV explores how familiar media can remain accessible as memory, attention, and navigation abilities change.</p><dl><div><dt>Designed for</dt><dd>People living with dementia</dd></div><div><dt>Interaction</dt><dd>Direct touch and one-word voice commands</dd></div><div><dt>Media</dt><dd>Family photographs, familiar television, and music</dd></div><div><dt>Compatibility</dt><dd>Smart TVs and conventional televisions</dd></div></dl><footer>Designed independently by Savannah Sidle. Project originated in 2024.</footer></dialog>
   <div class="toast" id="toast" role="status"></div>
-  <script src="app.js?v=11"></script>
+  <script src="app.js?v=12"></script>
 </body>
 </html>

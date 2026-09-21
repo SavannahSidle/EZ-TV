@@ -229,3 +229,81 @@ h1,h2,h3,h4{letter-spacing:-.035em}
   .resident-main.playing .player-music{height:min(14vh,125px)}
   .resident-main.playing .player-content h2{margin-top:2px}
 }
+
+
+/* Realistic anonymous memory images and clearer device state */
+.system-state{display:grid;grid-template-columns:minmax(160px,1fr) auto auto;align-items:center;width:100%;padding-left:22px;column-gap:16px}
+.connection-status{justify-self:center;justify-content:center;min-width:160px;text-align:center}
+.theme-toggle{justify-self:end}
+.photo-stack .portrait{overflow:hidden}
+.photo-stack .portrait img,.player-photo img,.mini-photos img,.family-art img{width:100%;height:100%;display:block;object-fit:cover}
+.player-photo.memory-card{display:block;padding:0;background:#10283b}
+.memory-card small{z-index:2}
+.mini-photos i{overflow:hidden}
+.family-art{gap:0}
+.family-art img{width:42%;height:78px;margin:0 -5px;border:1px solid var(--line);box-shadow:0 8px 18px rgba(0,0,0,.18)}
+.family-art img:nth-child(2){z-index:2;transform:translateY(-5px);border-color:var(--line-strong)}
+.library-action-note{display:block;margin-top:14px;color:#71869a;line-height:1.5;font-size:.68rem}
+@media(max-width:1240px) and (min-width:901px){
+  .system-state{grid-template-columns:minmax(135px,1fr) auto auto;padding-left:12px;column-gap:10px}
+  .connection-status{min-width:135px}
+}
+@media(max-width:900px){
+  .system-state{display:flex;width:auto;padding-left:0}
+  .connection-status{display:none}
+}
+
+
+/* Resident appearance choices */
+.resident-side{display:grid;justify-items:end;gap:14px}
+.resident-theme-picker{display:grid;justify-items:end;gap:7px}
+.resident-theme-picker>small{color:#607588;font:.52rem var(--mono);letter-spacing:.09em}
+.resident-theme-picker>div{display:flex;gap:6px}
+.resident-theme-picker button{border:1px solid var(--line);border-radius:999px;background:rgba(6,16,27,.72);color:#8297a9;padding:7px 10px;font-size:.62rem;font-weight:700}
+.resident-theme-picker button.active{background:var(--aqua);border-color:var(--aqua);color:#071015}
+.resident-view[data-resident-theme="warm"]{--aqua:#ffbf82;--line-strong:rgba(255,191,130,.5)}
+.resident-view[data-resident-theme="warm"] .resident-home{background:radial-gradient(circle at 80% 15%,rgba(212,124,84,.2),transparent 34%),linear-gradient(145deg,#17100e,#251712)}
+.resident-view[data-resident-theme="warm"] .media-choice,.resident-view[data-resident-theme="warm"] .player.active{background:linear-gradient(145deg,#3a251d,#19110f)}
+.resident-view[data-resident-theme="warm"] .voice-core{border-color:#d89a78;background:rgba(216,154,120,.14)}
+.resident-view[data-resident-theme="garden"]{--aqua:#a8e6b0;--line-strong:rgba(168,230,176,.5)}
+.resident-view[data-resident-theme="garden"] .resident-home{background:radial-gradient(circle at 78% 12%,rgba(100,158,110,.2),transparent 36%),linear-gradient(145deg,#0b1712,#14251b)}
+.resident-view[data-resident-theme="garden"] .media-choice,.resident-view[data-resident-theme="garden"] .player.active{background:linear-gradient(145deg,#183425,#0d1d15)}
+.resident-view[data-resident-theme="garden"] .voice-core{border-color:#79b88a;background:rgba(121,184,138,.14)}
+.light-mode .resident-theme-picker button{background:#fff;color:#4d6671;border-color:#bfd0d3}
+.light-mode .resident-theme-picker button.active{background:#087f8e;color:#fff;border-color:#087f8e}
+.light-mode .resident-view[data-resident-theme="warm"] .resident-home{background:radial-gradient(circle at 80% 15%,rgba(230,164,122,.22),transparent 34%),linear-gradient(145deg,#fffaf3,#f3e7da)}
+.light-mode .resident-view[data-resident-theme="warm"] .media-choice,.light-mode .resident-view[data-resident-theme="warm"] .player.active{background:linear-gradient(145deg,#fffaf3,#f4dfcc)}
+.light-mode .resident-view[data-resident-theme="garden"] .resident-home{background:radial-gradient(circle at 78% 12%,rgba(120,176,126,.2),transparent 36%),linear-gradient(145deg,#f8fbf3,#e2efdf)}
+.light-mode .resident-view[data-resident-theme="garden"] .media-choice,.light-mode .resident-view[data-resident-theme="garden"] .player.active{background:linear-gradient(145deg,#fbfff8,#dfedde)}
+
+/* Clear facility navigation */
+.facility-view.active-view{grid-template-columns:180px 1fr}
+.facility-rail{padding-left:14px;padding-right:14px}
+.facility-rail nav{width:100%;gap:9px}
+.facility-rail nav button{width:100%;height:46px;display:flex;align-items:center;gap:11px;padding:0 12px;text-align:left}
+.facility-rail nav button span{width:22px;text-align:center;font-size:1rem}
+.facility-rail nav button b{font-size:.7rem;font-weight:700}
+.shared-memories{margin-top:20px;padding:24px;display:grid;grid-template-columns:minmax(0,1fr) minmax(320px,.8fr);gap:28px;align-items:center}
+.shared-memory-copy h3{margin:0 0 10px;font-size:1.35rem}
+.shared-memory-copy>p:not(.mono-label){color:#708599;line-height:1.55;font-size:.76rem;max-width:680px}
+.shared-memory-status{display:flex;align-items:center;gap:12px;margin-top:20px}
+.shared-memory-status>span{color:#ffc575;font:.6rem var(--mono);text-transform:uppercase}
+.shared-memories.demo-active .shared-memory-status>span{color:var(--green)}
+.shared-memory-preview{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;opacity:.42;filter:saturate(.65);transition:.25s}
+.shared-memory-preview img{width:100%;height:120px;object-fit:cover;border-radius:8px;border:1px solid var(--line)}
+.shared-memories.demo-active .shared-memory-preview{opacity:1;filter:none}
+.modal-intro{color:#708599;line-height:1.55;font-size:.75rem;margin:-8px 0 18px}
+.modal input[type="text"]{width:100%;margin-top:7px;background:#0a1a29;color:var(--text);border:1px solid var(--line);padding:12px;border-radius:4px}
+.light-mode .modal input[type="text"]{background:#f5f7f6;color:var(--text)}
+@media(max-width:900px){
+  .facility-view.active-view{grid-template-columns:150px 1fr}
+  .facility-rail nav button{padding:0 9px}
+  .shared-memories{grid-template-columns:1fr}
+}
+@media(max-width:680px){
+  .resident-side{gap:7px}
+  .resident-theme-picker>small{display:none}
+  .resident-theme-picker button{padding:6px 8px;font-size:.56rem}
+  .facility-view.active-view{display:block}
+  .shared-memory-preview img{height:90px}
+}

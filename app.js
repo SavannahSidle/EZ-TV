@@ -19,6 +19,20 @@ function setTheme(theme){
 setTheme(localStorage.getItem("eztv-theme")==="light"?"light":"dark");
 themeToggle.addEventListener("click",()=>setTheme(document.body.classList.contains("light-mode")?"dark":"light"));
 
+const residentView=document.querySelector("#residentView");
+function setResidentAppearance(theme){
+  const selected=["original","warm","garden"].includes(theme)?theme:"original";
+  residentView.dataset.residentTheme=selected;
+  document.querySelectorAll("[data-resident-theme]").forEach(button=>{
+    const active=button.dataset.residentTheme===selected;
+    button.classList.toggle("active",active);
+    button.setAttribute("aria-pressed",String(active));
+  });
+  localStorage.setItem("eztv-resident-theme",selected);
+}
+document.querySelectorAll("[data-resident-theme]").forEach(button=>button.addEventListener("click",()=>setResidentAppearance(button.dataset.residentTheme)));
+setResidentAppearance(localStorage.getItem("eztv-resident-theme")||"original");
+
 function setView(name){
   Object.entries(views).forEach(([key,view])=>view.classList.toggle("active-view",key===name));
   document.querySelectorAll(".view-option").forEach(button=>button.classList.toggle("active",button.dataset.view===name));
@@ -34,18 +48,18 @@ function showToast(message){
 
 const demoMedia={
   photos:[
-    {title:"Garden afternoon",detail:"A sunny visit together",icon:"🌿",tone:"garden"},
-    {title:"Birthday cake",detail:"A familiar family celebration",icon:"🎂",tone:"birthday"},
-    {title:"Lake day",detail:"A quiet summer memory",icon:"☀",tone:"lake"}
+    {title:"Garden afternoon",detail:"A sunny visit together",src:"assets/memories/garden-afternoon.jpg",tone:"garden"},
+    {title:"Birthday cake",detail:"A familiar family celebration",src:"assets/memories/birthday-cake.jpg",tone:"birthday"},
+    {title:"Lake day",detail:"A quiet summer memory",src:"assets/memories/lake-day.jpg",tone:"lake"}
   ],
   television:[
-    {title:"Harbour Stories",detail:"Season 2 · Episode 4",tone:"harbour"},
+    {title:"The Coast Road",detail:"Season 2 · Episode 4",tone:"harbour"},
     {title:"The Garden Hour",detail:"Episode 7 · Spring flowers",tone:"garden-show"},
     {title:"Sunday Matinee",detail:"A gentle classic comedy",tone:"matinee"}
   ],
   music:[
-    {title:"Sunday favourites",detail:"Classic songs · Playing now",tone:"sunday"},
-    {title:"Quiet piano",detail:"Soft instrumentals · Playing now",tone:"piano"},
+    {title:"Morning favourites",detail:"Three familiar demo tracks · Playing now",tone:"sunday"},
+    {title:"Quiet evening",detail:"Soft instrumentals · Playing now",tone:"piano"},
     {title:"Kitchen sing-along",detail:"Familiar favourites · Playing now",tone:"kitchen"}
   ]
 };
@@ -56,7 +70,7 @@ function mediaMarkup(type){
   if(type==="photos"){
     const cards=[-1,0,1].map(offset=>{
       const memory=items[(index+offset+items.length)%items.length];
-      return `<div class="player-photo memory-card ${memory.tone}"><span aria-hidden="true">${memory.icon}</span><small>${memory.title}</small></div>`;
+      return `<div class="player-photo memory-card ${memory.tone}"><img src="${memory.src}" alt=""><small>${memory.title}</small></div>`;
     }).join("");
     return `<div class="player-photos demo-memory-stack" aria-label="Illustrated demo family memories">${cards}</div><span class="playing-label">FAMILY PHOTOS · FICTIONAL DEMO</span><h2>${item.title}</h2><p>${item.detail} · Photo ${index+1} of ${items.length}</p>`;
   }
@@ -161,12 +175,21 @@ document.querySelectorAll(".care-tab").forEach(button=>button.addEventListener("
 
 document.querySelectorAll("[data-send]").forEach(button=>button.addEventListener("click",()=>{
   const type=button.dataset.send;
-  if(type==="home"){showToast("Home screen sent to the TV");returnHome();return}
+  if(type==="home"){
+    document.querySelector("#miniTv").innerHTML='<span class="mini-label">WANDA’S TV</span><b>Home choices restored</b><small>Photos · Show · Music</small>';
+    showToast("Wanda’s home choices restored");
+    return;
+  }
   currentMedia=type;
   const names={photos:"Family photographs",television:"The Coast Road",music:"Morning favourites"};
-  const symbols={photos:"MH",television:"▶",music:"♪"};
-  document.querySelector("#miniTv").innerHTML=`<span class="mini-label">NOW PLAYING</span><div class="mini-photos"><i>${symbols[type]}</i></div><b>${names[type]}</b><small>Sent from caregiver view</small>`;
-  showToast(`${names[type]} sent to the TV`);
+  const visuals={
+    photos:'<div class="mini-photos"><i><img src="assets/memories/garden-afternoon.jpg" alt=""></i><i><img src="assets/memories/birthday-cake.jpg" alt=""></i><i><img src="assets/memories/lake-day.jpg" alt=""></i></div>',
+    television:'<div class="mini-photos"><i>▶</i></div>',
+    music:'<div class="mini-photos"><i>♪</i></div>'
+  };
+  const action=type==="photos"?"SHOWING ON WANDA’S TV":"PLAYING ON WANDA’S TV";
+  document.querySelector("#miniTv").innerHTML=`<span class="mini-label">${action}</span>${visuals[type]}<b>${names[type]}</b><small>Started from Caregiver View</small>`;
+  showToast(`${names[type]} started on Wanda’s TV preview`);
 }));
 
 document.querySelectorAll(".library-filters button").forEach(button=>button.addEventListener("click",()=>{
@@ -184,9 +207,11 @@ document.querySelectorAll(".library-filters button").forEach(button=>button.addE
 }));
 
 let selectedLibraryType="photos";
+let selectedLibraryTitle="Our family";
 document.querySelectorAll(".library-open").forEach(button=>button.addEventListener("click",()=>{
   const card=button.closest(".library-card");
   selectedLibraryType=card.dataset.type;
+  selectedLibraryTitle=card.dataset.title;
   document.querySelector("#libraryDetailType").textContent=card.dataset.type.toUpperCase();
   document.querySelector("#libraryDetailTitle").textContent=card.dataset.title;
   document.querySelector("#libraryDetailMeta").textContent=card.dataset.meta;
@@ -194,9 +219,11 @@ document.querySelectorAll(".library-open").forEach(button=>button.addEventListen
   document.querySelector("#libraryDetails").hidden=false;
 }));
 document.querySelector("#librarySendButton").addEventListener("click",()=>{
+  const match=demoMedia[selectedLibraryType]?.findIndex(item=>item.title===selectedLibraryTitle)??-1;
+  if(match>=0)mediaIndex[selectedLibraryType]=match;
   setView("resident");
   openMedia(selectedLibraryType);
-  showToast("Media sent to the TV view");
+  showToast("Previewing what Wanda would see");
 });
 
 const routineModal=document.querySelector("#routineModal");
@@ -248,9 +275,8 @@ document.querySelector("#importUsbInput").addEventListener("change",event=>{
 });
 
 document.querySelector("#facilityUsbButton").addEventListener("click",()=>showToast("USB updates prepared for one resident"));
-document.querySelector("#addResidentButton").addEventListener("click",()=>showToast("Resident setup opened in the full product"));
 const residentModal=document.querySelector("#residentModal");
-document.querySelectorAll(".facility-row[data-resident]").forEach(row=>row.addEventListener("click",()=>{
+function openResidentDetails(row){
   document.querySelector("#residentModalName").textContent=row.dataset.resident;
   document.querySelector("#residentModalRoom").textContent=row.dataset.room;
   document.querySelector("#residentModalMode").textContent=row.dataset.mode;
@@ -259,7 +285,50 @@ document.querySelectorAll(".facility-row[data-resident]").forEach(row=>row.addEv
   document.querySelector("#residentModalRoutine").textContent=row.dataset.routine;
   document.querySelector("#residentModalMedia").textContent=row.dataset.media;
   residentModal.showModal();
-}));
+}
+document.querySelector(".facility-table").addEventListener("click",event=>{
+  const row=event.target.closest(".facility-row[data-resident]");
+  if(row)openResidentDetails(row);
+});
+
+const addResidentModal=document.querySelector("#addResidentModal");
+document.querySelector("#addResidentButton").addEventListener("click",()=>addResidentModal.showModal());
+document.querySelector("#addResidentClose").addEventListener("click",()=>addResidentModal.close());
+document.querySelector("#addResidentForm").addEventListener("submit",event=>{
+  event.preventDefault();
+  const name=document.querySelector("#newResidentName").value.trim();
+  const room=document.querySelector("#newResidentRoom").value.trim();
+  const mode=document.querySelector("#newResidentMode").value;
+  const initials=name.split(/\s+/).map(part=>part[0]||"").join("").slice(0,2).toUpperCase();
+  const safe=value=>value.replace(/[&<>"']/g,character=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[character]));
+  const row=document.createElement("button");
+  row.className="facility-row";
+  row.type="button";
+  row.setAttribute("role","row");
+  row.dataset.resident=name;
+  row.dataset.room=room;
+  row.dataset.mode=mode;
+  row.dataset.updated="Just added";
+  row.dataset.status=mode==="Connected"?"Ready":"Offline ready";
+  row.dataset.routine="No routine scheduled yet";
+  row.dataset.media="No private media added yet";
+  row.innerHTML=`<span><i class="resident-initials aqua">${safe(initials)}</i><b>${safe(name)}</b></span><span>${safe(room)}</span><span>${safe(mode)}</span><span>Just added</span><span class="status-pill ${mode==="Connected"?"online":"local"}">${mode==="Connected"?"Ready":"Offline ready"}</span>`;
+  document.querySelector(".facility-table").append(row);
+  const total=document.querySelectorAll(".facility-row[data-resident]").length;
+  document.querySelector(".resident-status-panel .panel-heading span").textContent=`${total} PROFILES`;
+  addResidentModal.close();
+  showToast(`${name} added to this demonstration`);
+});
+
+const sharedButton=document.querySelector("#sharedMemoriesToggle");
+sharedButton.addEventListener("click",()=>{
+  const panel=document.querySelector("#sharedMemories");
+  const active=panel.classList.toggle("demo-active");
+  document.querySelector("#sharedMemoryStatus").textContent=active?"Demo running":"Demo off";
+  sharedButton.textContent=active?"Turn off demo":"Turn on demo";
+  sharedButton.setAttribute("aria-pressed",String(active));
+  showToast(active?"Shared-screen demo started with anonymous images":"Shared-screen demo stopped");
+});
 document.querySelector("#residentModalClose").addEventListener("click",()=>residentModal.close());
 document.querySelector("#residentPrepareUpdate").addEventListener("click",()=>showToast("Resident update package prepared"));
 document.querySelector("#residentOpenTv").addEventListener("click",()=>{residentModal.close();setView("resident")});
