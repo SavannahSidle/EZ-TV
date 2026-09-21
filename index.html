@@ -10,7 +10,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=13">
+  <link rel="stylesheet" href="styles.css?v=14">
 </head>
 <body>
   <div class="app-shell">
@@ -33,13 +33,13 @@
             <p class="mono-label">ACCESSIBLE MEDIA FOR PEOPLE LIVING WITH DEMENTIA</p>
             <h1>Bring home a little closer.</h1>
             <p class="overview-lead">Keep family, memories, and home within reach.</p>
-            <div class="overview-actions"><button class="primary-action" data-view-jump="resident">Open Resident View</button><button class="secondary-action" data-view-jump="caregiver">See the caregiver tools</button></div>
+            <div class="overview-actions"><button class="primary-action" data-view-jump="resident">Open Resident View</button><button class="secondary-action" data-view-jump="caregiver">Caregiver Tools</button></div>
             <p class="overview-origin">Designed independently by Savannah Sidle. Project originated in 2024.</p>
           </div>
           <div class="overview-map" aria-label="How EZ-TV works">
-            <div class="overview-screen"><span class="screen-label">RESIDENT</span><strong>Three familiar choices.</strong><div><i>▧<small>Photos</small></i><i>▶<small>Show</small></i><i>♪<small>Music</small></i></div></div>
-            <div class="overview-links"><span>SMART TV APP</span><span>EZ-TV HUB</span><span>USB OFFLINE</span><span>CELLULAR</span></div>
-            <div class="overview-control"><span class="screen-label">FAMILY OR CARE TEAM</span><strong>Prepare the experience elsewhere.</strong><small>Residents never manage settings, accounts, networks, or updates.</small></div>
+            <div class="overview-screen"><span class="screen-label">RESIDENT</span><strong>Three familiar choices.</strong><div><button type="button" data-overview-media="photos" aria-label="Open family photos">▧<small>Photos</small></button><button type="button" data-overview-media="television" aria-label="Open favourite show">▶<small>Show</small></button><button type="button" data-overview-media="music" aria-label="Open relaxing music">♪<small>Music</small></button></div></div>
+            <div class="overview-links" aria-label="Explore ways to use EZ-TV"><button type="button" data-overview-target="smartTvPlan">SMART TV APP</button><button type="button" data-overview-target="hubPlan">EZ-TV HUB</button><button type="button" data-overview-target="usbPlan">USB OFFLINE</button><button type="button" data-overview-target="cellularPlan">CELLULAR</button></div>
+            <div class="overview-control"><span class="screen-label">FAMILY OR CARE TEAM</span><strong>Set it up once. Keep it simple for Wanda.</strong><small>Residents never manage settings, accounts, networks, or updates.</small></div>
           </div>
         </div>
         <div class="overview-principles"><article><b>Recognition before navigation</b><p>Stable choices reduce the need to remember steps.</p></article><article><b>Works across circumstances</b><p>Smart TV, conventional TV, internet, cellular, or USB.</p></article><article><b>Connection without surveillance</b><p>No cameras, passive listening, or behavioural scoring.</p></article></div>
@@ -148,19 +148,19 @@
       <section class="facility-view" id="facilityView" aria-label="Facility dashboard">
         <aside class="facility-rail">
           <div class="facility-mark">FH</div>
-          <nav aria-label="Facility sections"><button class="active" aria-label="Overview">⌂</button><button aria-label="Residents">◎</button><button aria-label="Devices">▣</button><button aria-label="Schedules">◷</button></nav>
+          <nav aria-label="Facility sections"><button class="active" aria-label="Overview" data-facility-target="facilityHeading">⌂</button><button aria-label="Residents" data-facility-target="residentStatus">◎</button><button aria-label="Devices" data-facility-target="facilityStats">▣</button><button aria-label="Schedules" data-facility-target="facilityRhythm">◷</button></nav>
           <button class="facility-account" aria-label="Facility account">AD</button>
         </aside>
         <div class="facility-workspace">
-          <div class="workspace-heading facility-heading"><div><p class="mono-label">FOREST HOUSE · EAST WING</p><h2>Facility overview</h2><p>Access status for resident televisions. No cameras, health records, or passive monitoring.</p></div><div class="facility-actions"><button class="secondary-action" id="facilityUsbButton">Prepare USB updates</button><button class="primary-action" id="addResidentButton">+ Add resident</button></div></div>
-          <div class="facility-stats">
+          <div class="workspace-heading facility-heading" id="facilityHeading" tabindex="-1"><div><p class="mono-label">FOREST HOUSE · EAST WING</p><h2>Facility overview</h2><p>Access status for resident televisions. No cameras, health records, or passive monitoring.</p></div><div class="facility-actions"><button class="secondary-action" id="facilityUsbButton">Prepare USB updates</button><button class="primary-action" id="addResidentButton">+ Add resident</button></div></div>
+          <div class="facility-stats" id="facilityStats" tabindex="-1">
             <article><small>RESIDENT PROFILES</small><strong>24</strong><span>Across one wing</span></article>
             <article><small>CONNECTED NOW</small><strong>21</strong><span class="healthy">All services ready</span></article>
             <article><small>LOCAL MODE</small><strong>2</strong><span>Working without internet</span></article>
             <article><small>NEEDS UPDATE</small><strong>1</strong><span class="attention">USB package ready</span></article>
           </div>
           <div class="facility-grid">
-            <section class="panel resident-status-panel">
+            <section class="panel resident-status-panel" id="residentStatus" tabindex="-1">
               <div class="panel-heading"><h3>Resident access</h3><span>24 PROFILES</span></div>
               <div class="facility-table" role="table" aria-label="Resident device status">
                 <div class="facility-row facility-table-head" role="row"><span>Resident</span><span>Room</span><span>Mode</span><span>Last update</span><span>Status</span></div>
@@ -170,7 +170,7 @@
                 <button class="facility-row" role="row" aria-haspopup="dialog" data-resident="Henry L." data-room="223" data-mode="Connected" data-updated="2 min ago" data-status="Ready" data-routine="Hockey replay at 7:00 PM" data-media="31 photos · 10 episodes · 14 songs"><span><i class="resident-initials green">HL</i><b>Henry L.</b></span><span>223</span><span>Connected</span><span>2 min ago</span><span class="status-pill online">Ready</span></button>
               </div>
             </section>
-            <section class="panel facility-rhythm">
+            <section class="panel facility-rhythm" id="facilityRhythm" tabindex="-1">
               <div class="panel-heading"><h3>Today across the wing</h3><span>5 ACTIVE</span></div>
               <div class="rhythm-total"><strong>38</strong><span>familiar-media routines scheduled</span></div>
               <div class="rhythm-bars" aria-label="Scheduled routines by time of day"><span style="--value:45%"><b>Morning</b></span><span style="--value:74%"><b>Afternoon</b></span><span style="--value:58%"><b>Evening</b></span></div>
@@ -187,8 +187,8 @@
           <section class="device-choice" aria-labelledby="deviceHeading">
             <div class="section-label"><div><h3 id="deviceHeading">How will EZ-TV run?</h3><p>Choose one. The resident experience stays the same.</p></div></div>
             <div class="device-options">
-              <article><span class="plan-kicker">APP ONLY</span><h4>Smart TV or streaming device</h4><strong>$0 <small>EZ-TV hardware</small></strong><p>Install EZ-TV directly on a supported smart TV or streaming device.</p><ul><li>No new EZ-TV hardware</li><li>Same simple resident interface</li><li>USB support varies by device</li></ul></article>
-              <article class="featured-device"><span class="plan-kicker">MOST COMPATIBLE</span><h4>EZ-TV Hub</h4><strong>$249 <small>one time</small></strong><p>Connects EZ-TV to a conventional television through HDMI.</p><ul><li>Guaranteed USB updates</li><li>Local storage included</li><li>Works without home internet</li></ul></article>
+              <article id="smartTvPlan"><span class="plan-kicker">APP ONLY</span><h4>Smart TV or streaming device</h4><strong>$0 <small>EZ-TV hardware</small></strong><p>Install EZ-TV directly on a supported smart TV or streaming device.</p><ul><li>No new EZ-TV hardware</li><li>Same simple resident interface</li><li>USB support varies by device</li></ul></article>
+              <article class="featured-device" id="hubPlan"><span class="plan-kicker">MOST COMPATIBLE</span><h4>EZ-TV Hub</h4><strong>$249 <small>one time</small></strong><p>Connects EZ-TV to a conventional television through HDMI.</p><ul><li>Guaranteed USB updates</li><li>Local storage included</li><li>Works without home internet</li></ul></article>
             </div>
           </section>
 
@@ -205,9 +205,9 @@
           <section class="service-choice" aria-labelledby="serviceHeading">
             <div class="section-label"><div><h3 id="serviceHeading">How will it be updated?</h3><p>Every plan keeps the resident interface calm and familiar.</p></div></div>
             <div class="pricing-grid">
-              <article class="price-card"><span class="plan-kicker">NO INTERNET NEEDED</span><h4>Local</h4><strong>$0 <small>/ month</small></strong><p>Update in person with a USB drive.</p><ul><li>Resident interface</li><li>Photos, music, and routines</li><li>Local voice commands</li><li>No remote access</li></ul><button data-plan="Local">Choose Local</button></article>
+              <article class="price-card" id="usbPlan"><span class="plan-kicker">NO INTERNET NEEDED</span><h4>Local</h4><strong>$0 <small>/ month</small></strong><p>Update in person with a USB drive.</p><ul><li>Resident interface</li><li>Photos, music, and routines</li><li>Local voice commands</li><li>No remote access</li></ul><button data-plan="Local">Choose Local</button></article>
               <article class="price-card preferred"><span class="plan-kicker">REMOTE FAMILY ACCESS</span><h4>Connected</h4><strong>$19.99 <small>/ month</small></strong><p class="annual-price">$199 yearly · two months free</p><ul><li>Everything in Local</li><li>Remote updates and scheduling</li><li>Up to three caregivers</li><li>Secure cloud backup</li></ul><button data-plan="Connected">Choose Connected</button></article>
-              <article class="price-card"><span class="plan-kicker">CELLULAR INCLUDED</span><h4>Supported</h4><strong>$34.99 <small>/ month</small></strong><p class="annual-price">$349 yearly · two months free</p><ul><li>Everything in Connected</li><li>Managed EZ-TV cellular service</li><li>Unlimited caregivers</li><li>Priority setup support</li><li>Hub replacement coverage</li></ul><button data-plan="Supported">Choose Supported</button></article>
+              <article class="price-card" id="cellularPlan"><span class="plan-kicker">CELLULAR INCLUDED</span><h4>Supported</h4><strong>$34.99 <small>/ month</small></strong><p class="annual-price">$349 yearly · two months free</p><ul><li>Everything in Connected</li><li>Managed EZ-TV cellular service</li><li>Unlimited caregivers</li><li>Priority setup support</li><li>Hub replacement coverage</li></ul><button data-plan="Supported">Choose Supported</button></article>
             </div>
             <p class="connectivity-note"><b>Connected</b> uses the home’s Wi-Fi or Ethernet. <b>Supported</b> includes a cellular connection managed and billed by EZ-TV for remote control, schedules, messages, family uploads, and software updates. Streaming services require Wi-Fi, Ethernet, cable, antenna, or another resident-provided connection.</p>
           </section>
@@ -217,8 +217,8 @@
           </section>
 
           <section class="difference-section">
-            <div class="section-label"><div><h3>Built around dementia, not surveillance</h3><p>The interface adapts access to familiar media while protecting the resident’s dignity.</p></div></div>
-            <div class="difference-grid"><article><b>Offline first</b><p>Core access continues without internet through local storage and USB updates.</p></article><article><b>Recognition before navigation</b><p>Stable choices, familiar people, and meaningful routines reduce the need to remember steps.</p></article><article><b>Quiet technology</b><p>No cameras, passive listening, behavioural scoring, or health-record collection.</p></article><article><b>Individual and institutional</b><p>The same resident experience works at home or across an entire care facility.</p></article></div>
+            <div class="section-label"><div><h3>Why EZ-TV is different</h3><p>It starts with one person, one familiar screen, and less work for the family supporting them.</p></div></div>
+            <div class="difference-grid"><article><b>Built for dementia first</b><p>Three stable choices replace menus, apps, passwords, and hunting through streaming screens.</p></article><article><b>Works without home internet</b><p>Core access continues from local storage, with caregiver updates by USB when needed.</p></article><article><b>Family connection, not monitoring</b><p>No cameras, passive listening, behavioural scoring, or health-record collection.</p></article><article><b>One resident before thousands</b><p>EZ-TV is being built around Wanda’s real daily needs first. What works for her can later scale to other homes and facilities.</p></article><article><b>Private by design</b><p>The public demo uses invented people and illustrated media. Real family content stays inside the paired private account.</p></article><article><b>Caregiver work stays elsewhere</b><p>Family or staff manage uploads and routines. The resident keeps the same calm, familiar screen.</p></article></div>
           </section>
           <section class="origin-section">
             <p class="mono-label">WHY EZ-TV EXISTS</p>
