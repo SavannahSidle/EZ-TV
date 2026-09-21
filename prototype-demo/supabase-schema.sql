@@ -149,6 +149,27 @@ begin
 end;
 $$;
 
+create or replace function public.claim_pair_code_only(p_code text)
+returns uuid language plpgsql security definer set search_path=public as $$
+declare v_pair public.pair_codes%rowtype; v_recent integer; v_resident uuid;
+begin
+  if auth.uid() is null then raise exception 'Secure browser session required'; end if;
+  select count(*) into v_recent from public.pair_attempts where user_id=auth.uid() and attempted_at>now()-interval '10 minutes';
+  if v_recent>=5 then raise exception 'Too many attempts. Wait ten minutes and try again'; end if;
+  select * into v_pair from public.pair_codes where display_code=p_code and expires_at>now() and used_at is null for update;
+  insert into public.pair_attempts(user_id,succeeded) values(auth.uid(),v_pair.device_id is not null);
+  if v_pair.device_id is null then return null; end if;
+  select id into v_resident from public.residents where owner_id=auth.uid() order by created_at limit 1;
+  if v_resident is null then
+    insert into public.residents(owner_id,name,help_message) values(auth.uid(),'Wanda','You are safe. Someone from your care team is nearby.') returning id into v_resident;
+  end if;
+  update public.devices set resident_id=v_resident,paired_at=now(),last_seen=now() where id=v_pair.device_id;
+  update public.pair_codes set used_at=now(),display_code=gen_random_uuid()::text where device_id=v_pair.device_id;
+  insert into public.security_events(resident_id,user_id,event) values(v_resident,auth.uid(),'device_paired_code_only');
+  return v_resident;
+end;
+$$;
+
 create or replace function public.touch_device()
 returns void language sql security definer set search_path=public as $$
   update public.devices set last_seen=now() where auth_user_id=auth.uid();
@@ -195,12 +216,14 @@ $$;
 
 revoke all on function public.get_or_create_pair_code() from public;
 revoke all on function public.claim_pair_code(text,uuid) from public;
+revoke all on function public.claim_pair_code_only(text) from public;
 revoke all on function public.create_family_invite(text,uuid) from public;
 revoke all on function public.accept_family_invite(uuid) from public;
 revoke all on function public.touch_device() from public;
 revoke all on function public.disconnect_device(uuid) from public;
 grant execute on function public.get_or_create_pair_code() to authenticated;
 grant execute on function public.claim_pair_code(text,uuid) to authenticated;
+grant execute on function public.claim_pair_code_only(text) to authenticated;
 grant execute on function public.create_family_invite(text,uuid) to authenticated;
 grant execute on function public.accept_family_invite(uuid) to authenticated;
 grant execute on function public.touch_device() to authenticated;

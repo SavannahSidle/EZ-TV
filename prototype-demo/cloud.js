@@ -14,6 +14,7 @@
     const accessible=await client.from("residents").select("*").limit(1).maybeSingle();
     if(accessible.error)throw accessible.error;
     if(accessible.data)return accessible.data;
+    if(user.is_anonymous)return null;
     const created=await client.from("residents").insert({owner_id:user.id,name:"Wanda",help_message:"You are safe. Someone from your care team is nearby."}).select().single();
     if(created.error)throw created.error;
     return created.data;
