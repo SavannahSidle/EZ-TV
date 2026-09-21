@@ -33,6 +33,20 @@ function setResidentAppearance(theme){
 document.querySelectorAll("[data-resident-theme]").forEach(button=>button.addEventListener("click",()=>setResidentAppearance(button.dataset.residentTheme)));
 setResidentAppearance(localStorage.getItem("eztv-resident-theme")||"original");
 
+const caregiverView=document.querySelector("#caregiverView");
+function setCaregiverAppearance(theme){
+  const selected=["original","warm","garden"].includes(theme)?theme:"original";
+  caregiverView.dataset.caregiverTheme=selected;
+  document.querySelectorAll("[data-caregiver-theme]").forEach(button=>{
+    const active=button.dataset.caregiverTheme===selected;
+    button.classList.toggle("active",active);
+    button.setAttribute("aria-pressed",String(active));
+  });
+  localStorage.setItem("eztv-caregiver-theme",selected);
+}
+document.querySelectorAll("[data-caregiver-theme]").forEach(button=>button.addEventListener("click",()=>setCaregiverAppearance(button.dataset.caregiverTheme)));
+setCaregiverAppearance(localStorage.getItem("eztv-caregiver-theme")||"original");
+
 function setView(name){
   Object.entries(views).forEach(([key,view])=>view.classList.toggle("active-view",key===name));
   document.querySelectorAll(".view-option").forEach(button=>button.classList.toggle("active",button.dataset.view===name));
