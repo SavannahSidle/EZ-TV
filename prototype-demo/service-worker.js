@@ -1,4 +1,4 @@
-const CACHE="eztv-prototype-v8";
+const CACHE="eztv-prototype-v9";
 const APP=["./","./index.html","./tv.html","./prototype.css","./prototype.js","./tv.js","./config.js","./cloud.js","./icon.svg","./caregiver.webmanifest","./tv.webmanifest"];
 self.addEventListener("install",event=>event.waitUntil(Promise.all([self.skipWaiting(),caches.open(CACHE).then(cache=>cache.addAll(APP))])));
 self.addEventListener("activate",event=>event.waitUntil(Promise.all([self.clients.claim(),caches.keys().then(keys=>Promise.all(keys.filter(key=>key!==CACHE).map(key=>caches.delete(key))))])));

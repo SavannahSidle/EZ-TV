@@ -125,6 +125,13 @@ async function refreshDevices(){
   });
 }
 
+function showConnectedState(){
+  $("#connectionTitle").textContent="Wanda’s screen is connected";
+  $("#connectionCopy").textContent="Changes can now be sent directly to Resident View.";
+  $("#pairForm").hidden=true;
+  $("#accessSection").hidden=false;
+}
+
 photoInput.addEventListener("change",()=>{workingPhotos.push(...photoInput.files);photoInput.value="";renderPhotoManager();markUnsaved()});
 videoInput.addEventListener("change",()=>{workingVideo=videoInput.files[0]||null;videoInput.value="";renderSingleMedia("video");markUnsaved()});
 audioInput.addEventListener("change",()=>{workingAudio=audioInput.files[0]||null;audioInput.value="";renderSingleMedia("audio");markUnsaved()});
@@ -163,7 +170,7 @@ $("#pairButton").addEventListener("click",async()=>{
   if(result.error){$("#connectionMessage").textContent=result.error.message;return}
   if(!result.data){$("#connectionMessage").textContent="That code is invalid or expired.";return}
   cloudResident=await window.ezCloud.getResident(cloudSession.user);
-  $("#pairCodeInput").value="";$("#connectionMessage").textContent="Resident View connected. The code has expired.";$("#accessSection").hidden=false;await hydrateCloud();await refreshDevices();setSync("TV connected");showToast("Resident View paired");
+  $("#pairCodeInput").value="";showConnectedState();$("#connectionMessage").textContent="Connected securely. The pairing code has expired.";await hydrateCloud();await refreshDevices();setSync("TV connected");showToast("Resident View paired");
 });
 
 $("#inviteButton").addEventListener("click",async()=>{
@@ -183,7 +190,7 @@ async function initializeCloud(){
   cloudResident=await window.ezCloud.getResident(cloudSession.user);
   $("#pairForm").hidden=false;$("#pairCodeInput").disabled=false;$("#pairButton").disabled=false;$("#accessSection").hidden=!cloudResident;
   $("#connectionMessage").textContent="Ready to pair.";
-  if(cloudResident){await hydrateCloud();await refreshDevices();setSync("Securely connected");$("#saveStatus").textContent="Wanda’s TV is up to date."}
+  if(cloudResident){showConnectedState();$("#connectionMessage").textContent="Connected securely.";await hydrateCloud();await refreshDevices();setSync("Securely connected");$("#saveStatus").textContent="Wanda’s TV is up to date."}
   else setSync("Ready to pair");
 }
 
