@@ -1,4 +1,4 @@
-:root{color-scheme:dark;--void:#03070d;--deep:#06101b;--panel:#091725;--line:rgba(145,188,224,.15);--line-strong:rgba(125,242,255,.38);--text:#f2f8fc;--muted:#8094a8;--aqua:#7df2ff;--violet:#9c82ff;--blue:#4b8cff;--green:#5df2b3;--sans:"Atkinson Hyperlegible",Arial,sans-serif;--mono:"IBM Plex Mono",monospace}
+:root{color-scheme:dark;--void:#03070d;--deep:#06101b;--panel:#091725;--line:rgba(145,188,224,.15);--line-strong:rgba(125,242,255,.38);--text:#f2f8fc;--muted:#8094a8;--aqua:#7df2ff;--violet:#9c82ff;--blue:#4b8cff;--green:#5df2b3;--sans:"DM Sans",system-ui,sans-serif;--mono:"IBM Plex Mono",monospace}
 *{box-sizing:border-box}html,body{margin:0;min-height:100%;background:var(--void);color:var(--text);font-family:var(--sans)}body{min-width:320px;overflow-x:hidden}button,select,input{font:inherit}button{cursor:pointer}.app-shell{min-height:100vh;background:radial-gradient(circle at 70% 5%,rgba(49,93,180,.12),transparent 34%),var(--void)}
 .system-bar{height:72px;padding:0 clamp(18px,3.5vw,54px);display:grid;grid-template-columns:1fr auto 1fr;align-items:center;border-bottom:1px solid var(--line);background:rgba(3,7,13,.82);backdrop-filter:blur(22px);position:relative;z-index:30}.logo{border:0;padding:0;background:none;color:var(--text);justify-self:start;font-size:1.15rem;font-weight:700;letter-spacing:-.05em}.logo span{color:var(--aqua)}.logo b{font-weight:700;border-left:1px solid var(--line);padding-left:8px;margin-left:7px}.view-switch{justify-self:center;display:flex;padding:4px;background:#07101a;border:1px solid var(--line);border-radius:11px}.view-option{border:0;border-radius:7px;background:transparent;color:#647a8e;padding:9px 18px;font-size:.8rem;font-weight:600}.view-option.active{color:var(--void);background:var(--aqua);box-shadow:0 0 25px rgba(125,242,255,.18)}.system-state{justify-self:end;display:flex;align-items:center;gap:8px;color:#72879a;font:.67rem var(--mono)}.connection-dot{width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 11px rgba(93,242,179,.75)}.icon-button{width:28px;height:28px;margin-left:14px;border-radius:50%;border:1px solid var(--line);background:transparent;color:#7b91a5;font:.72rem var(--mono)}
 main{min-height:calc(100vh - 72px)}.overview-view,.resident-view,.caregiver-view,.facility-view,.plans-view{display:none;min-height:calc(100vh - 72px)}.active-view{display:block}.resident-view{position:relative;overflow:hidden}.ambient{position:absolute;border-radius:50%;filter:blur(100px);opacity:.17;pointer-events:none}.ambient-one{width:480px;height:480px;background:var(--blue);right:-150px;top:-150px}.ambient-two{width:340px;height:340px;background:var(--violet);left:17%;bottom:-230px}.resident-home{min-height:calc(100vh - 72px);padding:clamp(42px,6vh,76px) clamp(28px,7vw,112px) 42px;display:grid;grid-template-rows:auto 1fr auto;position:relative;z-index:2}.resident-home[hidden]{display:none!important}.welcome-row{display:flex;justify-content:space-between;align-items:flex-start;gap:40px}.context-label,.mono-label{margin:0 0 16px;color:var(--aqua);font:.68rem var(--mono);letter-spacing:.1em}.context-label{display:flex;align-items:center;gap:10px}.context-label span{width:25px;height:1px;background:var(--aqua);box-shadow:0 0 8px var(--aqua)}h1{margin:0;font-size:clamp(2.8rem,5.6vw,6.4rem);line-height:.92;letter-spacing:-.065em;font-weight:500}.clock{text-align:right;padding-top:6px}.clock strong{display:block;font-size:clamp(2rem,3.3vw,3.7rem);font-weight:400;letter-spacing:-.06em}.clock span{color:#607588;font:.62rem var(--mono);letter-spacing:.09em}
@@ -127,6 +127,13 @@ body.light-mode{color-scheme:light;--void:#f4f1ea;--deep:#fbfaf7;--panel:#fff;--
 .light-mode .mini-tv,.light-mode .library-art,.light-mode .remote-actions button,.light-mode .schedule-icon{background:#eaf2f3;color:#31505f}
 .light-mode .facility-row{background:#fff}
 .light-mode .facility-row:hover{background:#edf6f6}
+.light-mode .facility-stats article{background:#fff;color:var(--text);border-color:#c9d7da;box-shadow:0 14px 35px rgba(55,73,81,.07)}
+.light-mode .facility-stats small,.light-mode .facility-stats span{color:#5b727d}
+.light-mode .facility-stats strong{color:#18313c}
+.light-mode .facility-stats .healthy{color:#24785a}
+.light-mode .facility-stats .attention{color:#9a5f12}
+.light-mode .rhythm-bars span{background:#edf3f3}
+.light-mode .rhythm-bars b{color:#294653}
 .light-mode .modal{background:#fff;color:var(--text);box-shadow:0 35px 90px rgba(40,54,60,.25)}
 .light-mode .modal::backdrop{background:rgba(45,55,60,.38)}
 .light-mode .modal select,.light-mode .modal input[type=time]{background:#f5f7f6;color:var(--text)}
@@ -144,6 +151,24 @@ h1,h2,h3,h4{letter-spacing:-.035em}
 
 @media(max-width:900px){.system-state{display:flex}.connection-status{display:none}}
 @media(max-width:680px){.system-state{justify-self:center}.theme-toggle{padding:7px 11px}.icon-button{display:none}}
+
+@media(max-height:950px) and (min-width:681px){
+  .resident-view.active-view .resident-home{padding-top:18px;padding-bottom:14px}
+  .resident-view .welcome-row h1{font-size:clamp(2.65rem,4.1vw,4.4rem)}
+  .resident-main{margin:12px 0}
+  .resident-main.playing .player.active{padding:12px 20px}
+  .resident-main.playing .player-content{display:flex;flex-direction:column;align-items:center;justify-content:center}
+  .resident-main.playing .player-photos{height:min(15vh,135px);margin-bottom:2px}
+  .resident-main.playing .player-photo{width:min(10vw,105px)}
+  .resident-main.playing .player-photo span{width:42px;height:42px;font-size:.68rem}
+  .resident-main.playing .player-show{height:min(18vh,165px);margin-bottom:2px}
+  .resident-main.playing .player-music{height:min(17vh,145px)}
+  .resident-main.playing .player-content h2{font-size:clamp(1.65rem,2.5vw,2.7rem);margin:3px 0 1px}
+  .resident-main.playing .player-content p{margin:0}
+  .resident-main.playing .player-controls{margin-top:3px}
+  .resident-main.playing .player-controls button{width:42px;height:42px}
+  .resident-main.playing .player-controls .play-pause{width:56px;height:56px}
+}
 
 @media(max-width:560px){
   .resident-view .welcome-row h1{font-size:1.9rem}
