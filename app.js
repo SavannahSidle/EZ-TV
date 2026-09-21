@@ -2,9 +2,22 @@ const views={overview:document.querySelector("#overviewView"),resident:document.
 const residentHome=document.querySelector("#residentHome");
 const player=document.querySelector("#player");
 const playerContent=document.querySelector("#playerContent");
+const residentMain=document.querySelector(".resident-main");
 const toast=document.querySelector("#toast");
+const themeToggle=document.querySelector("#themeToggle");
 let currentMedia="photos";
 let isPlaying=true;
+
+function setTheme(theme){
+  const light=theme==="light";
+  document.body.classList.toggle("light-mode",light);
+  themeToggle.setAttribute("aria-pressed",String(light));
+  themeToggle.textContent=light?"☾ Dark mode":"☀ Light mode";
+  localStorage.setItem("eztv-theme",light?"light":"dark");
+}
+
+setTheme(localStorage.getItem("eztv-theme")==="light"?"light":"dark");
+themeToggle.addEventListener("click",()=>setTheme(document.body.classList.contains("light-mode")?"dark":"light"));
 
 function setView(name){
   Object.entries(views).forEach(([key,view])=>view.classList.toggle("active-view",key===name));
@@ -28,6 +41,8 @@ function mediaMarkup(type){
 
 function openMedia(type){
   currentMedia=type;isPlaying=true;playerContent.innerHTML=mediaMarkup(type);
+  residentMain.classList.add("playing");
+  player.classList.add("active");
   document.querySelector("#playPauseButton").textContent="Ⅱ";
   document.querySelectorAll(".media-choice").forEach(button=>{
     const selected=button.dataset.media===type;
@@ -36,7 +51,15 @@ function openMedia(type){
   });
 }
 
-function returnHome(){openMedia("photos")}
+function returnHome(){
+  currentMedia="photos";isPlaying=true;
+  residentMain.classList.remove("playing");
+  player.classList.remove("active");
+  document.querySelectorAll(".media-choice").forEach(button=>{
+    button.classList.remove("active");
+    button.setAttribute("aria-pressed","false");
+  });
+}
 
 function updateClock(){
   const now=new Date();
@@ -50,6 +73,7 @@ document.querySelector("[data-action='home']").addEventListener("click",()=>{set
 document.querySelector("#playPauseButton").addEventListener("click",event=>{isPlaying=!isPlaying;event.currentTarget.textContent=isPlaying?"Ⅱ":"▶";showToast(isPlaying?"Playing":"Paused")});
 document.querySelector("#previousButton").addEventListener("click",()=>showToast(currentMedia==="photos"?"Previous photograph":"Previous item"));
 document.querySelector("#nextButton").addEventListener("click",()=>showToast(currentMedia==="photos"?"Next photograph":"Next item"));
+document.querySelector("#residentBackButton").addEventListener("click",returnHome);
 
 document.querySelector("#voiceControl").addEventListener("click",event=>{
   const control=event.currentTarget,title=document.querySelector("#voiceTitle"),instruction=document.querySelector("#voiceInstruction");
@@ -211,4 +235,4 @@ document.querySelectorAll("[data-view-jump]").forEach(button=>button.addEventLis
 const aboutModal=document.querySelector("#aboutModal");
 document.querySelector("#aboutButton").addEventListener("click",()=>aboutModal.showModal());
 document.querySelector("#aboutClose").addEventListener("click",()=>aboutModal.close());
-openMedia("photos");updateClock();window.setInterval(updateClock,30000);
+returnHome();updateClock();window.setInterval(updateClock,30000);

@@ -10,7 +10,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="styles.css?v=10">
 </head>
 <body>
   <div class="app-shell">
@@ -18,12 +18,12 @@
       <button class="logo" data-action="home" aria-label="Return home"><span>EZ</span><b>TV</b></button>
       <div class="view-switch" role="group" aria-label="Choose interface">
         <button class="view-option active" data-view="overview">Overview</button>
-        <button class="view-option" data-view="resident">TV view</button>
+        <button class="view-option" data-view="resident">Resident View</button>
         <button class="view-option" data-view="caregiver">Caregiver view</button>
         <button class="view-option" data-view="facility">Facility</button>
         <button class="view-option" data-view="plans">Plans</button>
       </div>
-      <div class="system-state"><span class="connection-dot"></span><span>Living room connected</span><button class="icon-button" id="aboutButton" aria-label="About EZ-TV">i</button></div>
+      <div class="system-state"><span class="connection-status"><span class="connection-dot"></span><span>Living room connected</span></span><button class="theme-toggle" id="themeToggle" type="button" aria-pressed="false">☀ Light mode</button><button class="icon-button" id="aboutButton" aria-label="About EZ-TV">i</button></div>
     </header>
 
     <main>
@@ -33,7 +33,7 @@
             <p class="mono-label">ACCESSIBLE MEDIA FOR PEOPLE LIVING WITH DEMENTIA</p>
             <h1>Bring home a little closer.</h1>
             <p class="overview-lead">Keep family, memories, and home within reach.</p>
-            <div class="overview-actions"><button class="primary-action" data-view-jump="resident">Open the TV experience</button><button class="secondary-action" data-view-jump="caregiver">See the caregiver tools</button></div>
+            <div class="overview-actions"><button class="primary-action" data-view-jump="resident">Open Resident View</button><button class="secondary-action" data-view-jump="caregiver">See the caregiver tools</button></div>
             <p class="overview-origin">Designed independently by Savannah Sidle. Project originated in 2024.</p>
           </div>
           <div class="overview-map" aria-label="How EZ-TV works">
@@ -45,7 +45,7 @@
         <div class="overview-principles"><article><b>Recognition before navigation</b><p>Stable choices reduce the need to remember steps.</p></article><article><b>Works across circumstances</b><p>Smart TV, conventional TV, internet, cellular, or USB.</p></article><article><b>Connection without surveillance</b><p>No cameras, passive listening, or behavioural scoring.</p></article></div>
       </section>
 
-      <section class="resident-view" id="residentView" aria-label="TV view">
+      <section class="resident-view" id="residentView" aria-label="Resident View">
         <div class="ambient ambient-one"></div><div class="ambient ambient-two"></div>
         <div class="resident-home" id="residentHome">
           <div class="welcome-row">
@@ -67,7 +67,8 @@
                 <span class="choice-copy"><b>Relaxing music</b><small>Songs you remember</small></span>
               </button>
             </div>
-            <div class="player active" id="player" aria-live="polite">
+            <div class="player" id="player" aria-live="polite">
+              <button class="resident-back" id="residentBackButton" type="button">← Back to choices</button>
               <div class="player-content" id="playerContent"></div>
               <div class="player-controls"><button id="previousButton" aria-label="Previous">|◀</button><button class="play-pause" id="playPauseButton" aria-label="Pause">Ⅱ</button><button id="nextButton" aria-label="Next">▶|</button></div>
             </div>
@@ -235,6 +236,6 @@
   <dialog class="modal resident-modal" id="residentModal"><div class="modal-heading"><div><p class="mono-label">RESIDENT ACCESS</p><h2 id="residentModalName">Resident</h2></div><button class="modal-close" id="residentModalClose" aria-label="Close">×</button></div><div class="resident-summary"><div><small>ROOM</small><b id="residentModalRoom"></b></div><div><small>ACCESS MODE</small><b id="residentModalMode"></b></div><div><small>STATUS</small><b id="residentModalStatus"></b></div><div><small>LAST UPDATE</small><b id="residentModalUpdated"></b></div></div><div class="resident-detail"><span>NEXT FAMILIAR ROUTINE</span><b id="residentModalRoutine"></b></div><div class="resident-detail"><span>SELECTED MEDIA</span><b id="residentModalMedia"></b></div><div class="resident-modal-actions"><button class="secondary-action" id="residentPrepareUpdate">Prepare update</button><button class="primary-action" id="residentOpenTv">Open TV view</button></div></dialog>
   <dialog class="modal about-modal" id="aboutModal"><div class="modal-heading"><div><p class="mono-label">ABOUT THE PROTOTYPE</p><h2>EZ-TV</h2></div><button class="modal-close" id="aboutClose" aria-label="Close">×</button></div><p>EZ-TV explores how familiar media can remain accessible as memory, attention, and navigation abilities change.</p><dl><div><dt>Designed for</dt><dd>People living with dementia</dd></div><div><dt>Interaction</dt><dd>Direct touch and one-word voice commands</dd></div><div><dt>Media</dt><dd>Family photographs, familiar television, and music</dd></div><div><dt>Compatibility</dt><dd>Smart TVs and conventional televisions</dd></div></dl><footer>Designed independently by Savannah Sidle. Project originated in 2024.</footer></dialog>
   <div class="toast" id="toast" role="status"></div>
-  <script src="app.js"></script>
+  <script src="app.js?v=10"></script>
 </body>
 </html>

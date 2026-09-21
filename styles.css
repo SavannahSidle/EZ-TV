@@ -62,3 +62,93 @@ main{min-height:calc(100vh - 72px)}.overview-view,.resident-view,.caregiver-view
 .library-details .mono-label{color:var(--aqua);font-size:.56rem}
 @media(max-width:680px){.resident-main{grid-template-columns:1fr;grid-template-rows:auto minmax(0,1fr);gap:8px;margin:10px 0}.resident-main .media-choices{grid-template-columns:repeat(3,1fr);grid-template-rows:1fr;gap:6px}.resident-main .media-choice{min-height:48px}.resident-main .choice-visual{display:none}.resident-main .choice-copy{position:static;transform:none;text-align:center}.resident-main .choice-copy small{display:none}.resident-main .player.active{padding:10px 12px}.resident-main .player-photos{height:min(18vh,145px)}.resident-main .player-photo{width:min(23vw,95px)}.resident-main .player-show{width:100%;height:min(18vh,145px)}.resident-main .player-music{height:min(16vh,125px)}.resident-main .player-controls button{width:38px;height:38px}.resident-main .player-controls .play-pause{width:48px;height:48px}.library-details{align-items:stretch;flex-direction:column}.library-details .primary-action{width:100%;margin-top:0}}
 @media(min-width:681px){.resident-main{grid-template-columns:clamp(175px,19vw,220px) minmax(0,1fr)}.resident-main .media-choices{align-self:stretch;height:100%}.resident-main .media-choice{min-height:120px}.resident-main .choice-visual,.resident-main .tv-visual{inset:12px 12px 56px}.resident-main .choice-copy{left:10px;right:10px;top:auto;bottom:11px;transform:none;text-align:center}.resident-main .choice-copy b{font-size:1rem}.resident-main .choice-copy small{font-size:.58rem}.resident-main .photo-stack .portrait{width:31%;max-width:58px}.resident-main .waveform{gap:5px}.resident-main .waveform i{width:4px;height:52px!important}}
+
+/* Resident View: one clear decision at a time. */
+.resident-view.active-view .resident-home{padding:clamp(26px,4vh,48px) clamp(24px,5vw,72px) 28px}
+.resident-view .welcome-row h1{font-size:clamp(2.8rem,5vw,5.6rem);line-height:.96}
+.resident-main{display:block;margin:clamp(20px,3vh,34px) 0;min-height:0}
+.resident-main .media-choices{height:100%;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));grid-template-rows:1fr;gap:clamp(14px,2vw,28px);margin:0}
+.resident-main .media-choice{min-height:260px;border-radius:22px;padding:24px;background:linear-gradient(145deg,#10283b,#091723);box-shadow:0 18px 45px rgba(0,0,0,.22)}
+.resident-main .media-choice:hover,.resident-main .media-choice:focus-visible{transform:translateY(-3px);border-color:var(--aqua);box-shadow:0 20px 55px rgba(0,0,0,.28),0 0 0 3px rgba(125,242,255,.12)}
+.resident-main .choice-visual,.resident-main .tv-visual{inset:24px 24px 92px}
+.resident-main .choice-copy{left:24px;right:24px;top:auto;bottom:24px;transform:none;text-align:center}
+.resident-main .choice-copy b{font-size:clamp(1.25rem,1.8vw,1.8rem)}
+.resident-main .choice-copy small{font-size:.82rem;margin-top:7px;color:#9cb0c0}
+.resident-main .photo-stack .portrait{width:31%;max-width:112px}
+.resident-main .photo-stack .portrait b{width:48px;height:48px;font-size:.75rem}
+.resident-main .tv-visual i{width:82px;height:82px;font-size:1.55rem;background:rgba(125,242,255,.1)}
+.resident-main .waveform{gap:8px}
+.resident-main .waveform i{width:7px;height:clamp(45px,10vh,105px)!important}
+.resident-main .player{display:none}
+.resident-main.playing .media-choices{display:none}
+.resident-main.playing .player.active{position:relative;inset:auto;height:100%;min-height:0;padding:18px 24px;display:grid;grid-template-rows:auto minmax(0,1fr) auto;border:1px solid var(--line);border-radius:22px;background:linear-gradient(145deg,#10283b,#07131f);overflow:hidden}
+.resident-back{justify-self:start;border:0;border-radius:12px;background:rgba(255,255,255,.08);color:#dce8ef;padding:12px 18px;font-size:.9rem}
+.resident-main.playing .player-content{min-height:0;align-self:center;overflow:hidden}
+.resident-main.playing .player-photos{height:min(28vh,250px);margin-bottom:10px}
+.resident-main.playing .player-show{height:min(28vh,250px);margin-bottom:10px}
+.resident-main.playing .player-music{height:min(25vh,220px)}
+.resident-main.playing .player-controls{position:static;margin-top:10px;padding:0}
+
+@media(max-width:800px){
+  .resident-view.active-view .resident-home{padding:20px 18px 16px}
+  .resident-view .welcome-row h1{font-size:2.35rem}
+  .resident-main .media-choices{gap:10px}
+  .resident-main .media-choice{min-height:200px;border-radius:18px;padding:14px}
+  .resident-main .choice-visual,.resident-main .tv-visual{inset:16px 16px 76px}
+  .resident-main .choice-copy{left:10px;right:10px;bottom:18px}
+  .resident-main .choice-copy b{font-size:1.05rem}
+  .resident-main .choice-copy small{display:none}
+}
+
+.system-state{display:flex;align-items:center;justify-content:flex-end;gap:12px}
+.connection-status{display:flex;align-items:center;gap:8px}
+.theme-toggle{border:1px solid var(--line);border-radius:999px;background:transparent;color:var(--muted);padding:8px 12px;font-size:.68rem;font-weight:700;white-space:nowrap}
+.theme-toggle:hover,.theme-toggle:focus-visible{border-color:var(--line-strong);color:var(--text);outline:none}
+
+body.light-mode{color-scheme:light;--void:#f4f1ea;--deep:#fbfaf7;--panel:#fff;--line:rgba(47,78,98,.17);--line-strong:rgba(22,125,139,.42);--text:#182833;--muted:#617684;--aqua:#087f8e;--violet:#6552a8;--blue:#2d67ad;--green:#24785a;background:#f4f1ea;color:var(--text)}
+.light-mode .app-shell,.light-mode .overview-view.active-view,.light-mode .resident-view.active-view,.light-mode .caregiver-view.active-view,.light-mode .facility-view.active-view,.light-mode .plans-view.active-view{background:linear-gradient(145deg,#faf8f3,#edf5f5)}
+.light-mode .system-bar{background:rgba(250,248,243,.95);box-shadow:0 3px 20px rgba(48,65,72,.07)}
+.light-mode .view-switch{background:#e9eeee}
+.light-mode .view-option{color:#667985}
+.light-mode .view-option.active{background:#087f8e;color:#fff;box-shadow:none}
+.light-mode .system-state,.light-mode .theme-toggle,.light-mode .icon-button{color:#536a77}
+.light-mode .overview-screen,.light-mode .overview-control,.light-mode .overview-links span,.light-mode .overview-principles,.light-mode .overview-principles article{background:#fff;box-shadow:0 18px 45px rgba(61,79,87,.08)}
+.light-mode .overview-screen i{background:#edf5f5}
+.light-mode .resident-main .media-choice{background:linear-gradient(145deg,#fff,#eaf4f4);box-shadow:0 18px 40px rgba(59,80,88,.1)}
+.light-mode .resident-main .media-choice:hover,.light-mode .resident-main .media-choice:focus-visible{box-shadow:0 20px 50px rgba(59,80,88,.14),0 0 0 3px rgba(8,127,142,.1)}
+.light-mode .photo-stack .portrait,.light-mode .player-photo{background:linear-gradient(145deg,#d8eaec,#f7fbfb);box-shadow:0 16px 30px rgba(65,85,92,.12)}
+.light-mode .tv-visual,.light-mode .player-show{background:radial-gradient(circle,rgba(45,103,173,.14),transparent 50%),#eef5f8}
+.light-mode .resident-main.playing .player.active{background:linear-gradient(145deg,#fff,#edf5f5);box-shadow:0 20px 55px rgba(59,80,88,.1)}
+.light-mode .resident-back,.light-mode .player-controls button{background:#e2eeee;color:#27414e}
+.light-mode .care-nav,.light-mode .panel,.light-mode .setup-card,.light-mode .library-card,.light-mode .people-grid article,.light-mode .facility-rail,.light-mode .facility-stat,.light-mode .facility-table,.light-mode .facility-plan,.light-mode .device-options article,.light-mode .price-card,.light-mode .difference-grid article,.light-mode .access-grid article{background:#fff;color:var(--text);box-shadow:0 14px 35px rgba(55,73,81,.07)}
+.light-mode .care-workspace,.light-mode .facility-workspace,.light-mode .plans-wrap{background:transparent}
+.light-mode .care-tab{color:#607581}
+.light-mode .care-tab.active{background:#dff0f0;color:#086f7b}
+.light-mode .mini-tv,.light-mode .library-art,.light-mode .remote-actions button,.light-mode .schedule-icon{background:#eaf2f3;color:#31505f}
+.light-mode .facility-row{background:#fff}
+.light-mode .facility-row:hover{background:#edf6f6}
+.light-mode .modal{background:#fff;color:var(--text);box-shadow:0 35px 90px rgba(40,54,60,.25)}
+.light-mode .modal::backdrop{background:rgba(45,55,60,.38)}
+.light-mode .modal select,.light-mode .modal input[type=time]{background:#f5f7f6;color:var(--text)}
+.light-mode .support-panel{background:rgba(246,244,238,.98);color:var(--text)}
+.light-mode .toast{background:#087f8e;color:#fff}
+
+@media(max-width:900px){.system-state{display:flex}.connection-status{display:none}}
+@media(max-width:680px){.system-state{justify-self:center}.theme-toggle{padding:7px 11px}.icon-button{display:none}}
+
+@media(max-width:560px){
+  .resident-view .welcome-row h1{font-size:1.9rem}
+  .resident-main .media-choices{grid-template-columns:1fr;grid-template-rows:repeat(3,minmax(0,1fr));gap:8px}
+  .resident-main .media-choice{min-height:0;border-radius:15px}
+  .resident-main .choice-visual{inset:8px 62% 8px 8px;display:flex}
+  .resident-main .tv-visual{inset:8px 65% 8px 8px;display:flex}
+  .resident-main .choice-copy{left:40%;right:12px;top:50%;bottom:auto;transform:translateY(-50%);text-align:left}
+  .resident-main .choice-copy b{font-size:1.05rem}
+  .resident-main .photo-stack .portrait{width:34px}
+  .resident-main .photo-stack .portrait b{width:22px;height:22px;font-size:.38rem}
+  .resident-main .tv-visual i{width:44px;height:44px;font-size:.9rem}
+  .resident-main .waveform{gap:3px}
+  .resident-main .waveform i{width:3px;height:34px!important}
+  .resident-main.playing .player.active{padding:10px 12px;border-radius:15px}
+  .resident-back{padding:9px 12px;font-size:.76rem}
+}
