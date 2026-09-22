@@ -336,6 +336,7 @@ h1,h2,h3,h4{letter-spacing:-.035em}
 /* Caregiver colour choices */
 .dashboard-theme-row{max-width:1240px;margin:0 auto 18px;display:flex;justify-content:flex-end}
 .facility-workspace>.dashboard-theme-row{max-width:none}
+.plans-wrap>.dashboard-theme-row{max-width:none}
 .caregiver-theme-picker{display:grid;justify-items:end;gap:7px}
 .caregiver-theme-picker>small{color:#607588;font:.52rem var(--mono);letter-spacing:.09em}
 .caregiver-theme-picker>div{display:flex;gap:6px}
@@ -379,6 +380,22 @@ h1,h2,h3,h4{letter-spacing:-.035em}
 .light-mode .facility-view[data-facility-theme="garden"] .facility-rail{background:#e2efdf}
 .light-mode .facility-view[data-facility-theme="garden"] .facility-workspace{background:radial-gradient(circle at 82% 8%,rgba(120,176,126,.16),transparent 36%),#f8fbf3}
 .light-mode .facility-view[data-facility-theme="garden"] .facility-stats article,.light-mode .facility-view[data-facility-theme="garden"] .facility-table,.light-mode .facility-view[data-facility-theme="garden"] .panel{background:#fbfff8}
+.plans-view[data-plans-theme="warm"]{--aqua:#ffbf82;--line-strong:rgba(255,191,130,.5)}
+.plans-view[data-plans-theme="warm"].active-view{background:radial-gradient(circle at 82% 4%,rgba(212,124,84,.17),transparent 30%),#17100e}
+.plans-view[data-plans-theme="warm"] .device-options article,.plans-view[data-plans-theme="warm"] .price-card{background:linear-gradient(145deg,rgba(58,37,29,.9),rgba(25,17,15,.88))}
+.plans-view[data-plans-theme="warm"] .access-grid article,.plans-view[data-plans-theme="warm"] .difference-grid article{background:#211510}
+.plans-view[data-plans-theme="warm"] .facility-plan{background:linear-gradient(120deg,rgba(212,124,84,.16),rgba(255,191,130,.08));border-color:rgba(255,191,130,.32)}
+.plans-view[data-plans-theme="garden"]{--aqua:#a8e6b0;--line-strong:rgba(168,230,176,.5)}
+.plans-view[data-plans-theme="garden"].active-view{background:radial-gradient(circle at 82% 4%,rgba(100,158,110,.17),transparent 32%),#0b1712}
+.plans-view[data-plans-theme="garden"] .device-options article,.plans-view[data-plans-theme="garden"] .price-card{background:linear-gradient(145deg,rgba(24,52,37,.9),rgba(13,29,21,.88))}
+.plans-view[data-plans-theme="garden"] .access-grid article,.plans-view[data-plans-theme="garden"] .difference-grid article{background:#102018}
+.plans-view[data-plans-theme="garden"] .facility-plan{background:linear-gradient(120deg,rgba(100,158,110,.16),rgba(168,230,176,.08));border-color:rgba(168,230,176,.32)}
+.light-mode .plans-view[data-plans-theme="warm"].active-view{background:radial-gradient(circle at 82% 4%,rgba(230,164,122,.18),transparent 30%),#fffaf3}
+.light-mode .plans-view[data-plans-theme="warm"] .device-options article,.light-mode .plans-view[data-plans-theme="warm"] .price-card,.light-mode .plans-view[data-plans-theme="warm"] .access-grid article,.light-mode .plans-view[data-plans-theme="warm"] .difference-grid article{background:#fffaf3}
+.light-mode .plans-view[data-plans-theme="warm"] .facility-plan{background:#f8eadf}
+.light-mode .plans-view[data-plans-theme="garden"].active-view{background:radial-gradient(circle at 82% 4%,rgba(120,176,126,.17),transparent 32%),#f8fbf3}
+.light-mode .plans-view[data-plans-theme="garden"] .device-options article,.light-mode .plans-view[data-plans-theme="garden"] .price-card,.light-mode .plans-view[data-plans-theme="garden"] .access-grid article,.light-mode .plans-view[data-plans-theme="garden"] .difference-grid article{background:#fbfff8}
+.light-mode .plans-view[data-plans-theme="garden"] .facility-plan{background:#e7f2e4}
 @media(max-width:900px){
   .caregiver-theme-picker button{font-size:.6rem;padding:8px}
 }
