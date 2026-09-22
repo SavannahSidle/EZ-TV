@@ -10,7 +10,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=16">
+  <link rel="stylesheet" href="styles.css?v=17">
 </head>
 <body>
   <div class="app-shell">
@@ -33,12 +33,17 @@
             <p class="mono-label">ACCESSIBLE MEDIA FOR PEOPLE LIVING WITH DEMENTIA</p>
             <h1>Bring home a little closer.</h1>
             <p class="overview-lead">Keep family, memories, and home within reach.</p>
-            <div class="overview-actions"><button class="primary-action" data-view-jump="resident">Open Resident View</button><button class="secondary-action" data-view-jump="caregiver">Caregiver Tools</button></div>
+            <div class="overview-actions"><a class="primary-action demo-action" href="demo.html">Try the live demo</a><button class="secondary-action" data-view-jump="resident">Open Resident View</button><button class="secondary-action" data-view-jump="caregiver">Caregiver Tools</button></div>
             <p class="overview-origin">Designed independently by Savannah Sidle. Project originated in 2024.</p>
           </div>
           <div class="overview-map" aria-label="How EZ-TV works">
             <div class="overview-screen"><span class="screen-label">RESIDENT</span><strong>Three familiar choices.</strong><div><button type="button" data-overview-media="photos" aria-label="Open family photos">▧<small>Photos</small></button><button type="button" data-overview-media="television" aria-label="Open favourite show">▶<small>Show</small></button><button type="button" data-overview-media="music" aria-label="Open relaxing music">♪<small>Music</small></button></div></div>
-            <div class="overview-links" aria-label="Explore ways to use EZ-TV"><button type="button" data-overview-target="smartTvPlan">SMART TV APP</button><button type="button" data-overview-target="hubPlan">EZ-TV HUB</button><button type="button" data-overview-target="usbPlan">USB OFFLINE</button><button type="button" data-overview-target="cellularPlan">CELLULAR</button></div>
+            <div class="overview-links" aria-label="Explore ways to use EZ-TV">
+              <button type="button" data-overview-target="smartTvPlan"><span class="method-flow"><i>PHONE</i><b>→</b><i>TV APP</i></span><strong>Smart TV app</strong><small>No extra box</small></button>
+              <button type="button" data-overview-target="hubPlan"><span class="method-flow"><i>PHONE</i><b>→</b><i>HUB + TV</i></span><strong>EZ-TV Hub</strong><small>For any HDMI TV</small></button>
+              <button type="button" data-overview-target="usbPlan"><span class="method-flow"><i>COMPUTER</i><b>→</b><i>USB</i></span><strong>USB offline</strong><small>No internet</small></button>
+              <button type="button" data-overview-target="cellularPlan"><span class="method-flow"><i>PHONE</i><b>⇢</b><i>CELL + TV</i></span><strong>Cellular</strong><small>Remote without Wi-Fi</small></button>
+            </div>
             <div class="overview-control"><span class="screen-label">FAMILY OR CARE TEAM</span><strong>Set it up once. Keep it simple for your loved one.</strong><small>Residents never manage settings, accounts, networks, or updates.</small></div>
           </div>
         </div>
