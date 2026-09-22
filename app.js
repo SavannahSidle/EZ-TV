@@ -20,38 +20,37 @@ setTheme(localStorage.getItem("eztv-theme")==="light"?"light":"dark");
 themeToggle.addEventListener("click",()=>setTheme(document.body.classList.contains("light-mode")?"dark":"light"));
 
 const residentView=document.querySelector("#residentView");
-function setResidentAppearance(theme){
-  const selected=["original","warm","garden"].includes(theme)?theme:"original";
-  residentView.dataset.residentTheme=selected;
-  document.querySelectorAll("[data-resident-theme]").forEach(button=>{
-    const active=button.dataset.residentTheme===selected;
-    button.classList.toggle("active",active);
-    button.setAttribute("aria-pressed",String(active));
-  });
-  localStorage.setItem("eztv-resident-theme",selected);
-}
-document.querySelectorAll("[data-resident-theme]").forEach(button=>button.addEventListener("click",()=>setResidentAppearance(button.dataset.residentTheme)));
-setResidentAppearance(localStorage.getItem("eztv-resident-theme")||"original");
-
 const caregiverView=document.querySelector("#caregiverView");
 const facilityView=document.querySelector("#facilityView");
 const plansView=document.querySelector("#plansView");
 const differenceView=document.querySelector("#differenceView");
-function setCaregiverAppearance(theme){
+const overviewView=document.querySelector("#overviewView");
+const appearanceButtons=document.querySelectorAll("[data-interface-theme],[data-resident-theme],[data-caregiver-theme]");
+
+function appearanceValue(button){
+  return button.dataset.interfaceTheme||button.dataset.residentTheme||button.dataset.caregiverTheme;
+}
+
+function setInterfaceAppearance(theme){
   const selected=["original","warm","garden"].includes(theme)?theme:"original";
+  document.body.dataset.interfaceTheme=selected;
+  overviewView.dataset.overviewTheme=selected;
+  residentView.dataset.residentTheme=selected;
   caregiverView.dataset.caregiverTheme=selected;
   facilityView.dataset.facilityTheme=selected;
   plansView.dataset.plansTheme=selected;
   differenceView.dataset.differenceTheme=selected;
-  document.querySelectorAll("[data-caregiver-theme]").forEach(button=>{
-    const active=button.dataset.caregiverTheme===selected;
+  appearanceButtons.forEach(button=>{
+    const active=appearanceValue(button)===selected;
     button.classList.toggle("active",active);
     button.setAttribute("aria-pressed",String(active));
   });
+  localStorage.setItem("eztv-interface-theme",selected);
+  localStorage.setItem("eztv-resident-theme",selected);
   localStorage.setItem("eztv-dashboard-theme",selected);
 }
-document.querySelectorAll("[data-caregiver-theme]").forEach(button=>button.addEventListener("click",()=>setCaregiverAppearance(button.dataset.caregiverTheme)));
-setCaregiverAppearance(localStorage.getItem("eztv-dashboard-theme")||localStorage.getItem("eztv-caregiver-theme")||"original");
+appearanceButtons.forEach(button=>button.addEventListener("click",()=>setInterfaceAppearance(appearanceValue(button))));
+setInterfaceAppearance(localStorage.getItem("eztv-interface-theme")||localStorage.getItem("eztv-resident-theme")||localStorage.getItem("eztv-dashboard-theme")||localStorage.getItem("eztv-caregiver-theme")||"original");
 
 function setView(name){
   Object.entries(views).forEach(([key,view])=>view.classList.toggle("active-view",key===name));
