@@ -1,4 +1,4 @@
-const views={overview:document.querySelector("#overviewView"),resident:document.querySelector("#residentView"),caregiver:document.querySelector("#caregiverView"),facility:document.querySelector("#facilityView"),plans:document.querySelector("#plansView")};
+const views={overview:document.querySelector("#overviewView"),difference:document.querySelector("#differenceView"),resident:document.querySelector("#residentView"),caregiver:document.querySelector("#caregiverView"),facility:document.querySelector("#facilityView"),plans:document.querySelector("#plansView")};
 const residentHome=document.querySelector("#residentHome");
 const player=document.querySelector("#player");
 const playerContent=document.querySelector("#playerContent");
@@ -36,11 +36,13 @@ setResidentAppearance(localStorage.getItem("eztv-resident-theme")||"original");
 const caregiverView=document.querySelector("#caregiverView");
 const facilityView=document.querySelector("#facilityView");
 const plansView=document.querySelector("#plansView");
+const differenceView=document.querySelector("#differenceView");
 function setCaregiverAppearance(theme){
   const selected=["original","warm","garden"].includes(theme)?theme:"original";
   caregiverView.dataset.caregiverTheme=selected;
   facilityView.dataset.facilityTheme=selected;
   plansView.dataset.plansTheme=selected;
+  differenceView.dataset.differenceTheme=selected;
   document.querySelectorAll("[data-caregiver-theme]").forEach(button=>{
     const active=button.dataset.caregiverTheme===selected;
     button.classList.toggle("active",active);
