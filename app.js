@@ -142,6 +142,32 @@ document.querySelector("#previousButton").addEventListener("click",()=>stepMedia
 document.querySelector("#nextButton").addEventListener("click",()=>stepMedia(1));
 document.querySelector("#residentBackButton").addEventListener("click",returnHome);
 
+const residentChoices=[...document.querySelectorAll(".media-choice")];
+let residentChoiceIndex=0;
+function selectResidentChoice(index){
+  residentChoiceIndex=(index+residentChoices.length)%residentChoices.length;
+  residentChoices.forEach((button,buttonIndex)=>{
+    const selected=buttonIndex===residentChoiceIndex;
+    button.classList.toggle("active",selected);
+    button.setAttribute("aria-pressed",String(selected));
+  });
+  residentChoices[residentChoiceIndex].focus({preventScroll:true});
+}
+document.addEventListener("keydown",event=>{
+  if(!views.resident.classList.contains("active-view")||event.altKey||event.ctrlKey||event.metaKey)return;
+  if(event.target.matches("input,select,textarea"))return;
+  if(player.classList.contains("active")){
+    if(event.key==="ArrowLeft"){event.preventDefault();stepMedia(-1)}
+    if(event.key==="ArrowRight"){event.preventDefault();stepMedia(1)}
+    if(event.key==="Escape"){event.preventDefault();returnHome();selectResidentChoice(residentChoiceIndex)}
+    return;
+  }
+  if(event.key==="ArrowLeft"||event.key==="ArrowUp"){event.preventDefault();selectResidentChoice(residentChoiceIndex-1)}
+  if(event.key==="ArrowRight"||event.key==="ArrowDown"){event.preventDefault();selectResidentChoice(residentChoiceIndex+1)}
+  if(event.key==="Enter"&&!event.target.matches("button")){event.preventDefault();openMedia(residentChoices[residentChoiceIndex].dataset.media)}
+  if(["1","2","3"].includes(event.key)){event.preventDefault();residentChoiceIndex=Number(event.key)-1;openMedia(residentChoices[residentChoiceIndex].dataset.media)}
+});
+
 document.querySelector("#voiceControl").addEventListener("click",event=>{
   const control=event.currentTarget,title=document.querySelector("#voiceTitle"),instruction=document.querySelector("#voiceInstruction");
   const Recognition=window.SpeechRecognition||window.webkitSpeechRecognition;
