@@ -537,3 +537,36 @@ h1,h2,h3,h4{letter-spacing:-.035em}
   .pilot-section{margin-top:58px;padding:26px 20px}
   .concept-notice{grid-template-columns:1fr;gap:7px}.concept-notice b{white-space:normal}
 }
+
+/* One appearance choice across the full EZ-TV experience */
+body[data-interface-theme="warm"]{--aqua:#ffbf82;--line-strong:rgba(255,191,130,.5)}
+body[data-interface-theme="garden"]{--aqua:#a8e6b0;--line-strong:rgba(168,230,176,.5)}
+body.light-mode[data-interface-theme="warm"]{--aqua:#a65325;--line-strong:rgba(166,83,37,.42)}
+body.light-mode[data-interface-theme="garden"]{--aqua:#397449;--line-strong:rgba(57,116,73,.42)}
+
+.overview-theme-picker{justify-items:start;margin:0 0 24px}
+.overview-theme-picker>small{color:var(--muted)}
+.caregiver-theme-picker button::before,.resident-theme-picker button::before{
+  content:"";display:inline-block;width:8px;height:8px;margin-right:6px;border-radius:50%;vertical-align:1px;background:#22a8b8;box-shadow:0 0 0 1px rgba(255,255,255,.18)
+}
+.caregiver-theme-picker button[data-interface-theme="warm"]::before,.caregiver-theme-picker button[data-caregiver-theme="warm"]::before,.resident-theme-picker button[data-resident-theme="warm"]::before{background:#d87945}
+.caregiver-theme-picker button[data-interface-theme="garden"]::before,.caregiver-theme-picker button[data-caregiver-theme="garden"]::before,.resident-theme-picker button[data-resident-theme="garden"]::before{background:#5f9b68}
+
+.overview-view[data-overview-theme="warm"].active-view{background:radial-gradient(circle at 78% 20%,rgba(212,124,84,.2),transparent 32%),radial-gradient(circle at 55% 75%,rgba(255,191,130,.09),transparent 30%),#17100e}
+.overview-view[data-overview-theme="warm"] .overview-screen,.overview-view[data-overview-theme="warm"] .overview-control{background:linear-gradient(145deg,#3a251d,#19110f)}
+.overview-view[data-overview-theme="warm"] .overview-principles,.overview-view[data-overview-theme="warm"] .overview-principles article{background:#211510}
+.overview-view[data-overview-theme="warm"] .overview-screen button,.overview-view[data-overview-theme="warm"] .overview-links button{background:#271813}
+.overview-view[data-overview-theme="garden"].active-view{background:radial-gradient(circle at 78% 20%,rgba(100,158,110,.2),transparent 34%),radial-gradient(circle at 55% 75%,rgba(168,230,176,.08),transparent 30%),#0b1712}
+.overview-view[data-overview-theme="garden"] .overview-screen,.overview-view[data-overview-theme="garden"] .overview-control{background:linear-gradient(145deg,#183425,#0d1d15)}
+.overview-view[data-overview-theme="garden"] .overview-principles,.overview-view[data-overview-theme="garden"] .overview-principles article{background:#102018}
+.overview-view[data-overview-theme="garden"] .overview-screen button,.overview-view[data-overview-theme="garden"] .overview-links button{background:#10241a}
+
+.light-mode .overview-view[data-overview-theme="warm"].active-view{background:radial-gradient(circle at 78% 20%,rgba(230,164,122,.22),transparent 34%),linear-gradient(145deg,#fffaf3,#f3e7da)}
+.light-mode .overview-view[data-overview-theme="warm"] .overview-screen,.light-mode .overview-view[data-overview-theme="warm"] .overview-control,.light-mode .overview-view[data-overview-theme="warm"] .overview-principles,.light-mode .overview-view[data-overview-theme="warm"] .overview-principles article,.light-mode .overview-view[data-overview-theme="warm"] .overview-screen button,.light-mode .overview-view[data-overview-theme="warm"] .overview-links button{background:#fffaf3}
+.light-mode .overview-view[data-overview-theme="garden"].active-view{background:radial-gradient(circle at 78% 20%,rgba(120,176,126,.2),transparent 36%),linear-gradient(145deg,#f8fbf3,#e2efdf)}
+.light-mode .overview-view[data-overview-theme="garden"] .overview-screen,.light-mode .overview-view[data-overview-theme="garden"] .overview-control,.light-mode .overview-view[data-overview-theme="garden"] .overview-principles,.light-mode .overview-view[data-overview-theme="garden"] .overview-principles article,.light-mode .overview-view[data-overview-theme="garden"] .overview-screen button,.light-mode .overview-view[data-overview-theme="garden"] .overview-links button{background:#fbfff8}
+
+.light-mode .resident-view[data-resident-theme="warm"],.light-mode .caregiver-view[data-caregiver-theme="warm"],.light-mode .facility-view[data-facility-theme="warm"],.light-mode .plans-view[data-plans-theme="warm"],.light-mode .difference-view[data-difference-theme="warm"]{--aqua:#a65325;--line-strong:rgba(166,83,37,.42)}
+.light-mode .resident-view[data-resident-theme="garden"],.light-mode .caregiver-view[data-caregiver-theme="garden"],.light-mode .facility-view[data-facility-theme="garden"],.light-mode .plans-view[data-plans-theme="garden"],.light-mode .difference-view[data-difference-theme="garden"]{--aqua:#397449;--line-strong:rgba(57,116,73,.42)}
+.light-mode .view-option.active,.light-mode .primary-action,.light-mode .support-primary,.light-mode .modal-submit,.light-mode .price-card button,.light-mode .library-filters button.active,.light-mode .facility-rail button.active,.light-mode .resident-theme-picker button.active,.light-mode .caregiver-theme-picker button.active{background:var(--aqua);border-color:var(--aqua);color:#fff}
+.light-mode .player-controls .play-pause{color:var(--aqua);border-color:var(--line-strong)}
