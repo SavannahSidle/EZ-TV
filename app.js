@@ -35,10 +35,12 @@ setResidentAppearance(localStorage.getItem("eztv-resident-theme")||"original");
 
 const caregiverView=document.querySelector("#caregiverView");
 const facilityView=document.querySelector("#facilityView");
+const plansView=document.querySelector("#plansView");
 function setCaregiverAppearance(theme){
   const selected=["original","warm","garden"].includes(theme)?theme:"original";
   caregiverView.dataset.caregiverTheme=selected;
   facilityView.dataset.facilityTheme=selected;
+  plansView.dataset.plansTheme=selected;
   document.querySelectorAll("[data-caregiver-theme]").forEach(button=>{
     const active=button.dataset.caregiverTheme===selected;
     button.classList.toggle("active",active);
