@@ -10,7 +10,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=22">
+  <link rel="stylesheet" href="styles.css?v=23">
 </head>
 <body>
   <div class="app-shell">
@@ -35,6 +35,7 @@
             <p class="mono-label">ACCESSIBLE MEDIA FOR PEOPLE LIVING WITH DEMENTIA</p>
             <h1>Bring home a little closer.</h1>
             <p class="overview-lead">Keep family, memories, and home within reach.</p>
+            <div class="overview-theme-picker caregiver-theme-picker" role="group" aria-label="Choose website appearance"><small>CHOOSE APPEARANCE</small><div><button type="button" class="active" data-interface-theme="original" aria-pressed="true">Original</button><button type="button" data-interface-theme="warm" aria-pressed="false">Warm Home</button><button type="button" data-interface-theme="garden" aria-pressed="false">Garden Calm</button></div></div>
             <div class="overview-actions"><a class="primary-action demo-action" href="demo.html">Try the live demo</a><div class="overview-secondary-actions"><button class="secondary-action" data-view-jump="caregiver">Caregiver Tools</button><button class="secondary-action" data-view-jump="resident">Open Resident View</button></div><button class="text-action" data-view-jump="difference">See why EZ-TV is different →</button></div>
             <p class="overview-origin">Designed independently by Savannah Sidle. Project originated in 2024.</p>
           </div>
@@ -393,6 +394,6 @@
   <dialog class="modal resident-modal" id="residentModal"><div class="modal-heading"><div><p class="mono-label">RESIDENT ACCESS</p><h2 id="residentModalName">Resident</h2></div><button class="modal-close" id="residentModalClose" aria-label="Close">×</button></div><div class="resident-summary"><div><small>ROOM</small><b id="residentModalRoom"></b></div><div><small>ACCESS MODE</small><b id="residentModalMode"></b></div><div><small>STATUS</small><b id="residentModalStatus"></b></div><div><small>LAST UPDATE</small><b id="residentModalUpdated"></b></div></div><div class="resident-detail"><span>NEXT FAMILIAR ROUTINE</span><b id="residentModalRoutine"></b></div><div class="resident-detail"><span>SELECTED MEDIA</span><b id="residentModalMedia"></b></div><div class="resident-modal-actions"><button class="secondary-action" id="residentPrepareUpdate">Prepare update</button><button class="primary-action" id="residentOpenTv">Open TV view</button></div></dialog>
   <dialog class="modal about-modal" id="aboutModal"><div class="modal-heading"><div><p class="mono-label">ABOUT THE PROTOTYPE</p><h2>EZ-TV</h2></div><button class="modal-close" id="aboutClose" aria-label="Close">×</button></div><p>EZ-TV explores how familiar media can remain accessible as memory, attention, and navigation abilities change.</p><dl><div><dt>Designed for</dt><dd>People living with dementia</dd></div><div><dt>Interaction</dt><dd>Direct touch and one-word voice commands</dd></div><div><dt>Media</dt><dd>Family photographs, familiar television, and music</dd></div><div><dt>Compatibility</dt><dd>Smart TVs and conventional televisions</dd></div></dl><footer>Designed independently by Savannah Sidle. Project originated in 2024.</footer></dialog>
   <div class="toast" id="toast" role="status"></div>
-  <script src="app.js?v=17"></script>
+  <script src="app.js?v=18"></script>
 </body>
 </html>
