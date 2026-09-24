@@ -570,3 +570,50 @@ body.light-mode[data-interface-theme="garden"]{--aqua:#397449;--line-strong:rgba
 .light-mode .resident-view[data-resident-theme="garden"],.light-mode .caregiver-view[data-caregiver-theme="garden"],.light-mode .facility-view[data-facility-theme="garden"],.light-mode .plans-view[data-plans-theme="garden"],.light-mode .difference-view[data-difference-theme="garden"]{--aqua:#397449;--line-strong:rgba(57,116,73,.42)}
 .light-mode .view-option.active,.light-mode .primary-action,.light-mode .support-primary,.light-mode .modal-submit,.light-mode .price-card button,.light-mode .library-filters button.active,.light-mode .facility-rail button.active,.light-mode .resident-theme-picker button.active,.light-mode .caregiver-theme-picker button.active{background:var(--aqua);border-color:var(--aqua);color:#fff}
 .light-mode .player-controls .play-pause{color:var(--aqua);border-color:var(--line-strong)}
+
+/* Persistent appearance controls and calmer theme palettes */
+.appearance-control{display:flex;align-items:center;gap:7px;color:var(--muted);font:600 .58rem var(--mono);letter-spacing:.04em;white-space:nowrap}
+.appearance-control select{min-width:112px;padding:8px 28px 8px 10px;border:1px solid var(--line);border-radius:999px;background:#07101a;color:var(--text);font:700 .66rem var(--sans);cursor:pointer}
+.appearance-control select:hover,.appearance-control select:focus-visible{border-color:var(--line-strong);outline:none}
+.light-mode .appearance-control select{background:#fff;color:#294653;border-color:#b9ccd0}
+
+body[data-interface-theme="warm"]{--aqua:#e7a08d;--line-strong:rgba(231,160,141,.46)}
+body[data-interface-theme="garden"]{--aqua:#a8c9b5;--line-strong:rgba(168,201,181,.48)}
+body.light-mode[data-interface-theme="warm"]{--aqua:#9b5144;--line-strong:rgba(155,81,68,.4)}
+body.light-mode[data-interface-theme="garden"]{--aqua:#4f745f;--line-strong:rgba(79,116,95,.42)}
+
+.overview-view[data-overview-theme="warm"].active-view{background:radial-gradient(circle at 78% 20%,rgba(183,101,86,.16),transparent 33%),radial-gradient(circle at 55% 75%,rgba(231,160,141,.08),transparent 30%),#151113}
+.overview-view[data-overview-theme="warm"] .overview-screen,.overview-view[data-overview-theme="warm"] .overview-control{background:linear-gradient(145deg,#2c2022,#171113)}
+.overview-view[data-overview-theme="warm"] .overview-principles,.overview-view[data-overview-theme="warm"] .overview-principles article{background:#21191b}
+.overview-view[data-overview-theme="warm"] .overview-screen button,.overview-view[data-overview-theme="warm"] .overview-links button{background:#261b1d}
+.overview-view[data-overview-theme="garden"].active-view{background:radial-gradient(circle at 78% 20%,rgba(111,151,127,.16),transparent 34%),radial-gradient(circle at 55% 75%,rgba(168,201,181,.08),transparent 30%),#0d1512}
+.overview-view[data-overview-theme="garden"] .overview-screen,.overview-view[data-overview-theme="garden"] .overview-control{background:linear-gradient(145deg,#1d2b24,#0f1713)}
+.overview-view[data-overview-theme="garden"] .overview-principles,.overview-view[data-overview-theme="garden"] .overview-principles article{background:#17221d}
+.overview-view[data-overview-theme="garden"] .overview-screen button,.overview-view[data-overview-theme="garden"] .overview-links button{background:#15221b}
+
+.light-mode .overview-view[data-overview-theme="warm"].active-view{background:radial-gradient(circle at 78% 20%,rgba(190,116,97,.14),transparent 34%),linear-gradient(145deg,#fff9f5,#f6ebe6)}
+.light-mode .overview-view[data-overview-theme="warm"] .overview-screen,.light-mode .overview-view[data-overview-theme="warm"] .overview-control,.light-mode .overview-view[data-overview-theme="warm"] .overview-principles,.light-mode .overview-view[data-overview-theme="warm"] .overview-principles article,.light-mode .overview-view[data-overview-theme="warm"] .overview-screen button,.light-mode .overview-view[data-overview-theme="warm"] .overview-links button{background:#fff9f5}
+.light-mode .overview-view[data-overview-theme="garden"].active-view{background:radial-gradient(circle at 78% 20%,rgba(112,151,128,.14),transparent 36%),linear-gradient(145deg,#f7f9f5,#eaf0e9)}
+.light-mode .overview-view[data-overview-theme="garden"] .overview-screen,.light-mode .overview-view[data-overview-theme="garden"] .overview-control,.light-mode .overview-view[data-overview-theme="garden"] .overview-principles,.light-mode .overview-view[data-overview-theme="garden"] .overview-principles article,.light-mode .overview-view[data-overview-theme="garden"] .overview-screen button,.light-mode .overview-view[data-overview-theme="garden"] .overview-links button{background:#f7f9f5}
+
+/* Product explanation and caregiver-effort sections */
+.home-story{max-width:1450px;margin:auto;padding:clamp(60px,8vw,110px) clamp(24px,6vw,92px);border-top:1px solid var(--line)}
+.home-promise{max-width:920px;margin-bottom:62px}.home-promise h2{margin:0;font-size:clamp(2.2rem,4.3vw,4.8rem);line-height:1;letter-spacing:-.055em;font-weight:500}.home-promise>p:last-child{max-width:760px;color:var(--muted);line-height:1.7}
+.home-architecture{margin-bottom:42px}.home-architecture-grid,.product-layer-grid,.home-life-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.home-architecture-grid article,.product-layer-grid article,.home-life-grid article,.responsibility-grid article{padding:24px;border:1px solid var(--line);border-radius:7px;background:linear-gradient(145deg,rgba(10,25,40,.8),rgba(5,13,22,.88))}
+.home-architecture-grid span,.product-layer-grid span,.responsibility-grid span{color:var(--aqua);font:.55rem var(--mono);letter-spacing:.08em}.home-architecture-grid h3,.product-layer-grid h3,.home-life-grid h3,.responsibility-grid h4{margin:22px 0 10px;font-size:1rem}.home-architecture-grid p,.product-layer-grid p,.home-life-grid p,.responsibility-grid p{margin:0;color:#71869a;font-size:.72rem;line-height:1.6}
+.home-life-grid{grid-template-columns:repeat(3,1fr)}
+.responsibility-section{margin-bottom:75px}.responsibility-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-left:66px}
+.reliability-section{padding:85px 0;border-bottom:1px solid var(--line)}
+.reliability-section .accessibility-grid article{background:linear-gradient(145deg,rgba(10,25,40,.8),rgba(5,13,22,.88))}
+.readiness-grid{grid-template-columns:repeat(4,1fr)}
+
+body[data-interface-theme="warm"] .home-architecture-grid article,body[data-interface-theme="warm"] .product-layer-grid article,body[data-interface-theme="warm"] .home-life-grid article,body[data-interface-theme="warm"] .responsibility-grid article,body[data-interface-theme="warm"] .reliability-section article{background:linear-gradient(145deg,rgba(44,32,34,.94),rgba(23,17,19,.9))}
+body[data-interface-theme="garden"] .home-architecture-grid article,body[data-interface-theme="garden"] .product-layer-grid article,body[data-interface-theme="garden"] .home-life-grid article,body[data-interface-theme="garden"] .responsibility-grid article,body[data-interface-theme="garden"] .reliability-section article{background:linear-gradient(145deg,rgba(29,43,36,.94),rgba(15,23,19,.9))}
+.light-mode .home-architecture-grid article,.light-mode .product-layer-grid article,.light-mode .home-life-grid article,.light-mode .responsibility-grid article,.light-mode .reliability-section article{background:#fff;color:var(--text);box-shadow:0 14px 35px rgba(55,73,81,.06)}
+.light-mode[data-interface-theme="warm"] .home-architecture-grid article,.light-mode[data-interface-theme="warm"] .product-layer-grid article,.light-mode[data-interface-theme="warm"] .home-life-grid article,.light-mode[data-interface-theme="warm"] .responsibility-grid article,.light-mode[data-interface-theme="warm"] .reliability-section article{background:#fff9f5}
+.light-mode[data-interface-theme="garden"] .home-architecture-grid article,.light-mode[data-interface-theme="garden"] .product-layer-grid article,.light-mode[data-interface-theme="garden"] .home-life-grid article,.light-mode[data-interface-theme="garden"] .responsibility-grid article,.light-mode[data-interface-theme="garden"] .reliability-section article{background:#f7f9f5}
+
+@media(max-width:1240px){.appearance-control>span{display:none}.appearance-control select{min-width:100px}.home-architecture-grid,.product-layer-grid,.home-life-grid,.responsibility-grid,.readiness-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:900px){.appearance-control{display:none}.responsibility-grid{margin-left:0}}
+@media(max-width:680px){.home-story{padding:55px 16px}.home-architecture-grid,.product-layer-grid,.home-life-grid,.responsibility-grid,.readiness-grid{grid-template-columns:1fr}.home-promise{margin-bottom:45px}.reliability-section{padding:58px 0}}
