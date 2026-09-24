@@ -84,7 +84,7 @@ function renderPauseStatus(){
   const paused=Boolean(workingSettings.paused);
   $("#pauseScreen").textContent=paused?"Resume screen":"Pause screen";
   $("#pauseScreen").setAttribute("aria-pressed",String(paused));
-  $("#pauseStatus").textContent=paused?"Screen paused. Content will stay hidden until resumed.":"Screen is available.";
+  $("#pauseStatus").textContent=paused?"Pause saved. Confirm it appears on Wanda’s screen.":"Screen is available.";
 }
 
 function renderHomeTodayStatus(){
@@ -213,7 +213,7 @@ function showConnectedState(){
   $("#connectionTitle").textContent="Wanda’s screen is connected";
   $("#connectionCopy").textContent="Changes can now be sent directly to Resident View.";
   $("#pairForm").hidden=true;
-  $("#healthConnection").textContent="Paired and ready";
+  $("#healthConnection").textContent="Paired; check screen status below";
 }
 
 photoInput.addEventListener("change",()=>{const files=[...photoInput.files];workingPhotos.push(...files);photoDetails.push(...files.map(()=>({name:"",relationship:"",visible:true})));photoInput.value="";renderPhotoManager();markUnsaved()});
