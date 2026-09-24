@@ -11,7 +11,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="prototype.css?v=12">
+  <link rel="stylesheet" href="prototype.css?v=13">
 </head>
 <body class="resident-only">
   <main>
@@ -29,10 +29,12 @@
           <div><p class="eyebrow">GOOD EVENING</p><h1>What would you like, <span id="tvResidentName">Wanda</span>?</h1></div>
           <div class="clock"><strong id="clockTime"></strong><span id="clockDate"></span></div>
         </div>
+        <button class="home-today" id="homeToday" type="button" hidden><span>FROM HOME TODAY</span><b id="homeTodayText"></b><small id="homeTodaySender"></small></button>
+        <div class="guide-prompt" id="guidePrompt" hidden><span>A familiar choice for right now</span><b id="guidePromptText">Family photos</b></div>
         <div class="tv-choices" role="group" aria-label="Choose media">
           <button data-media="photos"><span class="choice-icon photo-icon"><img id="photoTileImage" alt="A familiar family photograph" hidden><span id="photoTileFallback">▧</span></span><b>Family photos</b><small>People you know</small></button>
           <button data-media="video"><span class="choice-icon play-icon">▶</span><b>Favourite show</b><small>Something familiar</small></button>
-          <button data-media="audio"><span class="choice-icon music-icon">♪</span><b>Relaxing music</b><small>Songs you remember</small></button>
+          <button data-media="audio"><span class="choice-icon music-icon">♪</span><b>Relaxing music</b><small>Music you enjoy</small></button>
         </div>
         <button class="help-button" id="helpButton"><span>?</span> I need help</button>
       </div>
@@ -42,8 +44,8 @@
     </section>
   </main>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="config.js?v=9"></script>
-  <script src="cloud.js?v=9"></script>
-  <script src="tv.js?v=9"></script>
+  <script src="config.js?v=10"></script>
+  <script src="cloud.js?v=10"></script>
+  <script src="tv.js?v=10"></script>
 </body>
 </html>
