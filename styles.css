@@ -747,3 +747,16 @@ body[data-interface-theme="garden"] .setup-result{background:linear-gradient(145
   .system-bar{grid-template-columns:auto minmax(0,1fr) auto;grid-template-areas:"logo connection state" "nav nav nav"}
   .logo{justify-self:start}.header-connection{justify-self:center}.system-state{justify-self:end}
 }
+
+/* Softer, warmer controls in the light Warm theme */
+body.light-mode[data-interface-theme="warm"]{--aqua:#b96f5f;--line-strong:rgba(185,111,95,.38)}
+body.light-mode[data-interface-theme="warm"] .view-option.active,
+body.light-mode[data-interface-theme="warm"] .primary-action,
+body.light-mode[data-interface-theme="warm"] .support-primary,
+body.light-mode[data-interface-theme="warm"] .modal-submit,
+body.light-mode[data-interface-theme="warm"] .price-card button,
+body.light-mode[data-interface-theme="warm"] .library-filters button.active,
+body.light-mode[data-interface-theme="warm"] .facility-rail button.active,
+body.light-mode[data-interface-theme="warm"] .setup-question button.active{background:#efc8be;border-color:#cf9183;color:#51332d}
+body.light-mode[data-interface-theme="warm"] .page-appearance button[data-interface-theme="warm"]{background:#fff0ec;border-color:#dfb1a6;color:#865348}
+body.light-mode[data-interface-theme="warm"] .page-appearance button[data-interface-theme="warm"].active{background:#f2d2ca;border-color:#c98272;color:#6b4037;box-shadow:0 3px 10px rgba(116,65,54,.08)}
