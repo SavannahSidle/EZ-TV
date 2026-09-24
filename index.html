@@ -10,7 +10,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=24">
+  <link rel="stylesheet" href="styles.css?v=25">
 </head>
 <body>
   <div class="app-shell">
@@ -40,11 +40,10 @@
           </div>
           <div class="overview-map" aria-label="How EZ-TV works">
             <div class="overview-screen"><span class="screen-label">RESIDENT</span><strong>Three familiar choices.</strong><div><button type="button" data-overview-media="photos" aria-label="Open family photos">▧<small>Photos</small></button><button type="button" data-overview-media="television" aria-label="Open favourite show">▶<small>Show</small></button><button type="button" data-overview-media="music" aria-label="Open relaxing music">♪<small>Music</small></button></div></div>
-            <div class="overview-links" aria-label="Explore ways to use EZ-TV">
-              <button type="button" data-overview-target="smartTvPlan"><span class="method-flow"><i>PHONE</i><b>→</b><i>TV APP</i></span><strong>Smart TV app</strong><small>Planned · no extra box</small></button>
-              <button type="button" data-overview-target="hubPlan"><span class="method-flow"><i>PHONE</i><b>→</b><i>HUB + TV</i></span><strong>EZ-TV Hub</strong><small>Future HDMI option</small></button>
-              <button type="button" data-overview-target="usbPlan"><span class="method-flow"><i>COMPUTER</i><b>→</b><i>USB</i></span><strong>USB offline</strong><small>Future offline option</small></button>
-              <button type="button" data-overview-target="cellularPlan"><span class="method-flow"><i>PHONE</i><b>⇢</b><i>CELL + TV</i></span><strong>Cellular</strong><small>Future managed option</small></button>
+            <div class="overview-links" aria-label="Find an EZ-TV setup">
+              <button type="button" data-overview-target="setupFinder"><span class="method-flow"><i>SCREEN</i><b>✓</b></span><strong>Use what is already there</strong><small>Compatible TV, tablet, or computer</small></button>
+              <button type="button" data-overview-target="noTvPlan"><span class="method-flow"><i>NO TV</i><b>→</b><i>READY SCREEN</i></span><strong>Add a simple screen</strong><small>Tablet pilot or preconfigured room bundle</small></button>
+              <button type="button" data-overview-target="managedPlan"><span class="method-flow"><i>EZ-TV</i><b>→</b><i>READY</i></span><strong>Have setup handled</strong><small>Preparation, installation, testing, and support</small></button>
             </div>
             <div class="overview-control"><span class="screen-label">FAMILY OR CARE TEAM</span><strong>Set it up once. Keep it simple for your loved one.</strong><small>Residents never manage settings, accounts, networks, or updates.</small></div>
           </div>
@@ -289,7 +288,7 @@
               <label><span><b>Voice commands</b><small>Listen for one-word media choices</small></span><input type="checkbox" checked><i></i></label><label><span><b>Gentle support response</b><small>Offer familiar reassurance when help is requested</small></span><input type="checkbox" checked><i></i></label><label><span><b>Show current time</b><small>Display time and date on the home screen</small></span><input type="checkbox" checked><i></i></label><label><span><b>High contrast</b><small>Increase separation between controls and background</small></span><input type="checkbox" checked><i></i></label>
             </div>
             <div class="offline-update panel">
-              <div><p class="mono-label">NO INTERNET REQUIRED</p><h3>Update by USB</h3><p>Prepare photos, music, familiar people, and routines on a phone or computer. Save the package to a USB drive, then insert it into the EZ-TV Hub.</p></div>
+              <div><p class="mono-label">MANUAL OFFLINE FALLBACK</p><h3>Update by USB</h3><p>Prepare an encrypted update on a phone or computer, save it to a USB drive, then insert it into the preconfigured companion device. This is a fallback for fully offline homes, not the recommended everyday workflow.</p></div>
               <div class="offline-actions"><button class="primary-action" id="exportUsbButton">Create demo USB update</button><label class="secondary-action" for="importUsbInput">Import an update<input id="importUsbInput" type="file" accept=".json,application/json"></label></div>
               <small>Production update packages will be encrypted. This prototype downloads demo data only.</small>
             </div>
@@ -338,20 +337,27 @@
 
       <section class="plans-view" id="plansView" aria-label="EZ-TV plans">
         <div class="plans-wrap">
-          <div class="concept-notice"><b>PROPOSED PRODUCT MODEL</b><span>EZ-TV is currently an interactive prototype. No paid service, custom hub, cellular plan, or installation program is being sold yet.</span></div>
+          <div class="concept-notice"><b>PROPOSED PRODUCT MODEL</b><span>EZ-TV is currently an interactive prototype. No paid service, custom hardware, cellular plan, or installation program is being sold yet.</span></div>
           <div class="plans-intro"><p class="mono-label">SIMPLE BY DESIGN</p><h2>One familiar experience.<br>The simplest reliable way to deliver it.</h2><p>Start with EZ-TV software. Use a compatible screen already available, add a preconfigured companion device when needed, or choose managed setup when the family or facility needs the work handled.</p></div>
+
+          <section class="setup-finder" id="setupFinder" aria-labelledby="setupFinderHeading">
+            <div class="section-label"><div><h3 id="setupFinderHeading">What setup fits this home?</h3><p>Choose what is already available. EZ-TV recommends the lowest-friction route.</p></div></div>
+            <div class="setup-question"><span>1 · What screen is available?</span><div role="group" aria-label="Available screen"><button type="button" class="active" data-setup-screen="smart" aria-pressed="true">Smart TV, tablet, or computer</button><button type="button" data-setup-screen="older" aria-pressed="false">Older TV with HDMI</button><button type="button" data-setup-screen="none" aria-pressed="false">No screen yet</button></div></div>
+            <div class="setup-question"><span>2 · Is reliable internet available?</span><div role="group" aria-label="Internet availability"><button type="button" class="active" data-setup-internet="yes" aria-pressed="true">Yes</button><button type="button" data-setup-internet="no" aria-pressed="false">No or unreliable</button></div></div>
+            <div class="setup-result" aria-live="polite"><div><span>RECOMMENDED START</span><h3 id="setupResultTitle">Use the existing screen first</h3><p id="setupResultSummary">Run EZ-TV full-screen on the compatible device already available. No EZ-TV hardware is needed for the pilot.</p></div><dl><div><dt>Resident uses</dt><dd id="setupResident">The same three-choice EZ-TV screen.</dd></div><div><dt>Caregiver does once</dt><dd id="setupCaregiver">Checks compatibility, opens EZ-TV, pairs the screen, and approves the life profile.</dd></div><div><dt>EZ-TV handles</dt><dd id="setupAutomation">Daily programming, local caching, restart recovery, and remote updates.</dd></div><div><dt>Connection</dt><dd id="setupConnection">Use Wi-Fi or Ethernet for remote caregiver changes. Approved core content remains available during an interruption.</dd></div></dl></div>
+          </section>
 
           <section class="device-choice" aria-labelledby="deviceHeading">
             <div class="section-label"><div><h3 id="deviceHeading">Four separate product layers</h3><p>Families should always know what is software, what uses an existing device, what adds hardware, and what EZ-TV manages.</p></div></div>
             <div class="device-options product-layer-grid">
               <article><span class="plan-kicker">THE PRODUCT</span><h4>EZ-TV software</h4><strong>One <small>familiar experience</small></strong><p>The resident screen, caregiver tools, life profile, routines, automation, local cache, and quiet recovery.</p><ul><li>Same experience across supported screens</li><li>Remote management on connected plans</li><li>No surveillance features</li></ul></article>
               <article id="smartTvPlan"><span class="plan-kicker">NO EZ-TV HARDWARE</span><h4>Existing-device experience</h4><strong>$0 <small>additional EZ-TV hardware</small></strong><p>Use a supported smart TV, streaming device, tablet, or computer already available.</p><ul><li>Best starting point for the pilot</li><li>Compatibility checked before setup</li><li>Resident never sees the device menus</li></ul></article>
-              <article class="featured-device" id="hubPlan"><span class="plan-kicker">OPTIONAL HARDWARE</span><h4>Ready Companion</h4><strong>TBD <small>one-time device cost</small></strong><p>A preconfigured off-the-shelf HDMI device for an older television. Custom EZ-TV hardware is deferred.</p><ul><li>Arrives paired and ready</li><li>Stores essential content locally</li><li>Uses the same resident interface</li></ul></article>
-              <article id="cellularPlan"><span class="plan-kicker">OPTIONAL HUMAN HELP</span><h4>Managed setup</h4><strong>TBD <small>setup or support fee</small></strong><p>EZ-TV or an approved partner prepares, installs, connects, tests, and supports the system.</p><ul><li>For limited technical confidence</li><li>For care homes and distant families</li><li>Cellular connectivity priced separately</li></ul></article>
+              <article class="featured-device" id="companionPlan"><span class="plan-kicker">OPTIONAL HARDWARE</span><h4>Ready Companion</h4><strong>TBD <small>one-time device cost</small></strong><p>A preconfigured off-the-shelf HDMI device for an older television. Custom EZ-TV hardware is deferred.</p><ul><li>Arrives paired and ready</li><li>Stores essential content locally</li><li>Uses the same resident interface</li></ul></article>
+              <article id="managedPlan"><span class="plan-kicker">OPTIONAL HUMAN HELP</span><h4>Managed setup</h4><strong>TBD <small>setup or support fee</small></strong><p>EZ-TV or an approved partner prepares, installs, connects, tests, and supports the system.</p><ul><li>For limited technical confidence</li><li>For care homes and distant families</li><li>Cellular connectivity priced separately</li></ul></article>
             </div>
           </section>
 
-          <section class="access-section" id="usbPlan">
+          <section class="access-section" id="noTvPlan">
             <div class="section-label"><div><h3>If there is no television</h3><p>The screen is part of the delivery plan. Nobody gets abandoned at the hardware question.</p></div></div>
             <div class="access-grid">
               <article><span>FASTEST PILOT</span><b>Tablet mode</b><p>Portable and quick to test. Best when a smaller personal screen is comfortable and charging can be managed.</p></article>
@@ -411,6 +417,6 @@
   <dialog class="modal resident-modal" id="residentModal"><div class="modal-heading"><div><p class="mono-label">RESIDENT ACCESS</p><h2 id="residentModalName">Resident</h2></div><button class="modal-close" id="residentModalClose" aria-label="Close">×</button></div><div class="resident-summary"><div><small>ROOM</small><b id="residentModalRoom"></b></div><div><small>ACCESS MODE</small><b id="residentModalMode"></b></div><div><small>STATUS</small><b id="residentModalStatus"></b></div><div><small>LAST UPDATE</small><b id="residentModalUpdated"></b></div></div><div class="resident-detail"><span>NEXT FAMILIAR ROUTINE</span><b id="residentModalRoutine"></b></div><div class="resident-detail"><span>SELECTED MEDIA</span><b id="residentModalMedia"></b></div><div class="resident-modal-actions"><button class="secondary-action" id="residentPrepareUpdate">Prepare update</button><button class="primary-action" id="residentOpenTv">Open TV view</button></div></dialog>
   <dialog class="modal about-modal" id="aboutModal"><div class="modal-heading"><div><p class="mono-label">ABOUT THE PROTOTYPE</p><h2>EZ-TV</h2></div><button class="modal-close" id="aboutClose" aria-label="Close">×</button></div><p>EZ-TV explores how familiar media can remain accessible as memory, attention, and navigation abilities change.</p><dl><div><dt>Designed for</dt><dd>People living with dementia</dd></div><div><dt>Interaction</dt><dd>Direct touch and one-word voice commands</dd></div><div><dt>Media</dt><dd>Family photographs, familiar television, and music</dd></div><div><dt>Compatibility</dt><dd>Smart TVs and conventional televisions</dd></div></dl><footer>Designed independently by Savannah Sidle. Project originated in 2024.</footer></dialog>
   <div class="toast" id="toast" role="status"></div>
-  <script src="app.js?v=19"></script>
+  <script src="app.js?v=20"></script>
 </body>
 </html>
