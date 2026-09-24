@@ -16,6 +16,9 @@ This file prevents prototype screens from quietly dressing up as production infr
 - [x] Local IndexedDB media and settings cache
 - [x] Realtime refresh after caregiver changes
 - [x] Photo deletion and ordering
+- [x] Photo names, relationships, captions, and individual visibility controls
+- [x] Caregiver pause/resume setting and a quiet resident screen
+- [x] Upload a complete new media batch before switching the resident screen to it
 - [x] Resident View always returns to three choices
 - [x] Keyboard and television-remote directional navigation
 - [x] Original, Warm Home, and Garden Calm appearance choices
@@ -26,6 +29,7 @@ This file prevents prototype screens from quietly dressing up as production infr
 - [x] Home Today messages with expiry
 - [x] Consent controls
 - [x] Pilot maintenance-minute and observation logging on caregiver device
+- [x] Weekly caregiver-minute totals and dated local observation history
 - [x] Service worker shell cache
 - [x] Honest website labels for future hardware, cellular, facility, and pricing concepts
 
@@ -37,10 +41,10 @@ This file prevents prototype screens from quietly dressing up as production infr
 - [ ] Test a full day without internet using cached content
 - [ ] Add remote device-health details that identify the failure and the next action
 - [ ] Add a safe caregiver recovery method when browser data is lost
-- [ ] Add photo names, relationships, captions, and individual visibility controls
+- [ ] Verify that hiding one photo and pausing active playback reach a second physical screen
 - [ ] Verify focus, contrast, type size, sound, captions, and remote operation at television distance
 - [ ] Test with Wanda, including refusal and signs of discomfort
-- [ ] Establish a simple method to stop or remove any content immediately
+- [ ] Test how quickly the pause control works on the chosen network and device
 
 ## Must pass before any household is charged
 
