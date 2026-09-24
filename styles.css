@@ -760,3 +760,16 @@ body.light-mode[data-interface-theme="warm"] .facility-rail button.active,
 body.light-mode[data-interface-theme="warm"] .setup-question button.active{background:#efc8be;border-color:#cf9183;color:#51332d}
 body.light-mode[data-interface-theme="warm"] .page-appearance button[data-interface-theme="warm"]{background:#fff0ec;border-color:#dfb1a6;color:#865348}
 body.light-mode[data-interface-theme="warm"] .page-appearance button[data-interface-theme="warm"].active{background:#f2d2ca;border-color:#c98272;color:#6b4037;box-shadow:0 3px 10px rgba(116,65,54,.08)}
+
+/* Softer controls in the light Garden theme */
+body.light-mode[data-interface-theme="garden"]{--aqua:#668873;--line-strong:rgba(102,136,115,.38)}
+body.light-mode[data-interface-theme="garden"] .view-option.active,
+body.light-mode[data-interface-theme="garden"] .primary-action,
+body.light-mode[data-interface-theme="garden"] .support-primary,
+body.light-mode[data-interface-theme="garden"] .modal-submit,
+body.light-mode[data-interface-theme="garden"] .price-card button,
+body.light-mode[data-interface-theme="garden"] .library-filters button.active,
+body.light-mode[data-interface-theme="garden"] .facility-rail button.active,
+body.light-mode[data-interface-theme="garden"] .setup-question button.active{background:#cfe0d3;border-color:#93b09b;color:#304c39}
+body.light-mode[data-interface-theme="garden"] .page-appearance button[data-interface-theme="garden"]{background:#f0f6f1;border-color:#b2c9b8;color:#55755f}
+body.light-mode[data-interface-theme="garden"] .page-appearance button[data-interface-theme="garden"].active{background:#dbe9de;border-color:#82a18b;color:#3f624a;box-shadow:0 3px 10px rgba(54,92,66,.08)}
