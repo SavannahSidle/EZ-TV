@@ -669,3 +669,21 @@ body[data-interface-theme="garden"] .setup-result{background:linear-gradient(145
 .light-mode .appearance-control>button.active{background:var(--aqua);color:#fff}
 @media(max-width:1400px){.appearance-control>button{padding:6px}.appearance-control>button span{display:none}.appearance-control>button i{width:15px;height:15px}}
 @media(max-width:680px){.appearance-control{display:grid!important}.appearance-control>button{padding:5px}.appearance-control>button i{width:14px;height:14px}}
+
+/* Quiet rectangular appearance buttons and persistent connection status */
+.appearance-control{display:flex;gap:5px;padding:0;border:0;border-radius:0;background:transparent}
+.appearance-control>button{min-height:31px;padding:6px 10px;border:1px solid var(--line);border-radius:6px;background:transparent;color:var(--muted);font-size:.61rem}
+.appearance-control>button:hover,.appearance-control>button:focus-visible{border-color:var(--line-strong);background:rgba(125,242,255,.045);color:var(--text);outline:none}
+.appearance-control>button.active{border-color:var(--line-strong);background:rgba(125,242,255,.09);color:var(--text);box-shadow:none}
+.light-mode .appearance-control{background:transparent;border:0}
+.light-mode .appearance-control>button{background:rgba(255,255,255,.5);border-color:#c8d5d8;color:#536a77}
+.light-mode .appearance-control>button.active{background:#fff;border-color:var(--aqua);color:var(--aqua);box-shadow:0 3px 10px rgba(55,73,81,.06)}
+@media(max-width:1400px){.appearance-control>button{padding:6px 8px}.appearance-control>button span{display:inline}}
+@media(max-width:1240px) and (min-width:901px){.connection-status{display:flex}}
+@media(max-width:900px){.connection-status{display:flex}.system-state{gap:6px}.appearance-control>button{padding:6px 7px}}
+@media(max-width:680px){
+  .system-bar{grid-template-columns:1fr;grid-template-areas:"logo" "state" "nav"}
+  .system-state{display:grid;width:100%;grid-template-columns:1fr auto auto;grid-template-areas:"connection mode info" "appearance appearance appearance";row-gap:6px}
+  .system-state>.connection-status{grid-area:connection;justify-self:start}.appearance-control{grid-area:appearance;justify-self:start}.theme-toggle{grid-area:mode}.icon-button{grid-area:info}
+  .appearance-control>button{padding:5px 7px;font-size:.56rem}
+}
