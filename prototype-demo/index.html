@@ -11,7 +11,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="prototype.css?v=13">
+  <link rel="stylesheet" href="prototype.css?v=15">
 </head>
 <body class="caregiver-app">
   <header class="prototype-bar">
@@ -65,6 +65,7 @@
             <label class="file-drop" for="photoInput"><b>＋ Add photographs</b><span>JPG, PNG, or WebP</span><input id="photoInput" type="file" accept="image/jpeg,image/png,image/webp" multiple></label>
             <div class="photo-manager" id="photoManager" aria-live="polite"></div>
             <p class="file-status" id="photoStatus">No personal photos saved yet.</p>
+            <p class="card-intro">Give each photo a name and relationship. Hide a photo immediately without deleting it.</p>
           </section>
 
           <section class="setup-card single-media-card">
@@ -167,6 +168,7 @@
         <article class="health-card"><span class="health-dot good"></span><div><b>Saved content</b><small id="healthOffline">Available on this caregiver device</small></div></article>
         <article class="health-card"><span class="health-dot good"></span><div><b>Last update</b><small id="healthUpdate">No update sent yet</small></div></article>
       </div>
+      <section class="setup-card pause-card"><div><div class="card-heading"><span>Pause Wanda’s screen</span><small>Immediate control</small></div><p class="card-intro">Stops photos, music, video, and automatic playback. Resume when she wants it back.</p></div><button class="secondary-button" id="pauseScreen" type="button" aria-pressed="false">Pause screen</button><p id="pauseStatus" role="status">Screen is available.</p></section>
       <section class="access-section" id="accessSection">
       <div class="section-heading"><div><p class="eyebrow">ACCESS</p><h2>People and screens</h2></div></div>
       <div class="access-grid">
@@ -183,7 +185,7 @@
       <div class="workspace-title"><div><p class="eyebrow">WANDA PILOT</p><h1 id="pilotTitle">Prove that it helps.</h1><p>Track technology work and basic experience. No clinical claims, hidden monitoring, or creepy little surveillance goblin.</p></div></div>
       <div class="pilot-grid">
         <section class="setup-card"><div class="card-heading"><span>This week</span><small>Caregiver effort</small></div><div class="pilot-metric"><strong id="maintenanceMinutes">0</strong><span>minutes maintaining EZ-TV</span></div><div class="minute-buttons"><button type="button" data-minutes="1">+1 min</button><button type="button" data-minutes="5">+5 min</button><button type="button" data-minutes="15">+15 min</button></div><button class="remove-media" id="resetMinutes" type="button">Reset weekly total</button></section>
-        <section class="setup-card"><div class="card-heading"><span>Quick check-in</span><small>Family observation</small></div><div class="checkin-buttons" role="group" aria-label="Record a simple observation"><button type="button" data-checkin="enjoyed">Enjoyed it</button><button type="button" data-checkin="chose">Made a choice</button><button type="button" data-checkin="needed-help">Needed help</button><button type="button" data-checkin="distressed">Seemed uncomfortable</button></div><p class="file-status" id="checkinStatus">No observation recorded today.</p></section>
+        <section class="setup-card"><div class="card-heading"><span>Quick check-in</span><small>Family observation</small></div><div class="checkin-buttons" role="group" aria-label="Record a simple observation"><button type="button" data-checkin="enjoyed">Enjoyed it</button><button type="button" data-checkin="chose">Made a choice</button><button type="button" data-checkin="needed-help">Needed help</button><button type="button" data-checkin="distressed">Seemed uncomfortable</button></div><p class="file-status" id="checkinStatus">No observation recorded yet.</p><ol class="checkin-history" id="checkinHistory" aria-label="Recent observations"></ol></section>
         <section class="setup-card pilot-questions"><div class="card-heading"><span>Four-week decision</span><small>Build gate</small></div><ol><li>Can Wanda enjoy it without repeated teaching?</li><li>Does it recover without Wanda fixing anything?</li><li>Does Savannah spend less time maintaining television access?</li><li>Which content creates interest, comfort, or connection?</li><li>Does it remain useful after the novelty fades?</li></ol></section>
       </div>
     </section>
@@ -192,7 +194,7 @@
   <div class="toast" id="toast" role="status"></div>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="config.js?v=10"></script>
-  <script src="cloud.js?v=10"></script>
-  <script src="prototype.js?v=10"></script>
+  <script src="cloud.js?v=15"></script>
+  <script src="prototype.js?v=15"></script>
 </body>
 </html>
