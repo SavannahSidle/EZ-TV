@@ -617,3 +617,24 @@ body[data-interface-theme="garden"] .home-architecture-grid article,body[data-in
 @media(max-width:1240px){.appearance-control>span{display:none}.appearance-control select{min-width:100px}.home-architecture-grid,.product-layer-grid,.home-life-grid,.responsibility-grid,.readiness-grid{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:900px){.appearance-control{display:none}.responsibility-grid{margin-left:0}}
 @media(max-width:680px){.home-story{padding:55px 16px}.home-architecture-grid,.product-layer-grid,.home-life-grid,.responsibility-grid,.readiness-grid{grid-template-columns:1fr}.home-promise{margin-bottom:45px}.reliability-section{padding:58px 0}}
+
+/* Setup recommendation keeps hardware and service decisions concrete */
+.overview-links{grid-template-columns:repeat(3,1fr)}
+.setup-finder{margin:0 0 75px 66px;padding:30px;border:1px solid var(--line-strong);border-radius:8px;background:rgba(125,242,255,.025)}
+.setup-finder>.section-label{margin-bottom:24px}
+.setup-question{display:grid;grid-template-columns:230px 1fr;gap:22px;align-items:center;padding:17px 0;border-top:1px solid var(--line)}
+.setup-question>span{color:var(--muted);font:.62rem var(--mono);letter-spacing:.05em}
+.setup-question>div{display:flex;gap:8px;flex-wrap:wrap}
+.setup-question button{min-height:44px;padding:10px 14px;border:1px solid var(--line);border-radius:6px;background:transparent;color:#8499aa;font-size:.72rem;font-weight:700}
+.setup-question button:hover,.setup-question button:focus-visible{border-color:var(--line-strong);color:var(--text);outline:none}
+.setup-question button.active{border-color:var(--aqua);background:var(--aqua);color:#061017}
+.setup-result{display:grid;grid-template-columns:.8fr 1.2fr;gap:40px;margin-top:20px;padding:26px;border-radius:7px;background:linear-gradient(145deg,rgba(10,25,40,.9),rgba(5,13,22,.94))}
+.setup-result>div>span{color:var(--aqua);font:.55rem var(--mono);letter-spacing:.08em}.setup-result h3{font-size:1.45rem;margin:16px 0 10px}.setup-result p{margin:0;color:#7d92a5;font-size:.76rem;line-height:1.6}
+.setup-result dl{margin:0}.setup-result dl>div{display:grid;grid-template-columns:135px 1fr;gap:18px;padding:12px 0;border-bottom:1px solid var(--line)}.setup-result dl>div:last-child{border-bottom:0}.setup-result dt{color:var(--text);font-size:.7rem;font-weight:700}.setup-result dd{margin:0;color:#74899b;font-size:.69rem;line-height:1.55}
+body[data-interface-theme="warm"] .setup-result{background:linear-gradient(145deg,#2c2022,#171113)}
+body[data-interface-theme="garden"] .setup-result{background:linear-gradient(145deg,#1d2b24,#0f1713)}
+.light-mode .setup-finder{background:rgba(8,127,142,.025)}.light-mode .setup-result{background:#fff;box-shadow:0 14px 35px rgba(55,73,81,.06)}.light-mode .setup-question button{color:#536a77}.light-mode .setup-question button.active{color:#fff}
+.light-mode[data-interface-theme="warm"] .setup-result{background:#fff9f5}.light-mode[data-interface-theme="garden"] .setup-result{background:#f7f9f5}
+
+@media(max-width:900px){.setup-finder{margin-left:0}.appearance-control{display:flex!important}.appearance-control>span{display:none}.appearance-control select{min-width:96px}.system-state{gap:7px}}
+@media(max-width:680px){.overview-links{grid-template-columns:1fr}.setup-finder{padding:20px 16px}.setup-question,.setup-result{grid-template-columns:1fr;gap:12px}.setup-question>div{display:grid;grid-template-columns:1fr}.setup-result dl>div{grid-template-columns:1fr;gap:5px}.appearance-control select{min-width:0;max-width:108px;padding-right:22px}.theme-toggle{font-size:.62rem;padding:7px 9px}}
