@@ -391,6 +391,32 @@ document.querySelectorAll("[data-overview-target]").forEach(button=>button.addEv
   setView("plans");
   window.setTimeout(()=>document.querySelector("#"+button.dataset.overviewTarget)?.scrollIntoView({behavior:"smooth",block:"center"}),250);
 }));
+let selectedSetupScreen="smart";
+let selectedSetupInternet="yes";
+const setupRecommendations={
+  smart:{title:"Use the existing screen first",summary:"Run EZ-TV full-screen on the compatible device already available. No EZ-TV hardware is needed for the pilot.",resident:"The same three-choice EZ-TV screen.",caregiver:"Checks compatibility, opens EZ-TV, pairs the screen, and approves the life profile."},
+  older:{title:"Add a preconfigured companion device",summary:"Connect an ordinary, preconfigured HDMI streaming device to the existing television. The resident never handles its menus.",resident:"The same three-choice EZ-TV screen, controlled with a simple remote or by a caregiver.",caregiver:"Connects power and HDMI once, or chooses managed installation."},
+  none:{title:"Start with a tablet or Ready Screen bundle",summary:"Use a tablet for the fastest pilot. For everyday room viewing, choose an inexpensive television or monitor with a preconfigured companion device and simple remote.",resident:"A personal tablet or a larger room screen with the same three choices.",caregiver:"Chooses the screen size and placement. EZ-TV or a partner can prepare and install the bundle."}
+};
+function updateSetupRecommendation(){
+  const recommendation=setupRecommendations[selectedSetupScreen];
+  document.querySelector("#setupResultTitle").textContent=recommendation.title;
+  document.querySelector("#setupResultSummary").textContent=recommendation.summary;
+  document.querySelector("#setupResident").textContent=recommendation.resident;
+  document.querySelector("#setupCaregiver").textContent=recommendation.caregiver;
+  document.querySelector("#setupAutomation").textContent=selectedSetupInternet==="yes"?"Daily programming, local caching, restart recovery, and remote updates.":"Daily programming, local caching, and restart recovery. Remote updates resume when a connection is available.";
+  document.querySelector("#setupConnection").textContent=selectedSetupInternet==="yes"?"Use Wi-Fi or Ethernet for remote caregiver changes. Approved core content remains available during an interruption.":"Core content works from local storage. Add separately priced managed cellular when remote updates matter. Use USB only as a manual fallback.";
+}
+document.querySelectorAll("[data-setup-screen]").forEach(button=>button.addEventListener("click",()=>{
+  selectedSetupScreen=button.dataset.setupScreen;
+  document.querySelectorAll("[data-setup-screen]").forEach(option=>{const active=option===button;option.classList.toggle("active",active);option.setAttribute("aria-pressed",String(active))});
+  updateSetupRecommendation();
+}));
+document.querySelectorAll("[data-setup-internet]").forEach(button=>button.addEventListener("click",()=>{
+  selectedSetupInternet=button.dataset.setupInternet;
+  document.querySelectorAll("[data-setup-internet]").forEach(option=>{const active=option===button;option.classList.toggle("active",active);option.setAttribute("aria-pressed",String(active))});
+  updateSetupRecommendation();
+}));
 document.querySelectorAll("[data-facility-target]").forEach(button=>button.addEventListener("click",()=>{
   document.querySelectorAll("[data-facility-target]").forEach(item=>item.classList.toggle("active",item===button));
   const target=document.querySelector("#"+button.dataset.facilityTarget);
