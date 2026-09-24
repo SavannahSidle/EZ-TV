@@ -49,6 +49,22 @@ create table if not exists public.media (
   created_at timestamptz not null default now()
 );
 
+create table if not exists public.resident_settings (
+  resident_id uuid primary key references public.residents(id) on delete cascade,
+  theme text not null default 'original' check (theme in ('original','warm','garden')),
+  interaction_mode text not null default 'choose' check (interaction_mode in ('choose','guide','channel')),
+  channel_enabled boolean not null default false,
+  show_clock boolean not null default true,
+  show_captions boolean not null default true,
+  life_profile jsonb not null default '{}'::jsonb,
+  comfort_plan jsonb not null default '{}'::jsonb,
+  day_plan jsonb not null default '{"morning":"music","afternoon":"photos","evening":"video"}'::jsonb,
+  home_today jsonb,
+  consent jsonb not null default '{"personalMedia":false,"careTeam":false}'::jsonb,
+  revision bigint not null default 1,
+  updated_at timestamptz not null default now()
+);
+
 create table if not exists public.family_invites (
   id uuid primary key default gen_random_uuid(),
   resident_id uuid not null references public.residents(id) on delete cascade,
@@ -73,6 +89,7 @@ alter table public.devices enable row level security;
 alter table public.pair_codes enable row level security;
 alter table public.pair_attempts enable row level security;
 alter table public.media enable row level security;
+alter table public.resident_settings enable row level security;
 alter table public.family_invites enable row level security;
 alter table public.security_events enable row level security;
 
@@ -100,6 +117,23 @@ drop policy if exists media_read on public.media;
 create policy media_read on public.media for select using (public.can_access_resident(resident_id));
 drop policy if exists media_write on public.media;
 create policy media_write on public.media for all using (public.can_manage_resident(resident_id)) with check (public.can_manage_resident(resident_id));
+
+drop policy if exists resident_settings_read on public.resident_settings;
+create policy resident_settings_read on public.resident_settings for select using (public.can_access_resident(resident_id));
+drop policy if exists resident_settings_write on public.resident_settings;
+create policy resident_settings_write on public.resident_settings for all using (public.can_manage_resident(resident_id)) with check (public.can_manage_resident(resident_id));
+
+create or replace function public.bump_resident_settings_revision()
+returns trigger language plpgsql set search_path=public as $$
+begin
+  new.revision=coalesce(old.revision,0)+1;
+  new.updated_at=now();
+  return new;
+end;
+$$;
+
+drop trigger if exists resident_settings_revision on public.resident_settings;
+create trigger resident_settings_revision before update on public.resident_settings for each row execute function public.bump_resident_settings_revision();
 
 drop policy if exists devices_own_read on public.devices;
 create policy devices_own_read on public.devices for select using (auth_user_id=auth.uid() or (resident_id is not null and public.can_access_resident(resident_id)));
@@ -232,6 +266,7 @@ grant execute on function public.disconnect_device(uuid) to authenticated;
 grant usage on schema public to anon,authenticated;
 grant select,insert,update,delete on public.residents to authenticated;
 grant select,insert,update,delete on public.media to authenticated;
+grant select,insert,update,delete on public.resident_settings to authenticated;
 grant select on public.devices to authenticated;
 
 do $$
@@ -242,5 +277,10 @@ end $$;
 do $$
 begin
   alter publication supabase_realtime add table public.media;
+exception when duplicate_object then null;
+end $$;
+do $$
+begin
+  alter publication supabase_realtime add table public.resident_settings;
 exception when duplicate_object then null;
 end $$;
