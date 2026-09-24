@@ -13,7 +13,7 @@ const DEFAULT_SETTINGS={
   channel_enabled:false,
   show_clock:true,
   show_captions:true,
-  life_profile:{preferredName:"Wanda",lifeStory:"",familiarPlaces:"",pets:"",languages:"",culture:"",interests:"",staffProfileVisible:false},
+  life_profile:{preferredName:"Wanda",lifeStory:"",familiarPlaces:"",pets:"",favouriteFoods:"",favouriteShows:"",conversationStarters:"",languages:"",culture:"",interests:"",staffProfileVisible:false},
   comfort_plan:{people:"",words:"You are safe. Savannah knows where you are.",actions:"",avoid:""},
   day_plan:{morning:"music",afternoon:"photos",evening:"video"},
   home_today:null,
@@ -54,7 +54,7 @@ function collectSettings(){
     channel_enabled:checked("#channelEnabled"),
     show_clock:checked("#showClock"),
     show_captions:checked("#showCaptions"),
-    life_profile:{preferredName:value("#preferredName")||value("#residentName")||"Wanda",lifeStory:value("#lifeStory"),familiarPlaces:value("#familiarPlaces"),pets:value("#pets"),languages:value("#languages"),culture:value("#culture"),interests:value("#interests"),staffProfileVisible:checked("#staffProfileVisible")},
+    life_profile:{preferredName:value("#preferredName")||value("#residentName")||"Wanda",lifeStory:value("#lifeStory"),familiarPlaces:value("#familiarPlaces"),pets:value("#pets"),favouriteFoods:value("#favouriteFoods"),favouriteShows:value("#favouriteShows"),conversationStarters:value("#conversationStarters"),languages:value("#languages"),culture:value("#culture"),interests:value("#interests"),staffProfileVisible:checked("#staffProfileVisible")},
     comfort_plan:{people:value("#comfortPeople"),words:value("#comfortWords"),actions:value("#comfortActions"),avoid:value("#comfortAvoid")},
     day_plan:{morning:$("#morningContent")?.value||"music",afternoon:$("#afternoonContent")?.value||"photos",evening:$("#eveningContent")?.value||"video"},
     consent:{personalMedia:checked("#consentPersonalMedia"),careTeam:checked("#consentCareTeam")}
@@ -66,7 +66,7 @@ function applySettings(settings){
   workingSettings={...structuredClone(DEFAULT_SETTINGS),...(settings||{}),life_profile:{...DEFAULT_SETTINGS.life_profile,...(settings?.life_profile||{})},comfort_plan:{...DEFAULT_SETTINGS.comfort_plan,...(settings?.comfort_plan||{})},day_plan:{...DEFAULT_SETTINGS.day_plan,...(settings?.day_plan||{})},consent:{...DEFAULT_SETTINGS.consent,...(settings?.consent||{})}};
   setRadio("residentTheme",workingSettings.theme);setRadio("interactionMode",workingSettings.interaction_mode);
   $("#channelEnabled").checked=workingSettings.channel_enabled;$("#showClock").checked=workingSettings.show_clock;$("#showCaptions").checked=workingSettings.show_captions;
-  const profile=workingSettings.life_profile;$("#preferredName").value=profile.preferredName||"Wanda";$("#lifeStory").value=profile.lifeStory;$("#familiarPlaces").value=profile.familiarPlaces;$("#pets").value=profile.pets;$("#languages").value=profile.languages;$("#culture").value=profile.culture;$("#interests").value=profile.interests;$("#staffProfileVisible").checked=profile.staffProfileVisible;
+  const profile=workingSettings.life_profile;$("#preferredName").value=profile.preferredName||"Wanda";$("#lifeStory").value=profile.lifeStory;$("#familiarPlaces").value=profile.familiarPlaces;$("#pets").value=profile.pets;$("#favouriteFoods").value=profile.favouriteFoods;$("#favouriteShows").value=profile.favouriteShows;$("#conversationStarters").value=profile.conversationStarters;$("#languages").value=profile.languages;$("#culture").value=profile.culture;$("#interests").value=profile.interests;$("#staffProfileVisible").checked=profile.staffProfileVisible;
   const comfort=workingSettings.comfort_plan;$("#comfortPeople").value=comfort.people;$("#comfortWords").value=comfort.words;$("#comfortActions").value=comfort.actions;$("#comfortAvoid").value=comfort.avoid;
   $("#morningContent").value=workingSettings.day_plan.morning;$("#afternoonContent").value=workingSettings.day_plan.afternoon;$("#eveningContent").value=workingSettings.day_plan.evening;
   $("#consentPersonalMedia").checked=workingSettings.consent.personalMedia;$("#consentCareTeam").checked=workingSettings.consent.careTeam;
