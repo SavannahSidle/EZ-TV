@@ -728,3 +728,7 @@ body[data-interface-theme="garden"] .setup-result{background:linear-gradient(145
 .facility-workspace>.dashboard-page-appearance{max-width:none}
 .resident-side{display:grid;justify-items:end;gap:14px}.resident-page-appearance{margin:0}
 @media(max-width:680px){.page-appearance{justify-items:start}.overview-map>.page-appearance{justify-self:stretch}.resident-page-appearance{display:none}.dashboard-page-appearance{margin-bottom:20px}.page-appearance button{padding:6px 9px;font-size:.58rem}}
+
+/* Give the connection label a little breathing room from the utility controls */
+.system-state>.connection-status{margin-right:14px}
+@media(max-width:680px){.system-state>.connection-status{margin-right:0}}
