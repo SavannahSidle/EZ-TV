@@ -25,6 +25,7 @@ const facilityView=document.querySelector("#facilityView");
 const plansView=document.querySelector("#plansView");
 const differenceView=document.querySelector("#differenceView");
 const overviewView=document.querySelector("#overviewView");
+const appearanceSelect=document.querySelector("#appearanceSelect");
 const appearanceButtons=document.querySelectorAll("[data-interface-theme],[data-resident-theme],[data-caregiver-theme]");
 
 function appearanceValue(button){
@@ -40,6 +41,7 @@ function setInterfaceAppearance(theme){
   facilityView.dataset.facilityTheme=selected;
   plansView.dataset.plansTheme=selected;
   differenceView.dataset.differenceTheme=selected;
+  appearanceSelect.value=selected;
   appearanceButtons.forEach(button=>{
     const active=appearanceValue(button)===selected;
     button.classList.toggle("active",active);
@@ -50,9 +52,11 @@ function setInterfaceAppearance(theme){
   localStorage.setItem("eztv-dashboard-theme",selected);
 }
 appearanceButtons.forEach(button=>button.addEventListener("click",()=>setInterfaceAppearance(appearanceValue(button))));
+appearanceSelect.addEventListener("change",()=>setInterfaceAppearance(appearanceSelect.value));
 setInterfaceAppearance(localStorage.getItem("eztv-interface-theme")||localStorage.getItem("eztv-resident-theme")||localStorage.getItem("eztv-dashboard-theme")||localStorage.getItem("eztv-caregiver-theme")||"original");
 
 function setView(name){
+  if(name==="resident")returnHome();
   Object.entries(views).forEach(([key,view])=>view.classList.toggle("active-view",key===name));
   document.querySelectorAll(".view-option").forEach(button=>button.classList.toggle("active",button.dataset.view===name));
   window.scrollTo({top:0,behavior:"smooth"});
