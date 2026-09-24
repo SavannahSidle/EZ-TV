@@ -689,9 +689,8 @@ body[data-interface-theme="garden"] .setup-result{background:linear-gradient(145
 @media(max-width:900px){.connection-status{display:flex}.system-state{gap:6px}.appearance-control>button{padding:6px 7px}}
 @media(max-width:680px){
   .system-bar{grid-template-columns:1fr;grid-template-areas:"logo" "state" "nav"}
-  .system-state{display:grid;width:100%;grid-template-columns:1fr auto auto;grid-template-areas:"connection mode info" "appearance appearance appearance";row-gap:6px}
-  .system-state>.connection-status{grid-area:connection;justify-self:start}.appearance-control{grid-area:appearance;justify-self:start;transform:none}.theme-toggle{grid-area:mode}.icon-button{grid-area:info}
-  .appearance-control>button{padding:5px 7px;font-size:.56rem}
+  .system-state{display:grid;width:100%;grid-template-columns:1fr auto auto;grid-template-areas:"connection mode info"}
+  .system-state>.connection-status{grid-area:connection;justify-self:start}.theme-toggle{grid-area:mode}.icon-button{grid-area:info}
 }
 
 /* Family-approved life story for care teams */
@@ -709,3 +708,23 @@ body[data-interface-theme="garden"] .setup-result{background:linear-gradient(145
 .light-mode .story-person,.light-mode .story-memories figure{background:#fff;border-color:#c9d7da}.light-mode .story-person p,.light-mode .story-memories span,.light-mode .story-privacy,.light-mode .resident-story-heading>div>p:not(.mono-label){color:#5b727d}
 @media(max-width:1050px){.resident-story-profile{grid-template-columns:1fr}.story-person{max-width:none}}
 @media(max-width:680px){.resident-story{padding:20px 16px}.resident-story-heading{display:grid;gap:15px}.resident-story-heading>span{justify-self:start}.story-memories{grid-template-columns:1fr}.story-memories figure{display:grid;grid-template-columns:120px 1fr}.story-memories img{height:100%;min-height:110px}}
+
+/* Appearance belongs with each interface, below the global menu */
+.page-appearance{display:grid;justify-items:end;gap:7px;margin:0 0 18px}
+.page-appearance>span{color:var(--muted);font:.52rem var(--mono);letter-spacing:.09em}
+.page-appearance>div{display:flex;gap:6px}
+.page-appearance button{min-height:32px;padding:7px 11px;border:1px solid rgba(34,168,184,.34);border-radius:6px;background:rgba(34,168,184,.055);color:#80cbd3;font-size:.62rem;font-weight:700;cursor:pointer}
+.page-appearance button[data-interface-theme="warm"]{border-color:rgba(199,125,112,.38);background:rgba(199,125,112,.07);color:#d6a298}
+.page-appearance button[data-interface-theme="garden"]{border-color:rgba(119,155,132,.42);background:rgba(119,155,132,.08);color:#a8c9b5}
+.page-appearance button:hover,.page-appearance button:focus-visible{outline:none;filter:brightness(1.16)}
+.page-appearance button.active{border-color:currentColor;background:rgba(34,168,184,.13);color:#a7edf4;box-shadow:0 0 14px rgba(34,168,184,.08)}
+.page-appearance button[data-interface-theme="warm"].active{background:rgba(199,125,112,.16);color:#e7b6ad;box-shadow:0 0 14px rgba(199,125,112,.08)}
+.page-appearance button[data-interface-theme="garden"].active{background:rgba(119,155,132,.17);color:#bfd9c8;box-shadow:0 0 14px rgba(119,155,132,.08)}
+.light-mode .page-appearance button{background:#edf8f8;border-color:#9ecbd0;color:#356f76}.light-mode .page-appearance button[data-interface-theme="warm"]{background:#fbefec;border-color:#d8aaa1;color:#8d5147}.light-mode .page-appearance button[data-interface-theme="garden"]{background:#edf4ef;border-color:#abc2b2;color:#4f745f}.light-mode .page-appearance button.active{border-color:currentColor;box-shadow:0 3px 10px rgba(55,73,81,.08)}
+.overview-map{grid-template-rows:auto 1fr auto 1fr}
+.overview-map>.page-appearance{align-self:end;margin-bottom:0}
+.difference-wrap>.page-appearance,.plans-wrap>.page-appearance{margin-bottom:26px}
+.dashboard-page-appearance{max-width:1240px;margin-left:auto;margin-right:auto}
+.facility-workspace>.dashboard-page-appearance{max-width:none}
+.resident-side{display:grid;justify-items:end;gap:14px}.resident-page-appearance{margin:0}
+@media(max-width:680px){.page-appearance{justify-items:start}.overview-map>.page-appearance{justify-self:stretch}.resident-page-appearance{display:none}.dashboard-page-appearance{margin-bottom:20px}.page-appearance button{padding:6px 9px;font-size:.58rem}}
