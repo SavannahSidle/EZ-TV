@@ -10,7 +10,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=23">
+  <link rel="stylesheet" href="styles.css?v=24">
 </head>
 <body>
   <div class="app-shell">
@@ -24,7 +24,7 @@
         <button class="view-option" data-view="facility">Facility</button>
         <button class="view-option" data-view="plans">Plans</button>
       </div>
-      <div class="system-state"><span class="connection-status"><span class="connection-dot"></span><span>Living room connected</span></span><button class="theme-toggle" id="themeToggle" type="button" aria-pressed="false">☀ Light mode</button><button class="icon-button" id="aboutButton" aria-label="About EZ-TV">i</button></div>
+      <div class="system-state"><span class="connection-status"><span class="connection-dot"></span><span>Living room connected</span></span><label class="appearance-control"><span>Appearance</span><select id="appearanceSelect" aria-label="Choose appearance"><option value="original">Original</option><option value="warm">Warm Home</option><option value="garden">Garden Calm</option></select></label><button class="theme-toggle" id="themeToggle" type="button" aria-pressed="false">☀ Light mode</button><button class="icon-button" id="aboutButton" aria-label="About EZ-TV">i</button></div>
     </header>
 
     <main>
@@ -35,7 +35,6 @@
             <p class="mono-label">ACCESSIBLE MEDIA FOR PEOPLE LIVING WITH DEMENTIA</p>
             <h1>Bring home a little closer.</h1>
             <p class="overview-lead">Keep family, memories, and home within reach.</p>
-            <div class="overview-theme-picker caregiver-theme-picker" role="group" aria-label="Choose website appearance"><small>CHOOSE APPEARANCE</small><div><button type="button" class="active" data-interface-theme="original" aria-pressed="true">Original</button><button type="button" data-interface-theme="warm" aria-pressed="false">Warm Home</button><button type="button" data-interface-theme="garden" aria-pressed="false">Garden Calm</button></div></div>
             <div class="overview-actions"><a class="primary-action demo-action" href="demo.html">Try the live demo</a><div class="overview-secondary-actions"><button class="secondary-action" data-view-jump="caregiver">Caregiver Tools</button><button class="secondary-action" data-view-jump="resident">Open Resident View</button></div><button class="text-action" data-view-jump="difference">See why EZ-TV is different →</button></div>
             <p class="overview-origin">Designed independently by Savannah Sidle. Project originated in 2024.</p>
           </div>
@@ -50,13 +49,16 @@
             <div class="overview-control"><span class="screen-label">FAMILY OR CARE TEAM</span><strong>Set it up once. Keep it simple for your loved one.</strong><small>Residents never manage settings, accounts, networks, or updates.</small></div>
           </div>
         </div>
-        <div class="overview-principles"><article><b>Recognition before navigation</b><p>Stable choices reduce the need to remember steps.</p></article><article><b>Works across circumstances</b><p>Smart TV, conventional TV, internet, cellular, or USB.</p></article><article><b>Connection without surveillance</b><p>No cameras, passive listening, or behavioural scoring.</p></article></div>
+        <div class="overview-principles"><article><b>Recognition before navigation</b><p>Stable choices reduce the need to remember steps.</p></article><article><b>Life that still feels like yours</b><p>Family, pets, places, language, music, traditions, and favourite programs.</p></article><article><b>Connection without surveillance</b><p>No cameras, passive listening, or behavioural scoring.</p></article></div>
+        <div class="home-story">
+          <section class="home-promise"><p class="mono-label">THE PRODUCT PROMISE</p><h2>Meaningful parts of life, ready without asking the person to navigate technology.</h2><p>EZ-TV is being designed as a familiar life layer for a screen. It can quietly bring forward photographs, pet videos, favourite music, familiar places, family messages, trusted programs, cultural traditions, and daily cues at useful times.</p></section>
+          <section class="home-architecture" aria-labelledby="homeArchitectureHeading"><div class="difference-heading"><p class="mono-label">FOUR CLEAR LAYERS</p><h2 id="homeArchitectureHeading">What EZ-TV is, and what families actually need.</h2></div><div class="home-architecture-grid"><article><span>SOFTWARE</span><h3>The EZ-TV experience</h3><p>The resident screen, caregiver tools, personal library, routines, automatic playback, offline cache, and recovery after restarts.</p></article><article><span>EXISTING DEVICE</span><h3>Use a screen already there</h3><p>Run EZ-TV on a supported smart TV, streaming device, tablet, or computer. No EZ-TV box is required when the device can run it reliably.</p></article><article><span>COMPANION DEVICE</span><h3>For an older television</h3><p>A preconfigured, ordinary HDMI device can add EZ-TV. Custom hardware waits until real pilots prove it is necessary.</p></article><article><span>MANAGED SERVICE</span><h3>Setup and support handled</h3><p>Optional preparation, installation, connectivity, updates, and recovery for families or facilities that need a hands-off route.</p></article></div></section>
+          <section class="home-life-grid"><article><p class="mono-label">PERSONAL MEANS PERSONAL</p><h3>People, pets, places, and culture.</h3><p>A life profile can include names and relationships, pet photos and videos, familiar neighbourhoods, home languages, regional music, faith or cultural traditions, holidays, recipes, sports, and stories. Families approve what belongs. EZ-TV handles when and how it appears.</p></article><article><p class="mono-label">NO TELEVISION?</p><h3>Start with the easiest useful screen.</h3><p>Use a tablet for a bedside or portable pilot. For everyday room viewing, the simplest package is an inexpensive television or monitor with a preconfigured streaming device and simple remote, delivered ready or installed once.</p></article><article><p class="mono-label">CAREGIVER EFFORT BUDGET</p><h3>Set up the meaning. Automate the maintenance.</h3><p>A caregiver creates the profile and approves content once. EZ-TV should schedule, cache, rotate, recover, and keep working by itself. Adding something new stays optional.</p></article></section>
+        </div>
       </section>
 
       <section class="difference-view" id="differenceView" aria-label="Why EZ-TV is different">
         <div class="difference-wrap">
-          <div class="dashboard-theme-row"><div class="caregiver-theme-picker" role="group" aria-label="Choose Why EZ-TV appearance"><small>DEMO APPEARANCE</small><div><button type="button" class="active" data-caregiver-theme="original" aria-pressed="true">Original</button><button type="button" data-caregiver-theme="warm" aria-pressed="false">Warm Home</button><button type="button" data-caregiver-theme="garden" aria-pressed="false">Garden Calm</button></div></div></div>
-
           <header class="difference-hero">
             <div><p class="pilot-badge">CANADA-FIRST · DEMENTIA-SPECIFIC</p><p class="mono-label">WHY EZ-TV</p><h1>Designed around recognition,<br>not navigation.</h1></div>
             <div class="difference-lead"><p>EZ-TV puts family-selected photographs, familiar programs, music, messages, and routines on a screen a person already recognizes. Caregivers manage the complexity elsewhere.</p><button class="primary-action" data-view-jump="resident">Experience Resident View</button></div>
@@ -97,49 +99,57 @@
           </section>
 
           <section class="signature-section" aria-labelledby="signatureHeading">
-            <div class="difference-heading"><p class="mono-label">THE EZ-TV LANE</p><h2 id="signatureHeading">A personal familiarity layer for the television.</h2><p>EZ-TV combines family-selected media, a stable resident interface, caregiver control, privacy, and flexible connectivity in one experience.</p></div>
+            <div class="difference-heading"><p class="mono-label">THE EZ-TV DIFFERENCE</p><h2 id="signatureHeading">A familiar life layer that keeps doing the work.</h2><p>EZ-TV combines a person’s own life, automatic daily programming, a stable resident interface, caregiver control, privacy, and flexible connectivity in one experience.</p></div>
             <div class="signature-grid">
-              <article><b>Recognition profile</b><p>People, relationships, favourite media, comforting routines, and preferred words form a private profile that shapes the screen.</p></article>
+              <article><b>Life profile</b><p>People, pets, places, relationships, languages, favourite media, traditions, routines, and preferred words shape the screen.</p></article>
               <article><b>Progressive simplicity</b><p>The experience can become simpler as needs change while the placement of familiar choices remains stable.</p></article>
-              <article><b>Family presence loop</b><p>A photograph, short message, familiar voice, or routine can arrive without asking the resident to learn a communication app.</p></article>
+              <article><b>Family presence loop</b><p>A photograph, pet video, short message, familiar voice, or routine can arrive without asking the person to learn a communication app.</p></article>
               <article><b>Caregiver effort budget</b><p>Every feature must save more caregiver work than it creates. If maintenance becomes a hobby, the feature has failed.</p></article>
               <article><b>Dignity boundary</b><p>No cameras, passive listening, behavioural scoring, health predictions, or covert check-ins.</p></article>
-              <article><b>Connectivity ladder</b><p>Start online. Preserve cached essentials during interruptions. Add local and USB support where reliable internet is unavailable.</p></article>
+              <article><b>Connectivity ladder</b><p>Start online. Preserve cached essentials during interruptions. Add managed cellular where Wi-Fi is unavailable. Keep USB as a last-resort update path.</p></article>
               <article><b>One experience, many screens</b><p>The resident interface stays familiar across a computer, supported smart television, streaming device, or future hub.</p></article>
               <article><b>Built with one real person</b><p>Wanda is the first use case. Decisions are tested against actual daily needs before EZ-TV asks other families or homes to adopt them.</p></article>
             </div>
           </section>
 
           <section class="comparison-section" aria-labelledby="comparisonHeading">
-            <div class="difference-heading"><p class="mono-label">THE LANDSCAPE</p><h2 id="comparisonHeading">The same screen can solve very different problems.</h2><p>Some products help families control a television. Some provide dementia-friendly programming. Some use a separate family communication screen. EZ-TV is being built as one person’s private, familiar world, kept simple for them and manageable for the people supporting them.</p></div>
+            <div class="difference-heading"><p class="mono-label">THE LANDSCAPE</p><h2 id="comparisonHeading">Strong products exist. The remaining gap is personal continuity without constant work.</h2><p>EZ-TV should learn from what competitors already do well. Its reason to exist is the combination of deeply personal content, automatic daily programming, progressive simplicity, remote care-team tools, offline resilience, and Canadian delivery.</p></div>
             <div class="comparison-table" role="table" aria-label="Comparison of EZ-TV and related services">
-              <div class="comparison-row comparison-head" role="row"><span role="columnheader">Service</span><span role="columnheader">What the person receives</span><span role="columnheader">What family manages</span><span role="columnheader">Camera or monitoring</span><span role="columnheader">Canadian fit</span></div>
-              <div class="comparison-row eztv-row" role="row"><b role="cell">EZ-TV</b><span role="cell">Their own people, memories, programs, music, messages, and routines through three stable choices</span><span role="cell">A small familiar library and optional remote starting</span><span role="cell">None by design</span><span role="cell">Canada-first prototype with connected, local, and cellular pathways planned</span></div>
-              <div class="comparison-row" role="row"><b role="cell">JubileeTV</b><span role="cell">Simplified TV favourites, video calls, reminders, and remote help</span><span role="cell">TV control, calls, messages, and check-ins through an app</span><span role="cell">Camera, microphone, and optional monitoring features</span><span role="cell">Currently sold only for residents in the United States</span></div>
-              <div class="comparison-row" role="row"><b role="cell">Memory Lane TV</b><span role="cell">Purpose-built sensory and dementia-friendly streaming programs</span><span role="cell">Program and playlist selection, with personal media available as an add-on</span><span role="cell">No remote household monitoring focus</span><span role="cell">Streaming service available in Canada</span></div>
-              <div class="comparison-row" role="row"><b role="cell">KOMP</b><span role="cell">Photos, messages, weather, and video calls on a dedicated one-button screen</span><span role="cell">Family members send content and place calls through an app</span><span role="cell">Video calling; company states it does not track or share private content</span><span role="cell">Dedicated device requiring power and internet</span></div>
-              <div class="comparison-row" role="row"><b role="cell">My Life TV</b><span role="cell">Gentle dementia-friendly programs for home or group viewing</span><span role="cell">Selection from a purpose-built streaming catalogue</span><span role="cell">No remote household monitoring focus</span><span role="cell">Primarily developed and delivered in the United Kingdom</span></div>
+              <div class="comparison-row comparison-head" role="row"><span role="columnheader">Service</span><span role="columnheader">What it does especially well</span><span role="columnheader">Caregiver work</span><span role="columnheader">Gap EZ-TV is exploring</span><span role="columnheader">Canadian fit</span></div>
+              <div class="comparison-row eztv-row" role="row"><b role="cell">EZ-TV</b><span role="cell">One stable screen shaped by the person’s own life, routines, culture, language, and favourite media</span><span role="cell">Create and approve a life profile once; new additions remain optional</span><span role="cell">Must still prove that automation, recovery, and personalization reduce real caregiver effort</span><span role="cell">Canada-first prototype</span></div>
+              <div class="comparison-row" role="row"><b role="cell">JubileeTV</b><span role="cell">Remote TV assistance, favourites, reminders, video calls, and family check-ins</span><span role="cell">Install hardware and Wi-Fi, configure preferences, and help through the app</span><span role="cell">Personal daily enrichment, cultural continuity, offline use, and a camera-free identity-first experience</span><span role="cell">Currently available only to residents in the United States</span></div>
+              <div class="comparison-row" role="row"><b role="cell">Memory Lane TV</b><span role="cell">Large dementia-specific, multisensory, plot-free catalogue with time-of-day programming</span><span role="cell">Choose programming and playlists; personal media is an add-on</span><span role="cell">A private family life layer and remote household control are not the central product</span><span role="cell">Streaming is available in Canada</span></div>
+              <div class="comparison-row" role="row"><b role="cell">KOMP</b><span role="cell">One-button family photos, messages, and video calls on a dedicated screen</span><span role="cell">Family administers the network and keeps sending content</span><span role="cell">Favourite television, adaptive routines, cultural programming, and ambient automation</span><span role="cell">Dedicated device requiring power and internet</span></div>
+              <div class="comparison-row" role="row"><b role="cell">My Life TV</b><span role="cell">Dementia-centred calming, reminiscence, feel-good, and guided programming</span><span role="cell">A caregiver or staff member selects programming</span><span role="cell">Private life-history content, family presence, and automatic remote personalization</span><span role="cell">Primarily a United Kingdom service</span></div>
+              <div class="comparison-row" role="row"><b role="cell">GrandPad</b><span role="cell">Supported senior tablet with LTE, trusted contacts, calls, photos, music, and games</span><span role="cell">Set up the family network and help choose among a broader set of apps</span><span role="cell">A television-scale, progressively simplified, ambient daily experience</span><span role="cell">Availability and service model vary by market</span></div>
+              <div class="comparison-row" role="row"><b role="cell">LifeLoop / iN2L</b><span role="cell">Facility-wide engagement content, calendars, communication, and staff workflows</span><span role="cell">Enterprise onboarding and ongoing staff-led programming</span><span role="cell">A resident-owned private experience that follows one person across home and care</span><span role="cell">Established in North American senior living</span></div>
             </div>
-            <p class="source-note">Comparison reviewed September 2026 using current public product information. <a href="https://getjubileetv.com/products/jubilee-tv-direct" target="_blank" rel="noopener">JubileeTV</a> · <a href="https://www.memory-lane.tv/" target="_blank" rel="noopener">Memory Lane TV</a> · <a href="https://help.komp.family/knowledge/about-komp" target="_blank" rel="noopener">KOMP</a> · <a href="https://www.mylifefilms.org/pages/my-life-tv" target="_blank" rel="noopener">My Life TV</a></p>
+            <p class="source-note">Comparison reviewed September 2026 using current public product information. <a href="https://getjubileetv.com/products/jubilee-tv-direct" target="_blank" rel="noopener">JubileeTV</a> · <a href="https://www.memory-lane.tv/" target="_blank" rel="noopener">Memory Lane TV</a> · <a href="https://help.komp.family/knowledge/about-komp" target="_blank" rel="noopener">KOMP</a> · <a href="https://www.mylifefilms.org/pages/my-life-tv" target="_blank" rel="noopener">My Life TV</a> · <a href="https://www.grandpad.net/" target="_blank" rel="noopener">GrandPad</a> · <a href="https://lifeloop.com/our-solution/engagement-systems" target="_blank" rel="noopener">LifeLoop / iN2L</a></p>
           </section>
 
           <section class="readiness-section" aria-labelledby="readinessHeading">
-            <div class="difference-heading"><p class="mono-label">HONEST PRODUCT STATUS</p><h2 id="readinessHeading">Build the smallest real thing first.</h2></div>
+            <div class="difference-heading"><p class="mono-label">PRIORITIZED ROADMAP</p><h2 id="readinessHeading">Build only what earns its maintenance cost.</h2></div>
             <div class="readiness-grid">
-              <article class="status-now"><span>NOW · INTERACTIVE PROTOTYPE</span><h3>Demonstrate the experience</h3><ul><li>Resident, caregiver, facility, and live split-screen demos</li><li>Pairing flow demonstration</li><li>Family photographs, familiar media, routines, and themes</li><li>No real private family account or paid service yet</li></ul></article>
-              <article><span>NEXT · WANDA PILOT</span><h3>Make two screens truly connect</h3><ul><li>Secure caregiver sign-in</li><li>Short-lived pairing code</li><li>Private uploads and real-time synchronization</li><li>Computer and phone testing with Wanda’s resident screen</li></ul></article>
-              <article><span>LATER · VALIDATED EXPANSION</span><h3>Scale what proves useful</h3><ul><li>Three to five additional family pilots</li><li>One small long-term care pilot</li><li>Smart-TV packaging, offline updates, and optional cellular service</li><li>Connectivity and installation partnerships</li></ul></article>
+              <article class="status-now"><span>CRITICAL NOW</span><h3>Make the Wanda pilot real</h3><ul><li>Secure two-device pairing and private accounts</li><li>Real uploads, ordering, removal, and synchronization</li><li>Resident home always returns to three choices</li><li>Offline cache, restart recovery, and caregiver-effort testing</li></ul></article>
+              <article><span>NEXT</span><h3>Prove useful personalization</h3><ul><li>Guided life profile for people, pets, places, language, culture, music, shows, and routines</li><li>Time-of-day programming with safe defaults</li><li>Preconfigured off-the-shelf streaming-device pilot</li><li>Three to five additional family pilots</li></ul></article>
+              <article><span>LATER</span><h3>Scale the proven parts</h3><ul><li>Optional installation and managed cellular service</li><li>Supported smart-TV packaging</li><li>One small long-term care pilot</li><li>Canadian cultural, language, and content partnerships</li></ul></article>
+              <article class="status-stop"><span>DO NOT BUILD YET</span><h3>Avoid expensive distractions</h3><ul><li>Custom EZ-TV hardware</li><li>Passive monitoring or behavioural scoring</li><li>AI mood detection and complex voice agents</li><li>A giant generic content catalogue</li><li>USB as the primary workflow</li></ul></article>
             </div>
           </section>
 
           <section class="compatibility-section" aria-labelledby="compatibilityHeading">
-            <div class="difference-heading"><p class="mono-label">COMPATIBILITY PATH</p><h2 id="compatibilityHeading">A way in for different homes.</h2></div>
+            <div class="difference-heading"><p class="mono-label">DELIVERY PATH</p><h2 id="compatibilityHeading">Use the simplest screen that fits the person’s real situation.</h2></div>
             <div class="compatibility-grid">
-              <article><span class="compat-icon">▣</span><div><b>Computer or tablet</b><p>First pilot route. Open the resident player full-screen in a browser.</p><small>FIRST TO BUILD</small></div></article>
-              <article><span class="compat-icon">TV</span><div><b>Supported smart television</b><p>Use a TV browser or packaged app after the browser pilot is stable.</p><small>PLANNED</small></div></article>
-              <article><span class="compat-icon">HDMI</span><div><b>Conventional television</b><p>Add an ordinary connected device. A custom EZ-TV Hub is optional future packaging, not the starting requirement.</p><small>PLANNED</small></div></article>
-              <article><span class="compat-icon">USB</span><div><b>Limited or no internet</b><p>Keep essential media locally, then add secure USB update packages after connected syncing works reliably.</p><small>FUTURE DEVELOPMENT</small></div></article>
+              <article><span class="compat-icon">TV</span><div><b>A compatible screen is already there</b><p>Run the app on a supported smart TV, streaming device, tablet, or full-screen computer.</p><small>LOWEST COST</small></div></article>
+              <article><span class="compat-icon">HDMI</span><div><b>The television is older</b><p>Add a preconfigured ordinary HDMI streaming device. The resident never handles its menus.</p><small>LOWEST-FRICTION UPGRADE</small></div></article>
+              <article><span class="compat-icon">▣</span><div><b>There is no television</b><p>Use a tablet for portability, or a ready-to-use television or monitor bundle for larger everyday viewing.</p><small>SCREEN INCLUDED</small></div></article>
+              <article><span class="compat-icon">LTE</span><div><b>Wi-Fi is weak or missing</b><p>Core content stays cached. Managed cellular can carry remote updates. USB remains an emergency or fully offline option.</p><small>RESILIENT CONNECTION</small></div></article>
             </div>
+          </section>
+
+          <section class="reliability-section" aria-labelledby="reliabilityHeading">
+            <div class="difference-heading"><p class="mono-label">FAILURE HANDLING</p><h2 id="reliabilityHeading">A blank or broken screen is unacceptable.</h2><p>The resident experience should recover quietly. Caregivers should hear from EZ-TV only when they can actually help.</p></div>
+            <div class="proof-grid"><article><strong>After a restart</strong><p>Open automatically and return to the three familiar choices.</p></article><article><strong>Without internet</strong><p>Keep approved photos, pet videos, music, cues, and routines available from local storage.</p></article><article><strong>After a failed update</strong><p>Roll back to the last working version instead of exposing an error screen.</p></article><article><strong>When help is needed</strong><p>Send one plain-language alert with the exact action required. Suppress repetitive noise.</p></article></div>
           </section>
 
           <section class="privacy-section" aria-labelledby="privacyHeading">
@@ -164,14 +174,17 @@
           </section>
 
           <section class="faq-section" aria-labelledby="faqHeading">
-            <div class="difference-heading"><p class="mono-label">CLEAR ANSWERS</p><h2 id="faqHeading">What exists, what comes next, and what Wanda has to do.</h2></div>
+            <div class="difference-heading"><p class="mono-label">CLEAR ANSWERS</p><h2 id="faqHeading">What exists, what comes next, and who handles the work.</h2></div>
             <div class="faq-list">
               <details><summary>Does EZ-TV work between two devices yet?</summary><p>The current live demo shows the interaction on one split screen. True secure synchronization between a caregiver device and Wanda’s screen is the next development milestone.</p></details>
               <details><summary>Does Wanda need a touchscreen?</summary><p>No. Touch is one optional method. The pilot will choose the easiest route for Wanda: a simple remote, caregiver control, mouse, keyboard, adaptive switch, or press-to-speak voice.</p></details>
               <details><summary>Does it require a smart television?</summary><p>No. The first working pilot can run full-screen on a computer connected to a television. Smart-TV packaging and ordinary HDMI streaming devices can follow.</p></details>
-              <details><summary>Does it require internet?</summary><p>Remote caregiver updates require a connection. The resident player will be designed to keep essential media available during interruptions. Full USB updating and managed cellular service are later phases.</p></details>
-              <details><summary>Is the EZ-TV Hub available?</summary><p>No. It is a possible future packaging option for homes that need a simple HDMI device. The software must prove useful before custom hardware earns the right to exist.</p></details>
+              <details><summary>What if there is no television?</summary><p>The first pilot can use a tablet or computer. A future Ready Screen package can combine an inexpensive television or monitor, a preconfigured companion device, and a simple remote. For everyday room viewing, that is likely easier than asking a family to shop for compatible parts.</p></details>
+              <details><summary>Does it require internet?</summary><p>Remote caregiver updates require Wi-Fi, Ethernet, or optional managed cellular. Approved core content stays cached so an interruption does not empty the screen. USB can support fully offline situations, though it remains a manual fallback.</p></details>
+              <details><summary>Is the EZ-TV companion device available?</summary><p>No. The first pilots should use compatible devices people already own or inexpensive off-the-shelf streaming hardware configured for EZ-TV. Custom hardware should wait until testing proves a real unmet need.</p></details>
               <details><summary>Can families add Spotify, television, or computer media?</summary><p>The first pilot will support private uploaded media and approved links. Streaming integrations come later because account permissions, licensing, advertisements, and changing interfaces can break the resident experience.</p></details>
+              <details><summary>What does culturally relevant content mean?</summary><p>It means content chosen from the person’s real life: home language, nation or community, regional places, music, faith, holidays, food, sports, traditions, and preferred words. Families approve the profile. EZ-TV should never infer identity or assign generic cultural content.</p></details>
+              <details><summary>How much work does the caregiver keep doing?</summary><p>The caregiver creates and approves the life profile once. EZ-TV should schedule, cache, rotate, recover, and maintain the resident experience automatically. New photos, pet videos, and messages stay optional. If the family stops adding content, the existing experience keeps working.</p></details>
               <details><summary>Is real family content used in this public demo?</summary><p>No. The public prototype uses fictional names and anonymous demonstration media. Real family content will remain inside a private paired account.</p></details>
               <details><summary>Who is EZ-TV for?</summary><p>The primary audience is people living with dementia and the families or care teams supporting them. The same simplified approach may also help older adults and people with cognitive, motor, visual, or technology-access barriers. Wanda is the first real pilot, with broader family and care-home use guiding the next stages.</p></details>
             </div>
@@ -189,7 +202,7 @@
         <div class="resident-home" id="residentHome">
           <div class="welcome-row">
             <div><p class="context-label"><span></span> GOOD EVENING</p><h1>What would you<br>like, Wanda?</h1></div>
-            <div class="resident-side"><div class="clock" aria-label="Current time"><strong id="clockTime">7:42</strong><span id="clockDate">MONDAY · SEPTEMBER 14</span></div><div class="resident-theme-picker" role="group" aria-label="Choose Resident View appearance"><small>DEMO APPEARANCE</small><div><button type="button" class="active" data-resident-theme="original">Original</button><button type="button" data-resident-theme="warm">Warm Home</button><button type="button" data-resident-theme="garden">Garden Calm</button></div></div></div>
+            <div class="resident-side"><div class="clock" aria-label="Current time"><strong id="clockTime">7:42</strong><span id="clockDate">MONDAY · SEPTEMBER 14</span></div></div>
           </div>
           <div class="resident-main">
             <div class="media-choices" role="group" aria-label="Choose something to watch or listen to">
@@ -232,7 +245,6 @@
           <div class="care-nav-bottom"><span class="connection-dot"></span><div><b>TV online</b><small>Updated just now</small></div></div>
         </aside>
         <div class="care-workspace">
-          <div class="dashboard-theme-row"><div class="caregiver-theme-picker" role="group" aria-label="Choose Caregiver View appearance"><small>DEMO APPEARANCE</small><div><button type="button" class="active" data-caregiver-theme="original" aria-pressed="true">Original</button><button type="button" data-caregiver-theme="warm" aria-pressed="false">Warm Home</button><button type="button" data-caregiver-theme="garden" aria-pressed="false">Garden Calm</button></div></div></div>
           <section class="care-page active-page" data-page="today">
             <div class="workspace-heading"><div><p class="mono-label">MONDAY · 14 SEPTEMBER</p><h2>Today’s rhythm</h2><p>Familiar media, ready at the right time.</p></div><button class="primary-action" data-modal="routineModal">+ Schedule media</button></div>
             <div class="dashboard-grid">
@@ -292,7 +304,6 @@
           <button class="facility-account" aria-label="Facility account">AD</button>
         </aside>
         <div class="facility-workspace">
-          <div class="dashboard-theme-row"><div class="caregiver-theme-picker" role="group" aria-label="Choose Facility appearance"><small>DEMO APPEARANCE</small><div><button type="button" class="active" data-caregiver-theme="original" aria-pressed="true">Original</button><button type="button" data-caregiver-theme="warm" aria-pressed="false">Warm Home</button><button type="button" data-caregiver-theme="garden" aria-pressed="false">Garden Calm</button></div></div></div>
           <div class="workspace-heading facility-heading" id="facilityHeading" tabindex="-1"><div><p class="mono-label">FOREST HOUSE · EAST WING</p><h2>Facility overview</h2><p>Access status for resident televisions. No cameras, health records, or passive monitoring.</p></div><div class="facility-actions"><button class="secondary-action" id="facilityUsbButton">Prepare USB updates</button><button class="primary-action" id="addResidentButton">+ Add resident</button></div></div>
           <div class="facility-stats" id="facilityStats" tabindex="-1">
             <article><small>RESIDENT PROFILES</small><strong>24</strong><span>Across one wing</span></article>
@@ -327,36 +338,42 @@
 
       <section class="plans-view" id="plansView" aria-label="EZ-TV plans">
         <div class="plans-wrap">
-          <div class="dashboard-theme-row"><div class="caregiver-theme-picker" role="group" aria-label="Choose Plans appearance"><small>DEMO APPEARANCE</small><div><button type="button" class="active" data-caregiver-theme="original" aria-pressed="true">Original</button><button type="button" data-caregiver-theme="warm" aria-pressed="false">Warm Home</button><button type="button" data-caregiver-theme="garden" aria-pressed="false">Garden Calm</button></div></div></div>
           <div class="concept-notice"><b>PROPOSED PRODUCT MODEL</b><span>EZ-TV is currently an interactive prototype. No paid service, custom hub, cellular plan, or installation program is being sold yet.</span></div>
-          <div class="plans-intro"><p class="mono-label">SIMPLE BY DESIGN</p><h2>Choose the device.<br>Then choose the service.</h2><p>This proposed model keeps hardware and service separate. The first pilot will use devices people already own. A packaged EZ-TV Hub can come later if testing proves it is needed.</p></div>
+          <div class="plans-intro"><p class="mono-label">SIMPLE BY DESIGN</p><h2>One familiar experience.<br>The simplest reliable way to deliver it.</h2><p>Start with EZ-TV software. Use a compatible screen already available, add a preconfigured companion device when needed, or choose managed setup when the family or facility needs the work handled.</p></div>
 
           <section class="device-choice" aria-labelledby="deviceHeading">
-            <div class="section-label"><div><h3 id="deviceHeading">How will EZ-TV run?</h3><p>Choose one. The resident experience stays the same.</p></div></div>
-            <div class="device-options">
-              <article id="smartTvPlan"><span class="plan-kicker">PROPOSED · APP ONLY</span><h4>Smart TV or streaming device</h4><strong>$0 <small>EZ-TV hardware</small></strong><p>Install EZ-TV directly on a supported smart TV or streaming device.</p><ul><li>No new EZ-TV hardware</li><li>Same simple resident interface</li><li>USB support varies by device</li></ul></article>
-              <article class="featured-device" id="hubPlan"><span class="plan-kicker">FUTURE OPTION</span><h4>EZ-TV Hub</h4><strong>$249 <small>proposed one-time price</small></strong><p>Potential future packaging for a small device that connects to a conventional television through HDMI.</p><ul><li>Only for televisions that cannot run the app</li><li>A caregiver sets it up once</li><li>The resident never operates the box</li><li>Designed for local storage and USB updates</li></ul></article>
+            <div class="section-label"><div><h3 id="deviceHeading">Four separate product layers</h3><p>Families should always know what is software, what uses an existing device, what adds hardware, and what EZ-TV manages.</p></div></div>
+            <div class="device-options product-layer-grid">
+              <article><span class="plan-kicker">THE PRODUCT</span><h4>EZ-TV software</h4><strong>One <small>familiar experience</small></strong><p>The resident screen, caregiver tools, life profile, routines, automation, local cache, and quiet recovery.</p><ul><li>Same experience across supported screens</li><li>Remote management on connected plans</li><li>No surveillance features</li></ul></article>
+              <article id="smartTvPlan"><span class="plan-kicker">NO EZ-TV HARDWARE</span><h4>Existing-device experience</h4><strong>$0 <small>additional EZ-TV hardware</small></strong><p>Use a supported smart TV, streaming device, tablet, or computer already available.</p><ul><li>Best starting point for the pilot</li><li>Compatibility checked before setup</li><li>Resident never sees the device menus</li></ul></article>
+              <article class="featured-device" id="hubPlan"><span class="plan-kicker">OPTIONAL HARDWARE</span><h4>Ready Companion</h4><strong>TBD <small>one-time device cost</small></strong><p>A preconfigured off-the-shelf HDMI device for an older television. Custom EZ-TV hardware is deferred.</p><ul><li>Arrives paired and ready</li><li>Stores essential content locally</li><li>Uses the same resident interface</li></ul></article>
+              <article id="cellularPlan"><span class="plan-kicker">OPTIONAL HUMAN HELP</span><h4>Managed setup</h4><strong>TBD <small>setup or support fee</small></strong><p>EZ-TV or an approved partner prepares, installs, connects, tests, and supports the system.</p><ul><li>For limited technical confidence</li><li>For care homes and distant families</li><li>Cellular connectivity priced separately</li></ul></article>
             </div>
           </section>
 
-          <section class="access-section">
-            <div class="section-label"><div><h3>A way in for every home</h3><p>Choose the television, connection, and amount of setup help that fit the person.</p></div></div>
+          <section class="access-section" id="usbPlan">
+            <div class="section-label"><div><h3>If there is no television</h3><p>The screen is part of the delivery plan. Nobody gets abandoned at the hardware question.</p></div></div>
             <div class="access-grid">
-              <article><span>FIRST PILOT</span><b>Use a computer browser</b><p>Run the resident screen full-screen while the caregiver uses a phone or another computer.</p></article>
-              <article><span>SMART TELEVISION · PLANNED</span><b>Package the app</b><p>Move the proven browser experience onto supported smart televisions and streaming devices.</p></article>
-              <article><span>CONVENTIONAL TELEVISION · PLANNED</span><b>Add an HDMI device</b><p>Use ordinary compatible hardware first. Create custom packaging only if families actually need it.</p></article>
-              <article><span>NO RELIABLE INTERNET · LATER</span><b>Add local and USB updates</b><p>Build offline support after secure connected synchronization works reliably.</p></article>
+              <article><span>FASTEST PILOT</span><b>Tablet mode</b><p>Portable and quick to test. Best when a smaller personal screen is comfortable and charging can be managed.</p></article>
+              <article><span>RECOMMENDED ROOM SETUP</span><b>Ready Screen bundle</b><p>An inexpensive television or monitor, companion device, and simple remote, preconfigured before arrival.</p></article>
+              <article><span>FACILITY OPTION</span><b>Installed room screen</b><p>A facility-approved television or monitor mounted or placed safely, with one managed setup visit.</p></article>
+              <article><span>NO RELIABLE WI-FI</span><b>Cached core plus cellular</b><p>Essential content keeps playing locally. Managed cellular carries remote updates. USB is a contingency, not the default chore.</p></article>
             </div>
+          </section>
+
+          <section class="responsibility-section">
+            <div class="section-label"><div><h3>Who does what?</h3><p>The family supplies meaning. EZ-TV should carry the recurring work.</p></div></div>
+            <div class="responsibility-grid"><article><span>FAMILY OR CARE TEAM · ONCE</span><h4>Create the life profile</h4><p>Name important people and pets, choose meaningful places, languages, traditions, music, shows, routines, and quiet hours.</p></article><article><span>EZ-TV · AUTOMATIC</span><h4>Keep it running</h4><p>Schedule, cache, rotate, restart, reconnect, retry updates, preserve the last working version, and return to the three choices.</p></article><article><span>FAMILY · OPTIONAL</span><h4>Add something new</h4><p>Send a photo, pet video, message, or new favourite when it feels worthwhile. Silence never breaks the service.</p></article><article><span>EZ-TV SUPPORT · WHEN NEEDED</span><h4>Resolve failures</h4><p>Report one clear problem, attempt remote recovery, and arrange human help only when remote recovery fails.</p></article></div>
           </section>
 
           <section class="service-choice" aria-labelledby="serviceHeading">
             <div class="section-label"><div><h3 id="serviceHeading">How will it be updated?</h3><p>Every plan keeps the resident interface calm and familiar.</p></div></div>
             <div class="pricing-grid">
-              <article class="price-card" id="usbPlan"><span class="plan-kicker">PROPOSED · NO INTERNET NEEDED</span><h4>Local</h4><strong>$0 <small>/ month</small></strong><p>Future in-person updating with a secure USB drive.</p><ul><li>Resident interface</li><li>Photos, music, and routines</li><li>Local voice commands</li><li>No remote access</li></ul><button data-plan="Local">View Local concept</button></article>
+              <article class="price-card"><span class="plan-kicker">PROPOSED · OFFLINE FALLBACK</span><h4>Local</h4><strong>$0 <small>/ month</small></strong><p>A self-managed local version for households that cannot connect remotely.</p><ul><li>Resident interface</li><li>Locally stored photos, music, and routines</li><li>No remote access</li><li>USB updates remain manual</li></ul><button data-plan="Local">View Local concept</button></article>
               <article class="price-card preferred"><span class="plan-kicker">PROPOSED · REMOTE FAMILY ACCESS</span><h4>Connected</h4><strong>$19.99 <small>/ month</small></strong><p class="annual-price">$199 yearly · two months free</p><ul><li>Everything in Local</li><li>Remote updates and scheduling</li><li>Up to three caregivers</li><li>Secure cloud backup</li></ul><button data-plan="Connected">View Connected concept</button></article>
-              <article class="price-card" id="cellularPlan"><span class="plan-kicker">PROPOSED · CELLULAR INCLUDED</span><h4>Supported</h4><strong>$34.99 <small>/ month</small></strong><p class="annual-price">$349 yearly · two months free</p><ul><li>Everything in Connected</li><li>Managed EZ-TV cellular service</li><li>Unlimited caregivers</li><li>Priority setup support</li><li>Device replacement coverage</li></ul><button data-plan="Supported">View Supported concept</button></article>
+              <article class="price-card"><span class="plan-kicker">PROPOSED · HANDS-ON SUPPORT</span><h4>Supported</h4><strong>$34.99 <small>/ month</small></strong><p class="annual-price">$349 yearly · two months free</p><ul><li>Everything in Connected</li><li>Unlimited caregivers</li><li>Priority setup and recovery support</li><li>Device replacement coverage where eligible</li><li>Optional cellular billed separately</li></ul><button data-plan="Supported">View Supported concept</button></article>
             </div>
-            <p class="connectivity-note">In the proposed model, <b>Connected</b> uses the home’s Wi-Fi or Ethernet. <b>Supported</b> would add a cellular connection managed and billed by EZ-TV for remote control, schedules, messages, family uploads, and software updates. Streaming services would still require Wi-Fi, Ethernet, cable, antenna, or another resident-provided connection.</p>
+            <p class="connectivity-note"><b>Pricing is still a hypothesis.</b> Connected uses the home’s Wi-Fi or Ethernet. Supported adds human setup and recovery help. Optional cellular connectivity, hardware, installation, taxes, and third-party streaming services are priced separately. Pilot costs must be measured before these numbers become a real offer.</p>
           </section>
 
           <section class="facility-plan">
@@ -394,6 +411,6 @@
   <dialog class="modal resident-modal" id="residentModal"><div class="modal-heading"><div><p class="mono-label">RESIDENT ACCESS</p><h2 id="residentModalName">Resident</h2></div><button class="modal-close" id="residentModalClose" aria-label="Close">×</button></div><div class="resident-summary"><div><small>ROOM</small><b id="residentModalRoom"></b></div><div><small>ACCESS MODE</small><b id="residentModalMode"></b></div><div><small>STATUS</small><b id="residentModalStatus"></b></div><div><small>LAST UPDATE</small><b id="residentModalUpdated"></b></div></div><div class="resident-detail"><span>NEXT FAMILIAR ROUTINE</span><b id="residentModalRoutine"></b></div><div class="resident-detail"><span>SELECTED MEDIA</span><b id="residentModalMedia"></b></div><div class="resident-modal-actions"><button class="secondary-action" id="residentPrepareUpdate">Prepare update</button><button class="primary-action" id="residentOpenTv">Open TV view</button></div></dialog>
   <dialog class="modal about-modal" id="aboutModal"><div class="modal-heading"><div><p class="mono-label">ABOUT THE PROTOTYPE</p><h2>EZ-TV</h2></div><button class="modal-close" id="aboutClose" aria-label="Close">×</button></div><p>EZ-TV explores how familiar media can remain accessible as memory, attention, and navigation abilities change.</p><dl><div><dt>Designed for</dt><dd>People living with dementia</dd></div><div><dt>Interaction</dt><dd>Direct touch and one-word voice commands</dd></div><div><dt>Media</dt><dd>Family photographs, familiar television, and music</dd></div><div><dt>Compatibility</dt><dd>Smart TVs and conventional televisions</dd></div></dl><footer>Designed independently by Savannah Sidle. Project originated in 2024.</footer></dialog>
   <div class="toast" id="toast" role="status"></div>
-  <script src="app.js?v=18"></script>
+  <script src="app.js?v=19"></script>
 </body>
 </html>
