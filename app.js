@@ -419,7 +419,7 @@ document.querySelectorAll("[data-facility-target]").forEach(button=>button.addEv
   const target=document.querySelector("#"+button.dataset.facilityTarget);
   target?.scrollIntoView({behavior:"smooth",block:"center"});
   target?.focus({preventScroll:true});
-  const labels={facilityHeading:"Facility overview",residentStatus:"Resident access",facilityStats:"Device status",facilityRhythm:"Today’s schedules"};
+  const labels={facilityHeading:"Facility overview",residentStatus:"Resident access",residentStory:"Resident life story",facilityStats:"Device status",facilityRhythm:"Today’s schedules"};
   showToast(labels[button.dataset.facilityTarget]);
 }));
 const aboutModal=document.querySelector("#aboutModal");
