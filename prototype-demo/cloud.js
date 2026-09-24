@@ -9,11 +9,18 @@
   };
   if(isResidentView)authOptions.storageKey="eztv-resident-auth";
   const client=configured?window.supabase.createClient(config.supabaseUrl,config.supabaseAnonKey,{auth:authOptions}):null;
+  const SETTINGS_PREFIX="EZTV2:";
+  const missingSettingsTable=error=>error&&(error.code==="42P01"||error.code==="PGRST205"||String(error.message||"").includes("resident_settings"));
+  function decodeHelpMessage(raw){
+    if(!raw?.startsWith?.(SETTINGS_PREFIX))return {help:raw||"You are safe. Someone from your care team is nearby.",settings:null};
+    try{return JSON.parse(raw.slice(SETTINGS_PREFIX.length))}catch{return {help:"You are safe. Someone from your care team is nearby.",settings:null}}
+  }
+  function encodeHelpMessage(help,settings){return SETTINGS_PREFIX+JSON.stringify({help,settings})}
 
   async function getResident(user){
     const accessible=await client.from("residents").select("*").limit(1).maybeSingle();
     if(accessible.error)throw accessible.error;
-    if(accessible.data)return accessible.data;
+    if(accessible.data){const decoded=decodeHelpMessage(accessible.data.help_message);return {...accessible.data,help_message:decoded.help,_embedded_settings:decoded.settings}}
     if(user.is_anonymous)return null;
     const created=await client.from("residents").insert({owner_id:user.id,name:"Wanda",help_message:"You are safe. Someone from your care team is nearby."}).select().single();
     if(created.error)throw created.error;
@@ -30,8 +37,8 @@
     }));
   }
 
-  async function uploadResident(resident,profile,photos,video,audio){
-    const update=await client.from("residents").update({name:profile.name,help_message:profile.help}).eq("id",resident.id);
+  async function uploadResident(resident,profile,photos,video,audio,settings){
+    const update=await client.from("residents").update({name:profile.name,help_message:encodeHelpMessage(profile.help,settings||null)}).eq("id",resident.id);
     if(update.error)throw update.error;
     const old=await client.from("media").select("storage_path").eq("resident_id",resident.id);
     if(old.error)throw old.error;
@@ -56,6 +63,36 @@
     }
   }
 
+  async function getSettings(residentId){
+    const result=await client.from("resident_settings").select("*").eq("resident_id",residentId).maybeSingle();
+    if(result.error){
+      if(missingSettingsTable(result.error)){
+        const resident=await client.from("residents").select("help_message").eq("id",residentId).single();
+        if(resident.error)throw resident.error;
+        return decodeHelpMessage(resident.data.help_message).settings;
+      }
+      throw result.error;
+    }
+    return result.data;
+  }
+
+  async function saveSettings(residentId,settings){
+    const payload={resident_id:residentId,...settings,updated_at:new Date().toISOString()};
+    const result=await client.from("resident_settings").upsert(payload,{onConflict:"resident_id"});
+    if(result.error){
+      if(missingSettingsTable(result.error)){
+        const resident=await client.from("residents").select("help_message").eq("id",residentId).single();
+        if(resident.error)throw resident.error;
+        const decoded=decodeHelpMessage(resident.data.help_message);
+        const fallback=await client.from("residents").update({help_message:encodeHelpMessage(decoded.help,settings)}).eq("id",residentId);
+        if(fallback.error)throw fallback.error;
+        return true;
+      }
+      throw result.error;
+    }
+    return true;
+  }
+
   window.ezCloud={
     configured,
     client,
@@ -71,6 +108,9 @@
     getResident,
     signedMedia,
     uploadResident,
+    getSettings,
+    saveSettings,
+    decodeHelpMessage,
     async devices(residentId){
       const result=await client.from("devices").select("id,last_seen,paired_at").eq("resident_id",residentId).order("paired_at");
       if(result.error)throw result.error;
