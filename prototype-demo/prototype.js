@@ -1,6 +1,7 @@
 const DB_NAME="eztv-local-prototype";
 const STORE_NAME="media";
 let workingPhotos=[];
+let photoDetails=[];
 let workingVideo=null;
 let workingAudio=null;
 let thumbnailUrls=[];
@@ -13,6 +14,8 @@ const DEFAULT_SETTINGS={
   channel_enabled:false,
   show_clock:true,
   show_captions:true,
+  paused:false,
+  photo_details:[],
   life_profile:{preferredName:"Wanda",lifeStory:"",familiarPlaces:"",pets:"",favouriteFoods:"",favouriteShows:"",conversationStarters:"",languages:"",culture:"",interests:"",staffProfileVisible:false},
   comfort_plan:{people:"",words:"You are safe. Savannah knows where you are.",actions:"",avoid:""},
   day_plan:{morning:"music",afternoon:"photos",evening:"video"},
@@ -54,6 +57,8 @@ function collectSettings(){
     channel_enabled:checked("#channelEnabled"),
     show_clock:checked("#showClock"),
     show_captions:checked("#showCaptions"),
+    photo_details:photoDetails.map(item=>({...item})),
+    paused:Boolean(workingSettings.paused),
     life_profile:{preferredName:value("#preferredName")||value("#residentName")||"Wanda",lifeStory:value("#lifeStory"),familiarPlaces:value("#familiarPlaces"),pets:value("#pets"),favouriteFoods:value("#favouriteFoods"),favouriteShows:value("#favouriteShows"),conversationStarters:value("#conversationStarters"),languages:value("#languages"),culture:value("#culture"),interests:value("#interests"),staffProfileVisible:checked("#staffProfileVisible")},
     comfort_plan:{people:value("#comfortPeople"),words:value("#comfortWords"),actions:value("#comfortActions"),avoid:value("#comfortAvoid")},
     day_plan:{morning:$("#morningContent")?.value||"music",afternoon:$("#afternoonContent")?.value||"photos",evening:$("#eveningContent")?.value||"video"},
@@ -64,6 +69,7 @@ function collectSettings(){
 
 function applySettings(settings){
   workingSettings={...structuredClone(DEFAULT_SETTINGS),...(settings||{}),life_profile:{...DEFAULT_SETTINGS.life_profile,...(settings?.life_profile||{})},comfort_plan:{...DEFAULT_SETTINGS.comfort_plan,...(settings?.comfort_plan||{})},day_plan:{...DEFAULT_SETTINGS.day_plan,...(settings?.day_plan||{})},consent:{...DEFAULT_SETTINGS.consent,...(settings?.consent||{})}};
+  photoDetails=(workingSettings.photo_details||[]).map(item=>({name:item.name||"",relationship:item.relationship||"",visible:item.visible!==false}));
   setRadio("residentTheme",workingSettings.theme);setRadio("interactionMode",workingSettings.interaction_mode);
   $("#channelEnabled").checked=workingSettings.channel_enabled;$("#showClock").checked=workingSettings.show_clock;$("#showCaptions").checked=workingSettings.show_captions;
   const profile=workingSettings.life_profile;$("#preferredName").value=profile.preferredName||"Wanda";$("#lifeStory").value=profile.lifeStory;$("#familiarPlaces").value=profile.familiarPlaces;$("#pets").value=profile.pets;$("#favouriteFoods").value=profile.favouriteFoods;$("#favouriteShows").value=profile.favouriteShows;$("#conversationStarters").value=profile.conversationStarters;$("#languages").value=profile.languages;$("#culture").value=profile.culture;$("#interests").value=profile.interests;$("#staffProfileVisible").checked=profile.staffProfileVisible;
@@ -71,6 +77,14 @@ function applySettings(settings){
   $("#morningContent").value=workingSettings.day_plan.morning;$("#afternoonContent").value=workingSettings.day_plan.afternoon;$("#eveningContent").value=workingSettings.day_plan.evening;
   $("#consentPersonalMedia").checked=workingSettings.consent.personalMedia;$("#consentCareTeam").checked=workingSettings.consent.careTeam;
   renderHomeTodayStatus();
+  renderPauseStatus();
+}
+
+function renderPauseStatus(){
+  const paused=Boolean(workingSettings.paused);
+  $("#pauseScreen").textContent=paused?"Resume screen":"Pause screen";
+  $("#pauseScreen").setAttribute("aria-pressed",String(paused));
+  $("#pauseStatus").textContent=paused?"Screen paused. Content will stay hidden until resumed.":"Screen is available.";
 }
 
 function renderHomeTodayStatus(){
@@ -90,18 +104,29 @@ function renderPhotoManager(){
   const manager=$("#photoManager");manager.innerHTML="";
   workingPhotos.forEach((photo,index)=>{
     const url=URL.createObjectURL(photo);thumbnailUrls.push(url);
+    const detail=photoDetails[index]||{name:"",relationship:"",visible:true};photoDetails[index]=detail;
     const item=document.createElement("div");item.className="photo-item";
-    item.innerHTML=`<img src="${url}" alt="Photograph ${index+1}"><div class="photo-actions"><button type="button" data-action="left" aria-label="Move photograph ${index+1} left" ${index===0?"disabled":""}>←</button><button type="button" class="delete-photo" data-action="delete" aria-label="Delete photograph ${index+1}">Delete</button><button type="button" data-action="right" aria-label="Move photograph ${index+1} right" ${index===workingPhotos.length-1?"disabled":""}>→</button></div>`;
+    item.innerHTML=`<img alt="Photograph ${index+1}"><div class="photo-fields"><label>Name or place<input data-field="name" maxlength="80" placeholder="Wanda and Savannah"></label><label>Relationship or caption<input data-field="relationship" maxlength="100" placeholder="Daughter, at the lake"></label><label class="photo-visible"><input type="checkbox" data-field="visible"> Show on Wanda’s screen</label></div><div class="photo-actions"><button type="button" data-action="left" aria-label="Move photograph ${index+1} left" ${index===0?"disabled":""}>←</button><button type="button" data-action="right" aria-label="Move photograph ${index+1} right" ${index===workingPhotos.length-1?"disabled":""}>→</button><button type="button" class="delete-photo" data-action="delete" aria-label="Delete photograph ${index+1}">Delete</button></div>`;
+    item.querySelector("img").src=url;
+    item.querySelector('[data-field="name"]').value=detail.name;
+    item.querySelector('[data-field="relationship"]').value=detail.relationship;
+    item.querySelector('[data-field="visible"]').checked=detail.visible!==false;
+    item.querySelectorAll("[data-field]").forEach(input=>input.addEventListener("change",async()=>{
+      detail[input.dataset.field]=input.type==="checkbox"?input.checked:input.value.trim();
+      if(input.dataset.field!=="visible"){markUnsaved();return}
+      try{await saveLocal();if(cloudResident)await window.ezCloud.saveSettings(cloudResident.id,collectSettings());setSync(cloudResident?"TV updated":"Saved on this device");showToast(input.checked?"Photo shown":"Photo hidden")}
+      catch(error){console.error(error);setSync("Needs attention",true);showToast("Could not update TV. Check the connection")}
+    }));
     item.querySelectorAll("button").forEach(button=>button.addEventListener("click",()=>{
-      if(button.dataset.action==="delete")workingPhotos.splice(index,1);
-      if(button.dataset.action==="left"&&index>0)[workingPhotos[index-1],workingPhotos[index]]=[workingPhotos[index],workingPhotos[index-1]];
-      if(button.dataset.action==="right"&&index<workingPhotos.length-1)[workingPhotos[index+1],workingPhotos[index]]=[workingPhotos[index],workingPhotos[index+1]];
+      if(button.dataset.action==="delete"){workingPhotos.splice(index,1);photoDetails.splice(index,1)}
+      if(button.dataset.action==="left"&&index>0){[workingPhotos[index-1],workingPhotos[index]]=[workingPhotos[index],workingPhotos[index-1]];[photoDetails[index-1],photoDetails[index]]=[photoDetails[index],photoDetails[index-1]]}
+      if(button.dataset.action==="right"&&index<workingPhotos.length-1){[workingPhotos[index+1],workingPhotos[index]]=[workingPhotos[index],workingPhotos[index+1]];[photoDetails[index+1],photoDetails[index]]=[photoDetails[index],photoDetails[index+1]]}
       renderPhotoManager();markUnsaved();
     }));
     manager.append(item);
   });
   $("#photoCount").textContent=`${workingPhotos.length} added`;
-  photoStatus.textContent=workingPhotos.length?"Use the arrows to choose the order.":"No personal photos saved yet.";
+  photoStatus.textContent=workingPhotos.length?"Use the arrows to choose the order. Press Send to TV after deleting or changing captions.":"No personal photos saved yet.";
 }
 
 function renderSingleMedia(type){
@@ -118,8 +143,8 @@ function renderSingleMedia(type){
   }
   if(type==="video"){
     previewUrl=URL.createObjectURL(file);
-    preview.innerHTML=`<video src="${previewUrl}" muted playsinline preload="metadata" aria-label="${fileName(file)}"></video>`;
-  }else preview.innerHTML=`<span>♪</span><p>${fileName(file)}</p>`;
+    preview.replaceChildren();const element=document.createElement("video");element.src=previewUrl;element.muted=true;element.playsInline=true;element.preload="metadata";element.setAttribute("aria-label",fileName(file));preview.append(element);
+  }else{preview.innerHTML="<span>♪</span><p></p>";preview.querySelector("p").textContent=fileName(file)}
   remove.hidden=false;
   status.textContent=`Ready: ${fileName(file)}`;
 }
@@ -161,6 +186,7 @@ async function hydrateCloud(){
   workingAudio=files.find(item=>item.type==="audio")?.file||null;
   renderPhotoManager();renderSingleMedia("video");renderSingleMedia("audio");
   if(settings)applySettings(settings);
+  renderPhotoManager();
   await saveLocal();
 }
 
@@ -171,8 +197,10 @@ async function refreshDevices(){
   if(!devices.length){list.innerHTML="<p>No screen paired yet.</p>";return}
   devices.forEach((device,index)=>{
     const row=document.createElement("div");row.className="device-row";
-    const seen=device.last_seen?new Date(device.last_seen).toLocaleString():"Waiting for first connection";
-    row.innerHTML=`<div><b>Resident screen ${index+1}</b><small>Last connected: ${seen}</small></div><button type="button">Disconnect</button>`;
+    const age=device.last_seen?Date.now()-new Date(device.last_seen).getTime():Infinity;
+    const seen=device.last_seen?new Date(device.last_seen).toLocaleString():"Never connected";
+    const status=age<120000?"Recently connected":age<600000?"Connection not recently confirmed":"Needs a connection check";
+    row.innerHTML=`<div><b>Resident screen ${index+1}</b><small>${status} · last seen ${seen}. A stale check cannot tell whether the screen is off or offline.</small></div><button type="button">Disconnect</button>`;
     row.querySelector("button").addEventListener("click",async()=>{
       if(!confirm("Disconnect this Resident View? It will need a new pairing code."))return;
       await window.ezCloud.disconnectDevice(device.id);await refreshDevices();showToast("Screen disconnected");
@@ -188,7 +216,7 @@ function showConnectedState(){
   $("#healthConnection").textContent="Paired and ready";
 }
 
-photoInput.addEventListener("change",()=>{workingPhotos.push(...photoInput.files);photoInput.value="";renderPhotoManager();markUnsaved()});
+photoInput.addEventListener("change",()=>{const files=[...photoInput.files];workingPhotos.push(...files);photoDetails.push(...files.map(()=>({name:"",relationship:"",visible:true})));photoInput.value="";renderPhotoManager();markUnsaved()});
 videoInput.addEventListener("change",()=>{workingVideo=videoInput.files[0]||null;videoInput.value="";renderSingleMedia("video");markUnsaved()});
 audioInput.addEventListener("change",()=>{workingAudio=audioInput.files[0]||null;audioInput.value="";renderSingleMedia("audio");markUnsaved()});
 $("#removeVideo").addEventListener("click",()=>{workingVideo=null;renderSingleMedia("video");markUnsaved()});
@@ -204,7 +232,6 @@ $("#setupForm").addEventListener("submit",async event=>{
       setSync("Sending to TV");$("#saveStatus").textContent="Sending changes securely…";
       const settings=collectSettings();
       await window.ezCloud.uploadResident(cloudResident,profile,workingPhotos,workingVideo,workingAudio,settings);
-      await window.ezCloud.saveSettings(cloudResident.id,settings);
       cloudResident={...cloudResident,name:profile.name,help_message:profile.help};
       $("#saveStatus").textContent="Wanda’s TV is up to date.";$("#healthUpdate").textContent=new Date().toLocaleString();setSync("TV up to date");showToast("Sent to Wanda’s TV");
     }else{$("#saveStatus").textContent="Saved for this browser preview.";setSync("Saved on this device");showToast("Saved on this device")}
@@ -214,7 +241,7 @@ $("#setupForm").addEventListener("submit",async event=>{
 
 $("#resetButton").addEventListener("click",async()=>{
   if(!confirm("Remove all content saved on this device?"))return;
-  await clearDatabase();workingPhotos=[];workingVideo=null;workingAudio=null;
+  await clearDatabase();workingPhotos=[];photoDetails=[];workingVideo=null;workingAudio=null;
   $("#residentName").value="Wanda";$("#helpMessage").value="You are safe. Someone from your care team is nearby.";
   applySettings(DEFAULT_SETTINGS);renderPhotoManager();renderSingleMedia("video");renderSingleMedia("audio");setSync("Saved on this device");showToast("Local prototype reset");
 });
@@ -283,16 +310,28 @@ $("#queueHomeToday").addEventListener("click",async()=>{
 });
 
 $("#copyRecoverySummary").addEventListener("click",async()=>{
-  const text=`EZ-TV prototype setup\nResident: ${value("#residentName")||"Wanda"}\nCaregiver access: this browser\nResident screen: ${cloudResident?"paired":"not paired"}\nIf this browser is cleared, pair the resident screen again.`;
+  const text=`EZ-TV prototype setup\nResident: ${value("#residentName")||"Wanda"}\nCaregiver access: this browser\nResident screen: ${cloudResident?"paired":"not paired"}\nKeep this caregiver browser available. Clearing its data may remove access; contact the prototype owner before resetting it.`;
   await navigator.clipboard.writeText(text);showToast("Setup summary copied");
 });
 
-let minutes=Number(localStorage.getItem("eztv-pilot-minutes")||0);
+$("#pauseScreen").addEventListener("click",async()=>{
+  const previous=Boolean(workingSettings.paused);
+  workingSettings.paused=!previous;renderPauseStatus();
+  try{await saveLocal();if(cloudResident)await window.ezCloud.saveSettings(cloudResident.id,collectSettings());setSync(cloudResident?"TV updated":"Saved on this device");showToast(previous?"Screen resumed":"Screen paused")}
+  catch(error){workingSettings.paused=previous;renderPauseStatus();await saveLocal().catch(()=>{});console.error(error);setSync("Needs attention",true);showToast("Could not change the TV. Check the connection")}
+});
+
+const weekKey=()=>{const day=new Date();day.setHours(0,0,0,0);day.setDate(day.getDate()-(day.getDay()+6)%7);return day.toISOString().slice(0,10)};
+let pilotWeek=weekKey();
+let minutes=Number(localStorage.getItem(`eztv-pilot-minutes-${pilotWeek}`)||0);
 function renderMinutes(){$("#maintenanceMinutes").textContent=minutes}
-document.querySelectorAll("[data-minutes]").forEach(button=>button.addEventListener("click",()=>{minutes+=Number(button.dataset.minutes);localStorage.setItem("eztv-pilot-minutes",minutes);renderMinutes()}));
-$("#resetMinutes").addEventListener("click",()=>{minutes=0;localStorage.setItem("eztv-pilot-minutes","0");renderMinutes()});
-document.querySelectorAll("[data-checkin]").forEach(button=>button.addEventListener("click",()=>{const labels={enjoyed:"Enjoyed it",chose:"Made a choice","needed-help":"Needed help",distressed:"Seemed uncomfortable"};const record={type:button.dataset.checkin,at:new Date().toISOString()};localStorage.setItem("eztv-last-checkin",JSON.stringify(record));$("#checkinStatus").textContent=`${labels[record.type]} · ${new Date(record.at).toLocaleString()}`;showToast("Observation saved on this device")}));
+document.querySelectorAll("[data-minutes]").forEach(button=>button.addEventListener("click",()=>{if(weekKey()!==pilotWeek){pilotWeek=weekKey();minutes=Number(localStorage.getItem(`eztv-pilot-minutes-${pilotWeek}`)||0)}minutes+=Number(button.dataset.minutes);localStorage.setItem(`eztv-pilot-minutes-${pilotWeek}`,minutes);renderMinutes()}));
+$("#resetMinutes").addEventListener("click",()=>{minutes=0;localStorage.setItem(`eztv-pilot-minutes-${pilotWeek}`,"0");renderMinutes()});
+const checkinLabels={enjoyed:"Enjoyed it",chose:"Made a choice","needed-help":"Needed help",distressed:"Seemed uncomfortable"};
+function renderCheckins(){const entries=JSON.parse(localStorage.getItem("eztv-checkins")||"[]");$("#checkinStatus").textContent=entries.length?`${entries.length} observations saved on this device.`:"No observation recorded yet.";$("#checkinHistory").replaceChildren(...entries.slice(-12).reverse().map(entry=>{const item=document.createElement("li");item.textContent=`${new Date(entry.at).toLocaleString()}: ${checkinLabels[entry.type]||entry.type}`;return item}))}
+document.querySelectorAll("[data-checkin]").forEach(button=>button.addEventListener("click",()=>{const entries=JSON.parse(localStorage.getItem("eztv-checkins")||"[]");entries.push({type:button.dataset.checkin,at:new Date().toISOString()});localStorage.setItem("eztv-checkins",JSON.stringify(entries));renderCheckins();showToast("Observation saved on this device")}));
 renderMinutes();
+renderCheckins();
 
 window.addEventListener("offline",()=>setSync("Offline. Changes stay here",true));
 window.addEventListener("online",()=>setSync(cloudSession?"Securely connected":"Saved on this device"));
@@ -301,5 +340,6 @@ window.addEventListener("beforeunload",()=>{thumbnailUrls.forEach(URL.revokeObje
 (async function start(){
   await hydrateLocal();
   try{await initializeCloud()}catch(error){console.error(error);$("#connectionMessage").textContent="Secure connection needs attention. Local content is still available.";setSync("Needs attention",true)}
+  setInterval(()=>{if(cloudResident&&document.visibilityState==="visible")refreshDevices().catch(()=>{})},60000);
   if("serviceWorker" in navigator)navigator.serviceWorker.register("service-worker.js").catch(()=>{});
 })();
