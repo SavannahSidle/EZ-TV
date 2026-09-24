@@ -732,3 +732,18 @@ body[data-interface-theme="garden"] .setup-result{background:linear-gradient(145
 /* Give the connection label a little breathing room from the utility controls */
 .system-state>.connection-status{margin-right:14px}
 @media(max-width:680px){.system-state>.connection-status{margin-right:0}}
+
+/* Connection status sits between navigation and utility controls */
+.system-bar{grid-template-columns:auto minmax(0,1fr) auto auto;column-gap:18px}
+.header-connection{display:flex;align-items:center;justify-self:center;gap:8px;color:#72879a;font:.67rem var(--mono);white-space:nowrap}
+.system-state{width:auto}
+@media(max-width:1240px) and (min-width:901px){.header-connection{display:flex}}
+@media(max-width:900px){
+  .system-bar{grid-template-columns:auto minmax(0,1fr) auto;grid-template-areas:"logo connection state" "nav nav nav"}
+  .header-connection{grid-area:connection;display:flex;justify-self:center}
+  .system-state{display:flex;width:auto;grid-template:none}
+}
+@media(max-width:680px){
+  .system-bar{grid-template-columns:auto minmax(0,1fr) auto;grid-template-areas:"logo connection state" "nav nav nav"}
+  .logo{justify-self:start}.header-connection{justify-self:center}.system-state{justify-self:end}
+}
