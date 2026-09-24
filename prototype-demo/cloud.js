@@ -28,42 +28,65 @@
   }
 
   async function signedMedia(residentId){
-    const result=await client.from("media").select("*").eq("resident_id",residentId).order("sort_order");
+    const [result,settings]=await Promise.all([client.from("media").select("*").eq("resident_id",residentId).order("sort_order"),getSettings(residentId)]);
     if(result.error)throw result.error;
-    return Promise.all(result.data.map(async item=>{
+    return Promise.all(activeMedia(result.data,settings).map(async item=>{
       const signed=await client.storage.from("resident-media").createSignedUrl(item.storage_path,3600);
       if(signed.error)throw signed.error;
       return {...item,url:signed.data.signedUrl};
     }));
   }
 
+  function activeMedia(items,settings){
+    const batch=settings?.active_media_batch;
+    return items.filter(item=>batch?item.storage_path.includes(`/${batch}/`):!item.storage_path.includes("/batch-"));
+  }
+
   async function uploadResident(resident,profile,photos,video,audio,settings){
-    const update=await client.from("residents").update({name:profile.name,help_message:encodeHelpMessage(profile.help,settings||null)}).eq("id",resident.id);
-    if(update.error)throw update.error;
-    const old=await client.from("media").select("storage_path").eq("resident_id",resident.id);
+    const old=await client.from("media").select("id,storage_path").eq("resident_id",resident.id);
     if(old.error)throw old.error;
-    if(old.data.length){
-      const removed=await client.storage.from("resident-media").remove(old.data.map(item=>item.storage_path));
-      if(removed.error)throw removed.error;
-    }
-    const cleared=await client.from("media").delete().eq("resident_id",resident.id);
-    if(cleared.error)throw cleared.error;
+    const batch=`batch-${crypto.randomUUID()}`;
+    const newPaths=[];
     const items=[
       ...photos.map((file,index)=>({file,type:"photo",order:index})),
       ...(video?[{file:video,type:"video",order:0}]:[]),
       ...(audio?[{file:audio,type:"audio",order:0}]:[])
     ];
-    for(const item of items){
-      const safeName=(item.file.name||`${item.type}-${Date.now()}`).replace(/[^a-zA-Z0-9._-]/g,"-");
-      const path=`${resident.id}/${crypto.randomUUID()}-${safeName}`;
-      const uploaded=await client.storage.from("resident-media").upload(path,item.file,{contentType:item.file.type||"application/octet-stream",upsert:false});
-      if(uploaded.error)throw uploaded.error;
-      const row=await client.from("media").insert({resident_id:resident.id,type:item.type,title:item.file.name||safeName,storage_path:path,sort_order:item.order});
-      if(row.error)throw row.error;
+    try{
+      for(const item of items){
+        const safeName=(item.file.name||`${item.type}-${Date.now()}`).replace(/[^a-zA-Z0-9._-]/g,"-");
+        const path=`${resident.id}/${batch}/${crypto.randomUUID()}-${safeName}`;
+        const uploaded=await client.storage.from("resident-media").upload(path,item.file,{contentType:item.file.type||"application/octet-stream",upsert:false});
+        if(uploaded.error)throw uploaded.error;
+        newPaths.push(path);
+        const row=await client.from("media").insert({resident_id:resident.id,type:item.type,title:item.file.name||safeName,storage_path:path,sort_order:item.order});
+        if(row.error)throw row.error;
+      }
+      const update=await client.from("residents").update({name:profile.name,help_message:encodeHelpMessage(profile.help,{...settings,active_media_batch:batch})}).eq("id",resident.id);
+      if(update.error)throw update.error;
+      settings.active_media_batch=batch;
+    }catch(error){
+      if(newPaths.length){
+        await client.from("media").delete().eq("resident_id",resident.id).in("storage_path",newPaths);
+        await client.storage.from("resident-media").remove(newPaths);
+      }
+      throw error;
+    }
+    // Cleanup after activation: failure here must not roll back the working new batch.
+    if(old.data.length){
+      const cleared=await client.from("media").delete().eq("resident_id",resident.id).in("id",old.data.map(item=>item.id));
+      if(!cleared.error){
+        const removed=await client.storage.from("resident-media").remove(old.data.map(item=>item.storage_path));
+        if(removed.error)console.warn("Old media cleanup pending",removed.error);
+      }else console.warn("Old media cleanup pending",cleared.error);
     }
   }
 
   async function getSettings(residentId){
+    const embedded=await client.from("residents").select("help_message").eq("id",residentId).single();
+    if(embedded.error)throw embedded.error;
+    const decoded=decodeHelpMessage(embedded.data.help_message);
+    if(decoded.settings)return decoded.settings;
     const result=await client.from("resident_settings").select("*").eq("resident_id",residentId).maybeSingle();
     if(result.error){
       if(missingSettingsTable(result.error)){
@@ -77,19 +100,11 @@
   }
 
   async function saveSettings(residentId,settings){
-    const payload={resident_id:residentId,...settings,updated_at:new Date().toISOString()};
-    const result=await client.from("resident_settings").upsert(payload,{onConflict:"resident_id"});
-    if(result.error){
-      if(missingSettingsTable(result.error)){
-        const resident=await client.from("residents").select("help_message").eq("id",residentId).single();
-        if(resident.error)throw resident.error;
-        const decoded=decodeHelpMessage(resident.data.help_message);
-        const fallback=await client.from("residents").update({help_message:encodeHelpMessage(decoded.help,settings)}).eq("id",residentId);
-        if(fallback.error)throw fallback.error;
-        return true;
-      }
-      throw result.error;
-    }
+    const resident=await client.from("residents").select("help_message").eq("id",residentId).single();
+    if(resident.error)throw resident.error;
+    const decoded=decodeHelpMessage(resident.data.help_message);
+    const result=await client.from("residents").update({help_message:encodeHelpMessage(decoded.help,settings)}).eq("id",residentId);
+    if(result.error)throw result.error;
     return true;
   }
 
@@ -107,6 +122,7 @@
     },
     getResident,
     signedMedia,
+    activeMedia,
     uploadResident,
     getSettings,
     saveSettings,
