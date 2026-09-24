@@ -11,7 +11,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="prototype.css?v=12">
+  <link rel="stylesheet" href="prototype.css?v=13">
 </head>
 <body class="caregiver-app">
   <header class="prototype-bar">
@@ -20,7 +20,16 @@
     <a class="resident-link" href="tv.html" target="_blank" rel="noopener">Open Resident View</a>
   </header>
 
+  <nav class="caregiver-tabs" aria-label="Caregiver setup sections">
+    <button class="caregiver-tab active" type="button" data-care-section="setup">Setup</button>
+    <button class="caregiver-tab" type="button" data-care-section="profile">Life Profile</button>
+    <button class="caregiver-tab" type="button" data-care-section="channel">Daily channel</button>
+    <button class="caregiver-tab" type="button" data-care-section="access">Access & privacy</button>
+    <button class="caregiver-tab" type="button" data-care-section="pilot">Pilot</button>
+  </nav>
+
   <main class="caregiver-main">
+    <div class="care-section active" data-care-page="setup">
     <section class="caregiver-heading">
       <div><p class="eyebrow">WANDA'S EZ-TV</p><h1>Keep home close.</h1></div>
       <div class="sync-pill" id="syncPill"><span></span><b id="syncLabel">Saved on this device</b></div>
@@ -78,22 +87,109 @@
 
       <div class="save-row"><p id="saveStatus" role="status">Changes are saved on this device.</p><button class="primary-button send-button" type="submit">Send to TV</button></div>
     </form>
+    </div>
 
-    <section class="access-section" id="accessSection" hidden>
-      <div class="section-heading"><div><p class="eyebrow">ACCESS</p><h2>People and screens</h2></div></div>
-      <div class="access-grid">
-        <section class="setup-card"><div class="card-heading"><span>Paired screens</span><small>Secure</small></div><div id="deviceList" class="device-list"><p>No screen paired yet.</p></div></section>
-        <section class="setup-card"><div class="card-heading"><span>Invite family</span><small>7-day link</small></div><div class="invite-form"><label>Email address<input id="inviteEmail" type="email" autocomplete="email" placeholder="family@example.com"></label><button class="secondary-button" id="inviteButton" type="button">Copy invitation link</button></div><p class="file-status">Invited family can help manage Wanda’s content.</p></section>
+    <section class="care-section" data-care-page="profile" aria-labelledby="lifeProfileTitle">
+      <div class="workspace-title"><div><p class="eyebrow">PORTABLE LIFE PROFILE</p><h1 id="lifeProfileTitle">Keep Wanda known.</h1><p>One small profile can move with her from home to care. Wanda and her family decide what appears and who may see it.</p></div><button class="primary-button section-save" type="button" data-save-settings>Save profile</button></div>
+      <div class="profile-grid">
+        <section class="setup-card story-card">
+          <div class="card-heading"><span>The person</span><small>Resident approved</small></div>
+          <label>How Wanda likes to be addressed<input id="preferredName" maxlength="40" value="Wanda"></label>
+          <label>A little about Wanda<textarea id="lifeStory" rows="5" maxlength="600" placeholder="A mother, grandmother, animal lover, gardener…"></textarea></label>
+          <label>Favourite places<input id="familiarPlaces" maxlength="240" placeholder="Home garden, cottage lake, Barrhaven…"></label>
+          <label>Pets and animals<input id="pets" maxlength="240" placeholder="Princess the dog…"></label>
+        </section>
+        <section class="setup-card story-card">
+          <div class="card-heading"><span>Identity and belonging</span><small>Optional</small></div>
+          <label>Language preferences<input id="languages" maxlength="180" placeholder="English; familiar Mi’kmaq words…"></label>
+          <label>Culture, traditions, or community<textarea id="culture" rows="4" maxlength="400" placeholder="Music, foods, holidays, places, faith, community…"></textarea></label>
+          <label>Interests that still matter<textarea id="interests" rows="4" maxlength="400" placeholder="Gardening, animals, family stories, old comedies…"></textarea></label>
+          <label class="check-row"><input id="staffProfileVisible" type="checkbox"><span><b>Allow a short care-team profile</b><small>Share selected identity details with approved staff.</small></span></label>
+        </section>
+        <section class="setup-card comfort-card">
+          <div class="card-heading"><span>Comfort Map</span><small>New</small></div>
+          <p class="card-intro">A gentle plan for moments when Wanda asks for help. It does not diagnose, monitor, or score her.</p>
+          <label>People who reassure her<input id="comfortPeople" maxlength="240" placeholder="Savannah, Amanda…"></label>
+          <label>Words that help<textarea id="comfortWords" rows="3" maxlength="300" placeholder="You are safe. Savannah knows where you are."></textarea></label>
+          <label>Things that help<textarea id="comfortActions" rows="3" maxlength="300" placeholder="Princess photos, quiet music, garden pictures…"></textarea></label>
+          <label>Please avoid<textarea id="comfortAvoid" rows="3" maxlength="300" placeholder="Anything upsetting, confusing, or no longer welcome."></textarea></label>
+        </section>
       </div>
     </section>
 
-    <button class="reset-link" id="resetButton" type="button">Reset local prototype</button>
+    <section class="care-section" data-care-page="channel" aria-labelledby="channelTitle">
+      <div class="workspace-title"><div><p class="eyebrow">PERSONAL CHANNEL</p><h1 id="channelTitle">A familiar day, ready to play.</h1><p>Choose the pattern once. EZ-TV keeps the day moving without asking the family to program every hour.</p></div><button class="primary-button section-save" type="button" data-save-settings>Save channel</button></div>
+      <div class="channel-grid">
+        <section class="setup-card">
+          <div class="card-heading"><span>How Wanda uses EZ-TV</span><small>Ability setting</small></div>
+          <div class="mode-picker" role="radiogroup" aria-label="Interaction mode">
+            <label><input type="radio" name="interactionMode" value="choose" checked><span><b>Choose</b><small>Three familiar choices remain on screen.</small></span></label>
+            <label><input type="radio" name="interactionMode" value="guide"><span><b>Guide</b><small>One gentle suggestion appears first. Wanda can still choose something else.</small></span></label>
+            <label><input type="radio" name="interactionMode" value="channel"><span><b>Channel</b><small>Familiar content begins automatically. Any button returns to the three choices.</small></span></label>
+          </div>
+        </section>
+        <section class="setup-card">
+          <div class="card-heading"><span>Appearance</span><small>Separate from ability</small></div>
+          <div class="appearance-picker" role="radiogroup" aria-label="Resident appearance">
+            <label class="original"><input type="radio" name="residentTheme" value="original" checked><span>Original</span></label>
+            <label class="warm"><input type="radio" name="residentTheme" value="warm"><span>Warm Home</span></label>
+            <label class="garden"><input type="radio" name="residentTheme" value="garden"><span>Garden Calm</span></label>
+          </div>
+          <label class="check-row"><input id="showClock" type="checkbox" checked><span><b>Show time and date</b><small>Turn this off if the clock creates worry.</small></span></label>
+          <label class="check-row"><input id="showCaptions" type="checkbox" checked><span><b>Show names and relationships</b><small>Add context to family photographs.</small></span></label>
+        </section>
+        <section class="setup-card day-plan">
+          <div class="card-heading"><span>Daily rhythm</span><small>Runs automatically</small></div>
+          <label><span>Morning</span><select id="morningContent"><option value="music">Favourite music</option><option value="photos">Family and pet photos</option><option value="video">Favourite show</option><option value="quiet">Quiet screen</option></select></label>
+          <label><span>Afternoon</span><select id="afternoonContent"><option value="photos">Family and pet photos</option><option value="video">Favourite show</option><option value="music">Favourite music</option><option value="quiet">Quiet screen</option></select></label>
+          <label><span>Evening</span><select id="eveningContent"><option value="video">Favourite show</option><option value="music">Favourite music</option><option value="photos">Family and pet photos</option><option value="quiet">Quiet screen</option></select></label>
+          <label class="check-row"><input id="channelEnabled" type="checkbox"><span><b>Start Channel mode automatically</b><small>Only when Channel is selected above.</small></span></label>
+        </section>
+        <section class="setup-card home-today-card">
+          <div class="card-heading"><span>Home Today</span><small>New</small></div>
+          <p class="card-intro">Share one small piece of current family life. It stays optional for Wanda and expires automatically.</p>
+          <label>From<input id="homeTodayFrom" maxlength="60" placeholder="Savannah"></label>
+          <label>Message<textarea id="homeTodayMessage" rows="3" maxlength="180" placeholder="Princess stole the warm blanket again."></textarea></label>
+          <label>Keep it available for<select id="homeTodayExpiry"><option value="1">Today</option><option value="3">3 days</option><option value="7">1 week</option></select></label>
+          <button class="secondary-button" id="queueHomeToday" type="button">Add to Wanda’s channel</button>
+          <p class="file-status" id="homeTodayStatus">Nothing waiting.</p>
+        </section>
+      </div>
+    </section>
+
+    <section class="care-section" data-care-page="access" aria-labelledby="accessTitle">
+      <div class="workspace-title"><div><p class="eyebrow">ACCESS & PRIVACY</p><h1 id="accessTitle">People, screens, and control.</h1><p>Pair once, remove access instantly, and keep a plain record of important changes.</p></div></div>
+      <div class="health-grid">
+        <article class="health-card"><span class="health-dot good"></span><div><b>Resident screen</b><small id="healthConnection">Waiting for pairing</small></div></article>
+        <article class="health-card"><span class="health-dot good"></span><div><b>Saved content</b><small id="healthOffline">Available on this caregiver device</small></div></article>
+        <article class="health-card"><span class="health-dot good"></span><div><b>Last update</b><small id="healthUpdate">No update sent yet</small></div></article>
+      </div>
+      <section class="access-section" id="accessSection">
+      <div class="section-heading"><div><p class="eyebrow">ACCESS</p><h2>People and screens</h2></div></div>
+      <div class="access-grid">
+        <section class="setup-card"><div class="card-heading"><span>Paired screens</span><small>Single-use codes</small></div><div id="deviceList" class="device-list"><p>No screen paired yet.</p></div></section>
+        <section class="setup-card"><div class="card-heading"><span>This caregiver device</span><small>Owner access</small></div><p class="card-intro">This browser holds the caregiver access for the prototype. Wanda never signs in and never sees an account screen.</p><button class="secondary-button" id="copyRecoverySummary" type="button">Copy setup summary</button></section>
+        <section class="setup-card"><div class="card-heading"><span>Consent</span><small>Review any time</small></div><label class="check-row"><input id="consentPersonalMedia" type="checkbox"><span><b>Wanda’s personal media is approved</b><small>Family has reviewed what is appropriate to show.</small></span></label><label class="check-row"><input id="consentCareTeam" type="checkbox"><span><b>Care-team profile is approved</b><small>Only selected details may be shared with authorized staff.</small></span></label></section>
+        <section class="setup-card"><div class="card-heading"><span>Privacy promises</span><small>Prototype boundary</small></div><ul class="plain-list"><li>No camera or passive microphone</li><li>No behaviour or cognitive scoring</li><li>No advertising profile</li><li>Access can be removed by disconnecting the screen</li><li>Personal media remains private storage</li></ul></section>
+      </div>
+      </section>
+      <button class="reset-link" id="resetButton" type="button">Reset local prototype</button>
+    </section>
+
+    <section class="care-section" data-care-page="pilot" aria-labelledby="pilotTitle">
+      <div class="workspace-title"><div><p class="eyebrow">WANDA PILOT</p><h1 id="pilotTitle">Prove that it helps.</h1><p>Track technology work and basic experience. No clinical claims, hidden monitoring, or creepy little surveillance goblin.</p></div></div>
+      <div class="pilot-grid">
+        <section class="setup-card"><div class="card-heading"><span>This week</span><small>Caregiver effort</small></div><div class="pilot-metric"><strong id="maintenanceMinutes">0</strong><span>minutes maintaining EZ-TV</span></div><div class="minute-buttons"><button type="button" data-minutes="1">+1 min</button><button type="button" data-minutes="5">+5 min</button><button type="button" data-minutes="15">+15 min</button></div><button class="remove-media" id="resetMinutes" type="button">Reset weekly total</button></section>
+        <section class="setup-card"><div class="card-heading"><span>Quick check-in</span><small>Family observation</small></div><div class="checkin-buttons" role="group" aria-label="Record a simple observation"><button type="button" data-checkin="enjoyed">Enjoyed it</button><button type="button" data-checkin="chose">Made a choice</button><button type="button" data-checkin="needed-help">Needed help</button><button type="button" data-checkin="distressed">Seemed uncomfortable</button></div><p class="file-status" id="checkinStatus">No observation recorded today.</p></section>
+        <section class="setup-card pilot-questions"><div class="card-heading"><span>Four-week decision</span><small>Build gate</small></div><ol><li>Can Wanda enjoy it without repeated teaching?</li><li>Does it recover without Wanda fixing anything?</li><li>Does Savannah spend less time maintaining television access?</li><li>Which content creates interest, comfort, or connection?</li><li>Does it remain useful after the novelty fades?</li></ol></section>
+      </div>
+    </section>
   </main>
 
   <div class="toast" id="toast" role="status"></div>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="config.js?v=9"></script>
-  <script src="cloud.js?v=9"></script>
-  <script src="prototype.js?v=9"></script>
+  <script src="config.js?v=10"></script>
+  <script src="cloud.js?v=10"></script>
+  <script src="prototype.js?v=10"></script>
 </body>
 </html>
