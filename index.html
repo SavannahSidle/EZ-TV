@@ -10,7 +10,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=28">
+  <link rel="stylesheet" href="styles.css?v=29">
 </head>
 <body>
   <div class="app-shell">
@@ -299,7 +299,7 @@
       <section class="facility-view" id="facilityView" aria-label="Facility dashboard">
         <aside class="facility-rail">
           <div class="facility-mark">FH</div>
-          <nav aria-label="Facility sections"><button class="active" aria-label="Facility overview" data-facility-target="facilityHeading"><span>⌂</span><b>Overview</b></button><button aria-label="Resident access" data-facility-target="residentStatus"><span>◎</span><b>Residents</b></button><button aria-label="Device status" data-facility-target="facilityStats"><span>▣</span><b>Devices</b></button><button aria-label="Today’s schedules" data-facility-target="facilityRhythm"><span>◷</span><b>Schedules</b></button></nav>
+          <nav aria-label="Facility sections"><button class="active" aria-label="Facility overview" data-facility-target="facilityHeading"><span>⌂</span><b>Overview</b></button><button aria-label="Resident access" data-facility-target="residentStatus"><span>◎</span><b>Residents</b></button><button aria-label="Resident life story" data-facility-target="residentStory"><span>♡</span><b>Life story</b></button><button aria-label="Device status" data-facility-target="facilityStats"><span>▣</span><b>Devices</b></button><button aria-label="Today’s schedules" data-facility-target="facilityRhythm"><span>◷</span><b>Schedules</b></button></nav>
           <button class="facility-account" aria-label="Facility account">AD</button>
         </aside>
         <div class="facility-workspace">
@@ -328,6 +328,11 @@
               <p>Schedules show what the interface is prepared to offer. They do not track resident behaviour.</p>
             </section>
           </div>
+          <section class="panel resident-story" id="residentStory" tabindex="-1">
+            <div class="resident-story-heading"><div><p class="mono-label">ILLUSTRATED DEMO PROFILE · FAMILY APPROVED</p><h3>A fuller picture of the person.</h3><p>Earlier-life photos and short notes can show someone’s history, relationships, interests, and personality alongside current care needs. They also offer natural openings for genuine conversation.</p></div><span>Visible only to approved care staff</span></div>
+            <div class="resident-story-profile"><div class="story-person"><i>WS</i><div><small>A FULLER PICTURE OF</small><b>Wanda</b><p>Family, gardens, lake days, music, and birthday traditions.</p></div></div><div class="story-memories"><figure><img src="assets/memories/lake-day.jpg" alt="Illustrated silhouettes of a family beside a lake"><figcaption><b>Lake summers</b><span>A familiar place connected to family trips.</span></figcaption></figure><figure><img src="assets/memories/garden-afternoon.jpg" alt="Illustrated silhouettes spending time in a garden"><figcaption><b>Garden afternoons</b><span>Flowers, fresh air, and time outside.</span></figcaption></figure><figure><img src="assets/memories/birthday-cake.jpg" alt="Illustrated silhouettes gathered around a birthday cake"><figcaption><b>Birthday tradition</b><span>Cake, family, and the same song every year.</span></figcaption></figure></div></div>
+            <p class="story-privacy">Families choose what to share. This view supports connection; it is not a health record or another charting task.</p>
+          </section>
           <section class="panel shared-memories" id="sharedMemories" tabindex="-1">
             <div class="shared-memory-copy"><p class="mono-label">OPTIONAL · OFF BY DEFAULT</p><h3>Shared-screen memories</h3><p>During group television time, a facility can show a calm rotation of family-approved photographs from residents who choose to participate. Every family controls what is included.</p><div class="shared-memory-status"><span id="sharedMemoryStatus">Demo off</span><button class="secondary-action" id="sharedMemoriesToggle" type="button">Turn on demo</button></div></div>
             <div class="shared-memory-preview" aria-label="Anonymous demonstration photographs"><img src="assets/memories/garden-afternoon.jpg" alt="Anonymous family silhouettes in a garden"><img src="assets/memories/lake-day.jpg" alt="Anonymous family silhouettes beside a lake"><img src="assets/memories/birthday-cake.jpg" alt="Anonymous family silhouettes around a birthday cake"></div>
@@ -417,6 +422,6 @@
   <dialog class="modal resident-modal" id="residentModal"><div class="modal-heading"><div><p class="mono-label">RESIDENT ACCESS</p><h2 id="residentModalName">Resident</h2></div><button class="modal-close" id="residentModalClose" aria-label="Close">×</button></div><div class="resident-summary"><div><small>ROOM</small><b id="residentModalRoom"></b></div><div><small>ACCESS MODE</small><b id="residentModalMode"></b></div><div><small>STATUS</small><b id="residentModalStatus"></b></div><div><small>LAST UPDATE</small><b id="residentModalUpdated"></b></div></div><div class="resident-detail"><span>NEXT FAMILIAR ROUTINE</span><b id="residentModalRoutine"></b></div><div class="resident-detail"><span>SELECTED MEDIA</span><b id="residentModalMedia"></b></div><div class="resident-modal-actions"><button class="secondary-action" id="residentPrepareUpdate">Prepare update</button><button class="primary-action" id="residentOpenTv">Open TV view</button></div></dialog>
   <dialog class="modal about-modal" id="aboutModal"><div class="modal-heading"><div><p class="mono-label">ABOUT THE PROTOTYPE</p><h2>EZ-TV</h2></div><button class="modal-close" id="aboutClose" aria-label="Close">×</button></div><p>EZ-TV explores how familiar media can remain accessible as memory, attention, and navigation abilities change.</p><dl><div><dt>Designed for</dt><dd>People living with dementia</dd></div><div><dt>Interaction</dt><dd>Direct touch and one-word voice commands</dd></div><div><dt>Media</dt><dd>Family photographs, familiar television, and music</dd></div><div><dt>Compatibility</dt><dd>Smart TVs and conventional televisions</dd></div></dl><footer>Designed independently by Savannah Sidle. Project originated in 2024.</footer></dialog>
   <div class="toast" id="toast" role="status"></div>
-  <script src="app.js?v=21"></script>
+  <script src="app.js?v=22"></script>
 </body>
 </html>
