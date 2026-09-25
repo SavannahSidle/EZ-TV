@@ -734,6 +734,7 @@ body[data-interface-theme="garden"] .setup-result{background:linear-gradient(145
 @media(max-width:680px){.system-state>.connection-status{margin-right:0}}
 
 /* One appearance control, directly below the header on every view. */
+html{scrollbar-gutter:stable}
 .site-appearance{height:68px;display:flex;flex-direction:column;align-items:flex-end;justify-content:center;gap:6px;padding:5px clamp(18px,3.5vw,54px);background:var(--void)}
 .site-appearance>span{color:var(--muted);font:.52rem var(--mono);letter-spacing:.09em}
 .site-appearance>div{display:flex;gap:6px}
