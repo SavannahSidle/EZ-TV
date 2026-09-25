@@ -9,6 +9,7 @@ let current={profile:{name:"Wanda",help:"You are safe. Someone from your care te
 let objectUrls=[];
 let tilePhotoUrl=null;
 let storyPhotoUrl=null;
+let storyPeopleUrls=[];
 let photoIndex=0;
 let cloudResidentId=null;
 let pairingStarted=false;
@@ -54,8 +55,14 @@ function applyProfile(){
   const phrase=document.querySelector("#tvPhrase");phrase.hidden=!(story.familiarPhrase&&story.phraseMeaning);
   document.querySelector("#tvPhraseText").textContent=story.familiarPhrase||"";
   document.querySelector("#tvPhraseMeaning").textContent=story.phraseMeaning||"";
-  const people=document.querySelector("#tvStoryPeople");people.replaceChildren();
-  visiblePhotos().slice(0,5).forEach(({detail})=>{if(!detail.name)return;const entry=document.createElement("p");entry.textContent=[detail.name,detail.relationship].filter(Boolean).join(" · ");people.append(entry)});
+  const people=document.querySelector("#tvStoryPeople");people.replaceChildren();storyPeopleUrls.forEach(URL.revokeObjectURL);storyPeopleUrls=[];
+  const entries=story.familiarPeople?.length?story.familiarPeople:visiblePhotos().slice(0,5).map(({detail})=>({name:detail.name,relationship:detail.relationship})).filter(person=>person.name);
+  entries.forEach(person=>{
+    const card=document.createElement("div"),caption=document.createElement("p");card.className="tv-story-person";
+    const photo=current.photos[person.photoIndex];
+    if(photo&&current.settings?.photo_details?.[person.photoIndex]?.visible!==false){const image=document.createElement("img"),url=URL.createObjectURL(photo);storyPeopleUrls.push(url);image.src=url;image.alt="";card.append(image)}
+    caption.textContent=[person.name,person.relationship,person.note].filter(Boolean).join(" · ");card.append(caption);people.append(card);
+  });
   if(storyPhotoUrl)URL.revokeObjectURL(storyPhotoUrl);
   const portrait=document.querySelector("#tvStoryImage"),firstPhoto=visiblePhotos()[0];storyPhotoUrl=firstPhoto?URL.createObjectURL(firstPhoto.file):null;
   portrait.hidden=!storyPhotoUrl;if(storyPhotoUrl)portrait.src=storyPhotoUrl;else portrait.removeAttribute("src");
