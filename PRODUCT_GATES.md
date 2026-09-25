@@ -45,6 +45,9 @@ This file prevents prototype screens from quietly dressing up as production infr
 - [ ] Verify focus, contrast, type size, sound, captions, and remote operation at television distance
 - [ ] Test with Wanda, including refusal and signs of discomfort
 - [ ] Test how quickly the pause control works on the chosen network and device
+- [ ] Record who installs, updates, recovers, and starts playback: family, staff, or provider
+- [ ] Verify the daily channel resumes after a device restart without asking Wanda or staff to navigate
+- [ ] Check whether approved content and settings can follow Wanda to another screen without re-entering her history
 
 ## Must pass before any household is charged
 
@@ -77,6 +80,14 @@ This file prevents prototype screens from quietly dressing up as production infr
 - [ ] Resident move, discharge, death, and room-change workflows
 - [ ] Staff training under ten minutes
 - [ ] Evidence that staff work decreases or stays neutral
+- [ ] Measure family minutes and facility staff minutes separately, including intake, weekly maintenance, and failure recovery
+- [ ] Confirm the facility can decline access to private family media and that the family can revoke it
+
+## Differentiation test
+
+The proposed wedge is a family-approved personal channel that can move from home to a care room and keep showing familiar media without a daily selection task. Photos, remote management, scheduled programming, and life profiles already exist elsewhere. This combination is a product hypothesis, not a market-first claim.
+
+With Wanda first, measure successful independent viewing, comfort and refusal, family setup and maintenance minutes, and failures requiring intervention. For a facility pilot, measure staff onboarding and interruption minutes separately. Compare the same tasks against existing TV use and a relevant competing service when feasible. If the channel adds recurring work or fails to follow the person, revise the product before claiming differentiation.
 
 ## Explicitly outside V1
 
