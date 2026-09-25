@@ -11,7 +11,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="prototype.css?v=16">
+  <link rel="stylesheet" href="prototype.css?v=17">
 </head>
 <body class="caregiver-app">
   <header class="prototype-bar">
@@ -114,6 +114,17 @@
           <label>Interests that still matter<textarea id="interests" rows="4" maxlength="400" placeholder="Gardening, animals, family stories, old comedies…"></textarea></label>
           <label class="check-row"><input id="staffProfileVisible" type="checkbox"><span><b>Allow a short care-team profile</b><small>Share selected identity details with approved staff.</small></span></label>
         </section>
+        <section class="setup-card story-card">
+          <div class="card-heading"><span>Familiar people</span><small>Family approved</small></div>
+          <p class="card-intro">Add a name, how this person knows the resident, and an optional photo. Their card appears in About me on the resident screen after you send it.</p>
+          <div id="pairedPeopleList" class="paired-people-list"></div>
+          <label>Name<input id="pairedPersonName" maxlength="45" placeholder="Maya"></label>
+          <label>Relationship<input id="pairedPersonRelationship" maxlength="60" placeholder="Daughter"></label>
+          <label>A familiar detail<input id="pairedPersonNote" maxlength="180" placeholder="We enjoy the garden together"></label>
+          <label>Photo (optional)<input id="pairedPersonPhoto" type="file" accept="image/*"></label>
+          <button class="secondary-button" id="pairedAddPerson" type="button">Add person</button>
+          <small class="phrase-hint">Adding a person sends the update to a paired TV automatically. If offline, it stays saved on this device until you send it later.</small>
+        </section>
         <section class="setup-card comfort-card">
           <div class="card-heading"><span>Comfort Map</span><small>New</small></div>
           <p class="card-intro">A gentle plan for moments when Wanda asks for help. It does not diagnose, monitor, or score her.</p>
@@ -199,6 +210,6 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="config.js?v=10"></script>
   <script src="cloud.js?v=15"></script>
-  <script src="prototype.js?v=16"></script>
+  <script src="prototype.js?v=17"></script>
 </body>
 </html>
