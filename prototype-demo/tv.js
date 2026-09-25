@@ -51,12 +51,15 @@ function applyProfile(){
   document.querySelector("#tvStoryName").textContent=story.preferredName||current.profile.name;
   document.querySelector("#tvStoryText").textContent=story.lifeStory||"";
   document.querySelector("#tvStoryPlaces").textContent=story.familiarPlaces?`Places I enjoy: ${story.familiarPlaces}`:"";
+  const phrase=document.querySelector("#tvPhrase");phrase.hidden=!(story.familiarPhrase&&story.phraseMeaning);
+  document.querySelector("#tvPhraseText").textContent=story.familiarPhrase||"";
+  document.querySelector("#tvPhraseMeaning").textContent=story.phraseMeaning||"";
   const people=document.querySelector("#tvStoryPeople");people.replaceChildren();
   visiblePhotos().slice(0,5).forEach(({detail})=>{if(!detail.name)return;const entry=document.createElement("p");entry.textContent=[detail.name,detail.relationship].filter(Boolean).join(" · ");people.append(entry)});
   if(storyPhotoUrl)URL.revokeObjectURL(storyPhotoUrl);
   const portrait=document.querySelector("#tvStoryImage"),firstPhoto=visiblePhotos()[0];storyPhotoUrl=firstPhoto?URL.createObjectURL(firstPhoto.file):null;
   portrait.hidden=!storyPhotoUrl;if(storyPhotoUrl)portrait.src=storyPhotoUrl;else portrait.removeAttribute("src");
-  document.querySelector("#tvStoryButton").hidden=!(story.lifeStory||story.familiarPlaces||people.childElementCount||firstPhoto);
+  document.querySelector("#tvStoryButton").hidden=!(story.lifeStory||story.familiarPlaces||people.childElementCount||firstPhoto||!phrase.hidden);
   document.body.dataset.theme=current.settings?.theme||"original";
   const paused=Boolean(current.settings?.paused);
   document.querySelector("#pausedStage").hidden=!paused;
