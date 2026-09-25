@@ -286,7 +286,64 @@ document.querySelector("#routineForm").addEventListener("submit",event=>{
 });
 
 document.querySelector("#addMediaButton").addEventListener("click",()=>showToast("Media upload is represented in this prototype"));
-document.querySelector("#addPersonButton").addEventListener("click",()=>showToast("Person setup is represented in this prototype"));
+const familyKey="eztv-public-demo-family";
+const storyKey="eztv-public-demo-story";
+function readDemoData(key,fallback){try{return JSON.parse(localStorage.getItem(key))||fallback}catch{return fallback}}
+let familiarPeople=readDemoData(familyKey,[{name:"Maya",relationship:"Daughter",note:"Enjoys garden afternoons together"},{name:"Daniel",relationship:"Grandchild",note:"Loves sharing lake days"},{name:"Leila",relationship:"Grandchild",note:"Enjoys family birthday celebrations"}]);
+let familyStory=readDemoData(storyKey,{about:"Wanda enjoys gardens, lake days, music, and time with family.",place:"A favourite memory: summer afternoons by the lake.",photo:"",facility:false});
+async function smallDemoImage(file){
+  if(!file)return "";
+  if(!file.type.startsWith("image/")||file.size>8*1024*1024)throw Error("Choose an image under 8 MB.");
+  const bitmap=await createImageBitmap(file);
+  const scale=Math.min(1,480/Math.max(bitmap.width,bitmap.height));
+  const canvas=document.createElement("canvas");canvas.width=Math.max(1,Math.round(bitmap.width*scale));canvas.height=Math.max(1,Math.round(bitmap.height*scale));
+  canvas.getContext("2d").drawImage(bitmap,0,0,canvas.width,canvas.height);bitmap.close();
+  return canvas.toDataURL("image/jpeg",.72);
+}
+function saveDemoData(key,value){try{localStorage.setItem(key,JSON.stringify(value));return true}catch{showToast("Browser storage is full. Try a smaller image.");return false}}
+function renderFamily(){
+  const grid=document.querySelector("#peopleGrid");grid.replaceChildren();
+  familiarPeople.forEach((person,index)=>{
+    const card=document.createElement("article"),avatar=document.createElement("span"),details=document.createElement("div"),title=document.createElement("h3"),relation=document.createElement("p"),note=document.createElement("small"),remove=document.createElement("button");
+    avatar.className="person-avatar aqua";
+    if(person.photo){const image=document.createElement("img");image.src=person.photo;image.alt="";avatar.append(image)}else avatar.textContent=person.name.split(/\s+/).slice(0,2).map(word=>word[0]).join("").toUpperCase();
+    title.textContent=person.name;relation.textContent=person.relationship;note.textContent=person.note||"";
+    remove.className="person-remove";remove.type="button";remove.textContent="Remove";remove.setAttribute("aria-label",`Remove ${person.name}`);
+    remove.addEventListener("click",()=>{const next=familiarPeople.filter((_,i)=>i!==index);if(!saveDemoData(familyKey,next))return;familiarPeople=next;renderFamily()});
+    details.append(title,relation,note);card.append(avatar,details,remove);grid.append(card);
+  });
+  const list=document.querySelector("#storyPeople");list.replaceChildren();
+  familiarPeople.forEach(person=>{const item=document.createElement("p");item.textContent=`${person.name} · ${person.relationship}${person.note?` · ${person.note}`:""}`;list.append(item)});
+}
+function renderStory(){
+  document.querySelector("#storyReadAbout").textContent=familyStory.about;
+  document.querySelector("#storyReadPlace").textContent=familyStory.place;
+  const portrait=document.querySelector("#storyPortrait");portrait.src=familyStory.photo||"assets/memories/garden-afternoon.jpg";portrait.alt=familyStory.photo?"Family-selected portrait for Wanda":"Illustrated family memory";
+  document.querySelector("#storyAbout").value=familyStory.about;
+  document.querySelector("#storyPlace").value=familyStory.place;
+  document.querySelector("#storyFacilityConsent").checked=!!familyStory.facility;
+  const facilityText=document.querySelector("#residentStory .story-person p");
+  facilityText.textContent=familyStory.facility?`${familyStory.about} ${familyStory.place}`:"Family, gardens, lake days, music, and birthday traditions. Illustrated demo only.";
+  document.querySelector("#residentStory .resident-story-heading>span").textContent=familyStory.facility?"Family chose to share this demo story":"Illustrated example · family sharing off";
+}
+renderFamily();renderStory();
+document.querySelector("#addPersonButton").addEventListener("click",()=>document.querySelector("#personModal").showModal());
+document.querySelector("#editStoryButton").addEventListener("click",()=>document.querySelector("#storyEditModal").showModal());
+document.querySelector("#residentStoryButton").addEventListener("click",()=>document.querySelector("#storyReadModal").showModal());
+document.querySelectorAll("[data-close]").forEach(button=>button.addEventListener("click",()=>document.getElementById(button.dataset.close).close()));
+document.querySelector("#personForm").addEventListener("submit",async event=>{
+  event.preventDefault();const form=event.currentTarget,button=form.querySelector("[type=submit]");button.disabled=true;
+  try{const person={name:form.querySelector("#personName").value.trim(),relationship:form.querySelector("#personRelation").value.trim(),note:form.querySelector("#personNote").value.trim(),photo:await smallDemoImage(form.querySelector("#personPhoto").files[0])};
+    if(!person.name||!person.relationship)return;
+    const next=[...familiarPeople,person];if(!saveDemoData(familyKey,next))return;familiarPeople=next;renderFamily();form.reset();document.querySelector("#personModal").close();showToast("Person added to this browser demo")
+  }catch(error){showToast(error.message||"Could not read that image")}finally{button.disabled=false}
+});
+document.querySelector("#storyForm").addEventListener("submit",async event=>{
+  event.preventDefault();const form=event.currentTarget,button=form.querySelector("[type=submit]");button.disabled=true;
+  try{const photo=await smallDemoImage(form.querySelector("#storyPhoto").files[0]);const next={about:form.querySelector("#storyAbout").value.trim(),place:form.querySelector("#storyPlace").value.trim(),photo:photo||familyStory.photo,facility:form.querySelector("#storyFacilityConsent").checked};
+    if(!saveDemoData(storyKey,next))return;familyStory=next;renderStory();form.querySelector("#storyPhoto").value="";document.querySelector("#storyEditModal").close();showToast("Story saved in this browser")
+  }catch(error){showToast(error.message||"Could not read that image")}finally{button.disabled=false}
+});
 
 document.querySelector("#exportUsbButton").addEventListener("click",()=>{
   const update={
