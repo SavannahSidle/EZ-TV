@@ -27,7 +27,7 @@
     .light .music-disc,.warm .music-disc,.garden .music-disc{background:radial-gradient(circle,var(--panel) 0 9%,var(--aqua) 10% 12%,var(--panel-2) 13% 30%,var(--line) 31% 34%,var(--panel-2) 35% 100%)}
     .topbar{background:color-mix(in srgb,var(--bg) 92%,transparent)}
     textarea{background:var(--panel)}
-    .demo-appearance-row{max-width:1440px;margin:0 auto;padding:0 28px;display:grid;justify-items:end;gap:7px}
+    .demo-appearance-row{height:68px;margin:0;padding:5px clamp(18px,3.5vw,54px);display:flex;flex-direction:column;align-items:flex-end;justify-content:center;gap:6px}
     .demo-appearance-row>span{color:var(--muted);font:.52rem "IBM Plex Mono",monospace;letter-spacing:.09em}
     .demo-appearance-row>div{display:flex;gap:6px}
     .demo-appearance-row button{min-height:32px;padding:7px 11px;border:1px solid rgba(34,168,184,.34);border-radius:6px;background:rgba(34,168,184,.055);color:#80cbd3;font-size:.62rem;font-weight:700}
@@ -49,7 +49,9 @@
     body[data-appearance="warm"]:not(.warm) .message-card,body[data-appearance="garden"]:not(.garden) .message-card{background:var(--panel)}
     .send-button{color:#031015}.light .send-button,.warm .send-button,.garden .send-button{color:#fff}
     @media(max-width:980px){.topbar{grid-template-columns:1fr auto}.demo-title{display:none}.intro{display:block}.intro p{margin-top:12px}.split-demo{grid-template-columns:1fr}.tv-screen{min-height:560px}}
-    @media(max-width:620px){.topbar{padding:12px 14px;gap:8px}.top-actions a{font-size:.58rem;padding:8px}.mode-toggle{font-size:.58rem;padding:8px}.intro,.split-demo,.privacy-note,.demo-appearance-row{padding-left:14px;padding-right:14px}.split-demo{padding-top:10px}.caregiver-body,.tv-wrap{padding:14px}.choice-grid{grid-template-columns:1fr;gap:7px}.resident-choice{min-height:82px;display:flex;justify-content:flex-start;gap:14px;text-align:left}.resident-choice b{margin:0}.tv-screen{min-height:650px;padding:22px 16px}.tv-top h2{font-size:2.2rem}.clock b{font-size:1.15rem}.action-grid{grid-template-columns:1fr}.action-grid button{min-height:58px;display:flex;justify-content:center;gap:10px}.message-card{left:16px;right:16px;bottom:70px}.memory-image{height:230px}}
+    @media(max-width:900px){.topbar{height:112px;min-height:112px}}
+    @media(max-width:680px){.topbar{height:108px;min-height:108px}.demo-appearance-row button{padding:7px 9px}}
+    @media(max-width:620px){.topbar{padding:12px 14px;gap:8px}.top-actions a{font-size:.58rem;padding:8px}.mode-toggle{font-size:.58rem;padding:8px}.intro,.split-demo,.privacy-note{padding-left:14px;padding-right:14px}.split-demo{padding-top:10px}.caregiver-body,.tv-wrap{padding:14px}.choice-grid{grid-template-columns:1fr;gap:7px}.resident-choice{min-height:82px;display:flex;justify-content:flex-start;gap:14px;text-align:left}.resident-choice b{margin:0}.tv-screen{min-height:650px;padding:22px 16px}.tv-top h2{font-size:2.2rem}.clock b{font-size:1.15rem}.action-grid{grid-template-columns:1fr}.action-grid button{min-height:58px;display:flex;justify-content:center;gap:10px}.message-card{left:16px;right:16px;bottom:70px}.memory-image{height:230px}}
   </style>
 </head>
 <body>
@@ -59,12 +61,12 @@
     <div class="top-actions"><a href="index.html">← Back to website</a><button class="mode-toggle" id="demoMode" type="button" aria-pressed="false">☀ Light mode</button></div>
   </header>
 
+  <div class="demo-appearance-row" role="group" aria-label="Choose appearance"><span>APPEARANCE</span><div><button type="button" data-interface-theme="original" aria-pressed="true">Original</button><button type="button" data-interface-theme="warm" aria-pressed="false">Warm</button><button type="button" data-interface-theme="garden" aria-pressed="false">Garden</button></div></div>
+
   <section class="intro">
     <div><p class="mono" style="color:var(--aqua);font-size:.58rem;margin:0 0 10px">TRY IT YOURSELF</p><h1>Send something. See it arrive.</h1></div>
     <p>The left side is the caregiver. The right side is Wanda’s screen. This demo keeps both together so the connection is obvious.</p>
   </section>
-
-  <div class="demo-appearance-row" role="group" aria-label="Choose appearance"><span>APPEARANCE</span><div><button type="button" data-interface-theme="original" aria-pressed="true">Original</button><button type="button" data-interface-theme="warm" aria-pressed="false">Warm</button><button type="button" data-interface-theme="garden" aria-pressed="false">Garden</button></div></div>
 
   <main class="split-demo">
     <section class="side caregiver-side" aria-labelledby="caregiverHeading">
