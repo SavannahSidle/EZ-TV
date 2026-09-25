@@ -8,6 +8,7 @@ const quietStatus=document.querySelector("#quietStatus");
 let current={profile:{name:"Wanda",help:"You are safe. Someone from your care team is nearby."},photos:[],video:null,audio:null,settings:{theme:"original",interaction_mode:"choose",channel_enabled:false,show_clock:true,show_captions:true,day_plan:{morning:"music",afternoon:"photos",evening:"video"},comfort_plan:{},home_today:null}};
 let objectUrls=[];
 let tilePhotoUrl=null;
+let storyPhotoUrl=null;
 let photoIndex=0;
 let cloudResidentId=null;
 let pairingStarted=false;
@@ -46,11 +47,21 @@ function mediaLabel(type){return {photos:"Family photos",video:"Favourite show",
 function applyProfile(){
   document.querySelector("#tvResidentName").textContent=current.settings?.life_profile?.preferredName||current.profile.name;
   document.querySelector("#helpText").textContent=current.settings?.comfort_plan?.words||current.profile.help;
+  const story=current.settings?.life_profile||{};
+  document.querySelector("#tvStoryName").textContent=story.preferredName||current.profile.name;
+  document.querySelector("#tvStoryText").textContent=story.lifeStory||"";
+  document.querySelector("#tvStoryPlaces").textContent=story.familiarPlaces?`Places I enjoy: ${story.familiarPlaces}`:"";
+  const people=document.querySelector("#tvStoryPeople");people.replaceChildren();
+  visiblePhotos().slice(0,5).forEach(({detail})=>{if(!detail.name)return;const entry=document.createElement("p");entry.textContent=[detail.name,detail.relationship].filter(Boolean).join(" · ");people.append(entry)});
+  if(storyPhotoUrl)URL.revokeObjectURL(storyPhotoUrl);
+  const portrait=document.querySelector("#tvStoryImage"),firstPhoto=visiblePhotos()[0];storyPhotoUrl=firstPhoto?URL.createObjectURL(firstPhoto.file):null;
+  portrait.hidden=!storyPhotoUrl;if(storyPhotoUrl)portrait.src=storyPhotoUrl;else portrait.removeAttribute("src");
+  document.querySelector("#tvStoryButton").hidden=!(story.lifeStory||story.familiarPlaces||people.childElementCount||firstPhoto);
   document.body.dataset.theme=current.settings?.theme||"original";
   const paused=Boolean(current.settings?.paused);
   document.querySelector("#pausedStage").hidden=!paused;
-  if(paused){clearTimeout(channelTimer);releaseUrls();document.querySelectorAll("video,audio").forEach(media=>media.pause());mediaStage.hidden=true;helpStage.hidden=true;tvHome.hidden=true;mediaContent.innerHTML=""}
-  else if(mediaStage.hidden&&helpStage.hidden)tvHome.hidden=false;
+  if(paused){clearTimeout(channelTimer);releaseUrls();document.querySelectorAll("video,audio").forEach(media=>media.pause());mediaStage.hidden=true;helpStage.hidden=true;document.querySelector("#tvStoryStage").hidden=true;tvHome.hidden=true;mediaContent.innerHTML=""}
+  else if(mediaStage.hidden&&helpStage.hidden&&document.querySelector("#tvStoryStage").hidden)tvHome.hidden=false;
   document.querySelector(".clock").hidden=current.settings?.show_clock===false;
   const home=document.querySelector("#homeToday");
   home.hidden=!validHomeToday();
@@ -138,7 +149,7 @@ function openMedia(type){
   const url=mediaUrl(item);
   mediaContent.innerHTML=type==="video"?`<video src="${url}" controls autoplay playsinline></video>`:`<audio src="${url}" controls autoplay></audio>`;
 }
-function closeMedia(){releaseUrls();document.querySelectorAll("video,audio").forEach(media=>media.pause());mediaStage.hidden=true;helpStage.hidden=true;tvHome.hidden=Boolean(current.settings?.paused);mediaContent.innerHTML=""}
+function closeMedia(){releaseUrls();document.querySelectorAll("video,audio").forEach(media=>media.pause());mediaStage.hidden=true;helpStage.hidden=true;document.querySelector("#tvStoryStage").hidden=true;tvHome.hidden=Boolean(current.settings?.paused);mediaContent.innerHTML=""}
 function openHomeToday(){
   if(current.settings?.paused||!validHomeToday())return;
   clearTimeout(channelTimer);tvHome.hidden=true;helpStage.hidden=true;mediaStage.hidden=false;
@@ -153,13 +164,15 @@ function scheduleChannel(){
 }
 document.querySelectorAll("[data-media]").forEach(button=>button.addEventListener("click",()=>openMedia(button.dataset.media)));
 document.querySelector("#homeToday").addEventListener("click",openHomeToday);
+document.querySelector("#tvStoryButton").addEventListener("click",()=>{if(current.settings?.paused)return;clearTimeout(channelTimer);tvHome.hidden=true;mediaStage.hidden=true;helpStage.hidden=true;document.querySelector("#tvStoryStage").hidden=false});
+document.querySelector("#tvStoryBack").addEventListener("click",closeMedia);
 document.querySelector("#backButton").addEventListener("click",closeMedia);
 document.querySelector("#helpButton").addEventListener("click",()=>{if(current.settings?.paused)return;tvHome.hidden=true;mediaStage.hidden=true;helpStage.hidden=false});
 document.querySelector("#closeHelp").addEventListener("click",closeMedia);
 document.addEventListener("keydown",event=>{
   if(current.settings?.paused)return;
   if(event.key==="Escape"||event.key==="Backspace"||event.key==="Home"){event.preventDefault();closeMedia();return}
-  if(!mediaStage.hidden||!helpStage.hidden)return;
+  if(!mediaStage.hidden||!helpStage.hidden||!document.querySelector("#tvStoryStage").hidden)return;
   const buttons=[...document.querySelectorAll(".tv-choices button:not([hidden])")];const active=document.activeElement;let index=buttons.indexOf(active);
   if(event.key==="ArrowRight"||event.key==="ArrowDown"){event.preventDefault();buttons[(index+1+buttons.length)%buttons.length]?.focus()}
   if(event.key==="ArrowLeft"||event.key==="ArrowUp"){event.preventDefault();buttons[(index-1+buttons.length)%buttons.length]?.focus()}
