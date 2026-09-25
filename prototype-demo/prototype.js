@@ -2,6 +2,7 @@ const DB_NAME="eztv-local-prototype";
 const STORE_NAME="media";
 let workingPhotos=[];
 let photoDetails=[];
+let familiarPeople=[];
 let workingVideo=null;
 let workingAudio=null;
 let thumbnailUrls=[];
@@ -16,7 +17,7 @@ const DEFAULT_SETTINGS={
   show_captions:true,
   paused:false,
   photo_details:[],
-  life_profile:{preferredName:"Wanda",lifeStory:"",familiarPlaces:"",pets:"",familiarPhrase:"",phraseMeaning:"",favouriteFoods:"",favouriteShows:"",conversationStarters:"",languages:"",culture:"",interests:"",staffProfileVisible:false},
+  life_profile:{preferredName:"Wanda",lifeStory:"",familiarPlaces:"",pets:"",familiarPhrase:"",phraseMeaning:"",familiarPeople:[],favouriteFoods:"",favouriteShows:"",conversationStarters:"",languages:"",culture:"",interests:"",staffProfileVisible:false},
   comfort_plan:{people:"",words:"You are safe. Savannah knows where you are.",actions:"",avoid:""},
   day_plan:{morning:"music",afternoon:"photos",evening:"video"},
   home_today:null,
@@ -60,7 +61,7 @@ function collectSettings(){
     show_captions:checked("#showCaptions"),
     photo_details:photoDetails.map(item=>({...item})),
     paused:Boolean(workingSettings.paused),
-    life_profile:{preferredName:value("#preferredName")||value("#residentName")||"Wanda",lifeStory:value("#lifeStory"),familiarPlaces:value("#familiarPlaces"),pets:value("#pets"),familiarPhrase:value("#familiarPhrase"),phraseMeaning:value("#phraseMeaning"),favouriteFoods:value("#favouriteFoods"),favouriteShows:value("#favouriteShows"),conversationStarters:value("#conversationStarters"),languages:value("#languages"),culture:value("#culture"),interests:value("#interests"),staffProfileVisible:checked("#staffProfileVisible")},
+    life_profile:{preferredName:value("#preferredName")||value("#residentName")||"Wanda",lifeStory:value("#lifeStory"),familiarPlaces:value("#familiarPlaces"),pets:value("#pets"),familiarPhrase:value("#familiarPhrase"),phraseMeaning:value("#phraseMeaning"),familiarPeople:familiarPeople.map(person=>({...person})),favouriteFoods:value("#favouriteFoods"),favouriteShows:value("#favouriteShows"),conversationStarters:value("#conversationStarters"),languages:value("#languages"),culture:value("#culture"),interests:value("#interests"),staffProfileVisible:checked("#staffProfileVisible")},
     comfort_plan:{people:value("#comfortPeople"),words:value("#comfortWords"),actions:value("#comfortActions"),avoid:value("#comfortAvoid")},
     day_plan:{morning:$("#morningContent")?.value||"music",afternoon:$("#afternoonContent")?.value||"photos",evening:$("#eveningContent")?.value||"video"},
     consent:{personalMedia:checked("#consentPersonalMedia"),careTeam:checked("#consentCareTeam")}
@@ -73,13 +74,35 @@ function applySettings(settings){
   photoDetails=(workingSettings.photo_details||[]).map(item=>({name:item.name||"",relationship:item.relationship||"",visible:item.visible!==false}));
   setRadio("residentTheme",workingSettings.theme);setRadio("interactionMode",workingSettings.interaction_mode);
   $("#channelEnabled").checked=workingSettings.channel_enabled;$("#showClock").checked=workingSettings.show_clock;$("#showCaptions").checked=workingSettings.show_captions;
-  const profile=workingSettings.life_profile;$("#preferredName").value=profile.preferredName||"Wanda";$("#lifeStory").value=profile.lifeStory;$("#familiarPlaces").value=profile.familiarPlaces;$("#pets").value=profile.pets;$("#familiarPhrase").value=profile.familiarPhrase||"";$("#phraseMeaning").value=profile.phraseMeaning||"";$("#favouriteFoods").value=profile.favouriteFoods;$("#favouriteShows").value=profile.favouriteShows;$("#conversationStarters").value=profile.conversationStarters;$("#languages").value=profile.languages;$("#culture").value=profile.culture;$("#interests").value=profile.interests;$("#staffProfileVisible").checked=profile.staffProfileVisible;
+  const profile=workingSettings.life_profile;$("#preferredName").value=profile.preferredName||"Wanda";$("#lifeStory").value=profile.lifeStory;$("#familiarPlaces").value=profile.familiarPlaces;$("#pets").value=profile.pets;$("#familiarPhrase").value=profile.familiarPhrase||"";$("#phraseMeaning").value=profile.phraseMeaning||"";familiarPeople=(profile.familiarPeople||[]).map(person=>({...person}));renderPairedPeople();$("#favouriteFoods").value=profile.favouriteFoods;$("#favouriteShows").value=profile.favouriteShows;$("#conversationStarters").value=profile.conversationStarters;$("#languages").value=profile.languages;$("#culture").value=profile.culture;$("#interests").value=profile.interests;$("#staffProfileVisible").checked=profile.staffProfileVisible;
   const comfort=workingSettings.comfort_plan;$("#comfortPeople").value=comfort.people;$("#comfortWords").value=comfort.words;$("#comfortActions").value=comfort.actions;$("#comfortAvoid").value=comfort.avoid;
   $("#morningContent").value=workingSettings.day_plan.morning;$("#afternoonContent").value=workingSettings.day_plan.afternoon;$("#eveningContent").value=workingSettings.day_plan.evening;
   $("#consentPersonalMedia").checked=workingSettings.consent.personalMedia;$("#consentCareTeam").checked=workingSettings.consent.careTeam;
   renderHomeTodayStatus();
   renderPauseStatus();
 }
+
+function renderPairedPeople(){
+  const list=$("#pairedPeopleList");list.replaceChildren();
+  familiarPeople.forEach((person,index)=>{
+    const row=document.createElement("div"),description=document.createElement("span"),remove=document.createElement("button");
+    description.textContent=`${person.name} · ${person.relationship}${person.note?` · ${person.note}`:""}`;
+    remove.type="button";remove.textContent="Remove";remove.setAttribute("aria-label",`Remove ${person.name}`);
+    remove.addEventListener("click",()=>{familiarPeople.splice(index,1);renderPairedPeople();markUnsaved();$("#setupForm").requestSubmit()});
+    row.append(description,remove);list.append(row);
+  });
+}
+
+$("#pairedAddPerson").addEventListener("click",()=>{
+  const name=value("#pairedPersonName"),relationship=value("#pairedPersonRelationship"),note=value("#pairedPersonNote"),file=$("#pairedPersonPhoto").files[0];
+  if(!name||!relationship){showToast("Add a name and relationship");return}
+  if(file&&(!file.type.startsWith("image/")||file.size>8*1024*1024)){showToast("Choose an image under 8 MB");return}
+  const photoIndex=file?workingPhotos.length:null;
+  if(file){workingPhotos.push(file);photoDetails.push({name,relationship,visible:true});renderPhotoManager()}
+  familiarPeople.push({name,relationship,note,photoIndex});renderPairedPeople();
+  ["#pairedPersonName","#pairedPersonRelationship","#pairedPersonNote","#pairedPersonPhoto"].forEach(selector=>$(selector).value="");
+  markUnsaved();$("#setupForm").requestSubmit();
+});
 
 function renderPauseStatus(){
   const paused=Boolean(workingSettings.paused);
@@ -119,9 +142,9 @@ function renderPhotoManager(){
       catch(error){console.error(error);setSync("Needs attention",true);showToast("Could not update TV. Check the connection")}
     }));
     item.querySelectorAll("button").forEach(button=>button.addEventListener("click",()=>{
-      if(button.dataset.action==="delete"){workingPhotos.splice(index,1);photoDetails.splice(index,1)}
-      if(button.dataset.action==="left"&&index>0){[workingPhotos[index-1],workingPhotos[index]]=[workingPhotos[index],workingPhotos[index-1]];[photoDetails[index-1],photoDetails[index]]=[photoDetails[index],photoDetails[index-1]]}
-      if(button.dataset.action==="right"&&index<workingPhotos.length-1){[workingPhotos[index+1],workingPhotos[index]]=[workingPhotos[index],workingPhotos[index+1]];[photoDetails[index+1],photoDetails[index]]=[photoDetails[index],photoDetails[index+1]]}
+      if(button.dataset.action==="delete"){workingPhotos.splice(index,1);photoDetails.splice(index,1);familiarPeople.forEach(person=>{if(person.photoIndex===index)person.photoIndex=null;else if(person.photoIndex>index)person.photoIndex--})}
+      if(button.dataset.action==="left"&&index>0){[workingPhotos[index-1],workingPhotos[index]]=[workingPhotos[index],workingPhotos[index-1]];[photoDetails[index-1],photoDetails[index]]=[photoDetails[index],photoDetails[index-1]];familiarPeople.forEach(person=>{if(person.photoIndex===index)person.photoIndex=index-1;else if(person.photoIndex===index-1)person.photoIndex=index})}
+      if(button.dataset.action==="right"&&index<workingPhotos.length-1){[workingPhotos[index+1],workingPhotos[index]]=[workingPhotos[index],workingPhotos[index+1]];[photoDetails[index+1],photoDetails[index]]=[photoDetails[index],photoDetails[index+1]];familiarPeople.forEach(person=>{if(person.photoIndex===index)person.photoIndex=index+1;else if(person.photoIndex===index+1)person.photoIndex=index})}
       renderPhotoManager();markUnsaved();
     }));
     manager.append(item);
@@ -226,7 +249,7 @@ $("#residentName").addEventListener("input",markUnsaved);
 $("#helpMessage").addEventListener("input",markUnsaved);
 
 $("#setupForm").addEventListener("submit",async event=>{
-  event.preventDefault();const button=event.submitter;button.disabled=true;button.textContent="Sending…";
+  event.preventDefault();const button=event.submitter||$("#setupForm .send-button");button.disabled=true;button.textContent="Sending…";
   try{
     const profile=await saveLocal();
     if(window.ezCloud.configured&&cloudSession&&cloudResident){
