@@ -16,7 +16,7 @@ const DEFAULT_SETTINGS={
   show_captions:true,
   paused:false,
   photo_details:[],
-  life_profile:{preferredName:"Wanda",lifeStory:"",familiarPlaces:"",pets:"",favouriteFoods:"",favouriteShows:"",conversationStarters:"",languages:"",culture:"",interests:"",staffProfileVisible:false},
+  life_profile:{preferredName:"Wanda",lifeStory:"",familiarPlaces:"",pets:"",familiarPhrase:"",phraseMeaning:"",favouriteFoods:"",favouriteShows:"",conversationStarters:"",languages:"",culture:"",interests:"",staffProfileVisible:false},
   comfort_plan:{people:"",words:"You are safe. Savannah knows where you are.",actions:"",avoid:""},
   day_plan:{morning:"music",afternoon:"photos",evening:"video"},
   home_today:null,
@@ -31,6 +31,7 @@ const audioInput=$("#audioInput");
 const photoStatus=$("#photoStatus");
 const videoStatus=$("#videoStatus");
 const audioStatus=$("#audioStatus");
+$("#useWandaPhrase").addEventListener("click",()=>{$("#familiarPhrase").value="Msit No’kmaq";$("#phraseMeaning").value="All my relations";markUnsaved()});
 
 function openDatabase(){
   return new Promise((resolve,reject)=>{
@@ -59,7 +60,7 @@ function collectSettings(){
     show_captions:checked("#showCaptions"),
     photo_details:photoDetails.map(item=>({...item})),
     paused:Boolean(workingSettings.paused),
-    life_profile:{preferredName:value("#preferredName")||value("#residentName")||"Wanda",lifeStory:value("#lifeStory"),familiarPlaces:value("#familiarPlaces"),pets:value("#pets"),favouriteFoods:value("#favouriteFoods"),favouriteShows:value("#favouriteShows"),conversationStarters:value("#conversationStarters"),languages:value("#languages"),culture:value("#culture"),interests:value("#interests"),staffProfileVisible:checked("#staffProfileVisible")},
+    life_profile:{preferredName:value("#preferredName")||value("#residentName")||"Wanda",lifeStory:value("#lifeStory"),familiarPlaces:value("#familiarPlaces"),pets:value("#pets"),familiarPhrase:value("#familiarPhrase"),phraseMeaning:value("#phraseMeaning"),favouriteFoods:value("#favouriteFoods"),favouriteShows:value("#favouriteShows"),conversationStarters:value("#conversationStarters"),languages:value("#languages"),culture:value("#culture"),interests:value("#interests"),staffProfileVisible:checked("#staffProfileVisible")},
     comfort_plan:{people:value("#comfortPeople"),words:value("#comfortWords"),actions:value("#comfortActions"),avoid:value("#comfortAvoid")},
     day_plan:{morning:$("#morningContent")?.value||"music",afternoon:$("#afternoonContent")?.value||"photos",evening:$("#eveningContent")?.value||"video"},
     consent:{personalMedia:checked("#consentPersonalMedia"),careTeam:checked("#consentCareTeam")}
@@ -72,7 +73,7 @@ function applySettings(settings){
   photoDetails=(workingSettings.photo_details||[]).map(item=>({name:item.name||"",relationship:item.relationship||"",visible:item.visible!==false}));
   setRadio("residentTheme",workingSettings.theme);setRadio("interactionMode",workingSettings.interaction_mode);
   $("#channelEnabled").checked=workingSettings.channel_enabled;$("#showClock").checked=workingSettings.show_clock;$("#showCaptions").checked=workingSettings.show_captions;
-  const profile=workingSettings.life_profile;$("#preferredName").value=profile.preferredName||"Wanda";$("#lifeStory").value=profile.lifeStory;$("#familiarPlaces").value=profile.familiarPlaces;$("#pets").value=profile.pets;$("#favouriteFoods").value=profile.favouriteFoods;$("#favouriteShows").value=profile.favouriteShows;$("#conversationStarters").value=profile.conversationStarters;$("#languages").value=profile.languages;$("#culture").value=profile.culture;$("#interests").value=profile.interests;$("#staffProfileVisible").checked=profile.staffProfileVisible;
+  const profile=workingSettings.life_profile;$("#preferredName").value=profile.preferredName||"Wanda";$("#lifeStory").value=profile.lifeStory;$("#familiarPlaces").value=profile.familiarPlaces;$("#pets").value=profile.pets;$("#familiarPhrase").value=profile.familiarPhrase||"";$("#phraseMeaning").value=profile.phraseMeaning||"";$("#favouriteFoods").value=profile.favouriteFoods;$("#favouriteShows").value=profile.favouriteShows;$("#conversationStarters").value=profile.conversationStarters;$("#languages").value=profile.languages;$("#culture").value=profile.culture;$("#interests").value=profile.interests;$("#staffProfileVisible").checked=profile.staffProfileVisible;
   const comfort=workingSettings.comfort_plan;$("#comfortPeople").value=comfort.people;$("#comfortWords").value=comfort.words;$("#comfortActions").value=comfort.actions;$("#comfortAvoid").value=comfort.avoid;
   $("#morningContent").value=workingSettings.day_plan.morning;$("#afternoonContent").value=workingSettings.day_plan.afternoon;$("#eveningContent").value=workingSettings.day_plan.evening;
   $("#consentPersonalMedia").checked=workingSettings.consent.personalMedia;$("#consentCareTeam").checked=workingSettings.consent.careTeam;
