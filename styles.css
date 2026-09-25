@@ -733,6 +733,33 @@ body[data-interface-theme="garden"] .setup-result{background:linear-gradient(145
 .system-state>.connection-status{margin-right:14px}
 @media(max-width:680px){.system-state>.connection-status{margin-right:0}}
 
+/* One appearance control, directly below the header on every view. */
+.site-appearance{height:68px;display:flex;flex-direction:column;align-items:flex-end;justify-content:center;gap:6px;padding:5px clamp(18px,3.5vw,54px);background:var(--void)}
+.site-appearance>span{color:var(--muted);font:.52rem var(--mono);letter-spacing:.09em}
+.site-appearance>div{display:flex;gap:6px}
+.site-appearance button{min-height:32px;padding:7px 11px;border:1px solid rgba(34,168,184,.34);border-radius:6px;background:rgba(34,168,184,.055);color:#80cbd3;font-size:.62rem;font-weight:700}
+.site-appearance button[data-interface-theme="warm"]{border-color:rgba(199,125,112,.38);background:rgba(199,125,112,.07);color:#d6a298}
+.site-appearance button[data-interface-theme="garden"]{border-color:rgba(119,155,132,.42);background:rgba(119,155,132,.08);color:#a8c9b5}
+.site-appearance button:hover,.site-appearance button:focus-visible{outline:2px solid currentColor;outline-offset:2px}
+.site-appearance button.active{border-color:currentColor;background:rgba(34,168,184,.13);color:#a7edf4}
+.site-appearance button[data-interface-theme="warm"].active{background:rgba(199,125,112,.16);color:#e7b6ad}
+.site-appearance button[data-interface-theme="garden"].active{background:rgba(119,155,132,.17);color:#bfd9c8}
+.light-mode .site-appearance{background:#faf8f3}
+.light-mode .site-appearance button{background:#edf8f8;border-color:#9ecbd0;color:#356f76}
+.light-mode .site-appearance button[data-interface-theme="warm"]{background:#fbefec;border-color:#d8aaa1;color:#8d5147}
+.light-mode .site-appearance button[data-interface-theme="garden"]{background:#edf4ef;border-color:#abc2b2;color:#4f745f}
+.light-mode .site-appearance button.active{border-color:currentColor;box-shadow:0 3px 10px rgba(55,73,81,.08)}
+body[data-interface-theme="warm"]:not(.light-mode) .site-appearance{background:#151113}
+body[data-interface-theme="garden"]:not(.light-mode) .site-appearance{background:#0d1512}
+body.light-mode[data-interface-theme="warm"] .site-appearance{background:#fff9f5}
+body.light-mode[data-interface-theme="garden"] .site-appearance{background:#f7f9f5}
+main,.overview-view,.resident-view,.caregiver-view,.facility-view,.plans-view{min-height:calc(100vh - 140px)}
+.caregiver-view.active-view{min-height:calc(100vh - 140px)}
+.resident-view.active-view{height:calc(100svh - 140px)}
+.overview-map{grid-template-rows:1fr auto 1fr}
+@media(max-width:900px){main,.overview-view,.resident-view,.caregiver-view,.facility-view,.plans-view,.caregiver-view.active-view{min-height:calc(100vh - 180px)}.resident-view.active-view{height:calc(100svh - 180px)}}
+@media(max-width:680px){main,.overview-view,.resident-view,.caregiver-view,.facility-view,.plans-view,.caregiver-view.active-view{min-height:calc(100vh - 176px)}.resident-view.active-view{height:calc(100svh - 176px)}.site-appearance button{padding:7px 9px}}
+
 /* Connection status sits between navigation and utility controls */
 .system-bar{grid-template-columns:auto minmax(0,1fr) auto auto;column-gap:18px}
 .header-connection{display:flex;align-items:center;justify-self:center;gap:8px;color:#72879a;font:.67rem var(--mono);white-space:nowrap}
