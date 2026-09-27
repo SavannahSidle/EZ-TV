@@ -11,7 +11,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="prototype.css?v=18">
+  <link rel="stylesheet" href="prototype.css?v=19">
 </head>
 <body class="caregiver-app">
   <header class="prototype-bar">
@@ -91,7 +91,7 @@
     </div>
 
     <section class="care-section" data-care-page="profile" aria-labelledby="lifeProfileTitle">
-      <div class="workspace-title"><div><p class="eyebrow">PORTABLE LIFE PROFILE</p><h1 id="lifeProfileTitle">Keep Wanda known.</h1><p>One small profile can move with her from home to care. Wanda and her family decide what appears and who may see it.</p></div><button class="primary-button section-save" type="button" data-save-settings>Save profile</button></div>
+      <div class="workspace-title"><div><p class="eyebrow">PORTABLE LIFE PROFILE</p><h1 id="lifeProfileTitle">Keep Wanda known.</h1><p>One small profile can move with her from home to care. Wanda and her family decide what appears and who may see it.</p></div><div class="profile-actions"><button class="secondary-button" id="printCareCard" type="button">Print staff story card</button><button class="primary-button section-save" type="button" data-save-settings>Save profile</button></div></div>
       <div class="profile-grid">
         <section class="setup-card story-card">
           <div class="card-heading"><span>The person</span><small>Resident approved</small></div>
@@ -207,9 +207,10 @@
   </main>
 
   <div class="toast" id="toast" role="status"></div>
+  <article id="careCardPrint" class="care-card-print" aria-hidden="true"><h1 id="careCardName"></h1><p id="careCardStory"></p><p id="careCardPlaces"></p><p id="careCardPets"></p><h2>People I know</h2><div id="careCardPeople"></div><footer>Shared by family as a conversation cue. Ask the person what they would like to share today.</footer></article>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="config.js?v=10"></script>
   <script src="cloud.js?v=15"></script>
-  <script src="prototype.js?v=18"></script>
+  <script src="prototype.js?v=19"></script>
 </body>
 </html>
