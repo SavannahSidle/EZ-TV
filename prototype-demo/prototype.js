@@ -324,14 +324,22 @@ document.querySelectorAll(".care-section input,.care-section textarea,.care-sect
   markUnsaved();
 }));
 
+async function publishHomeToday(message,from,days){
+  const previous=workingSettings.home_today;
+  workingSettings.home_today={from,message,expires_at:new Date(Date.now()+days*86400000).toISOString()};
+  try{
+    if(cloudResident)await window.ezCloud.saveSettings(cloudResident.id,collectSettings());
+    await saveLocal();renderHomeTodayStatus();
+    showToast(cloudResident?"Saved for Wanda’s paired screen. Check that it appears there.":"Saved here. Pair Wanda’s screen to deliver it.");
+    return true;
+  }catch(error){workingSettings.home_today=previous;renderHomeTodayStatus();showToast("Could not send. Check the connection and try again.");return false}
+}
 $("#queueHomeToday").addEventListener("click",async()=>{
   const message=value("#homeTodayMessage");if(!message)return showToast("Add a short message first");
-  const days=Number($("#homeTodayExpiry").value||1);const expires=new Date(Date.now()+days*86400000);
-  workingSettings.home_today={from:value("#homeTodayFrom")||"Family",message,expires_at:expires.toISOString()};
-  renderHomeTodayStatus();await saveLocal();
-  if(cloudResident)await window.ezCloud.saveSettings(cloudResident.id,collectSettings());
-  $("#homeTodayMessage").value="";showToast("Added to Wanda’s channel");
+  const sent=await publishHomeToday(message,value("#homeTodayFrom")||"Family",Number($("#homeTodayExpiry").value||1));
+  if(sent)$("#homeTodayMessage").value="";
 });
+$("#sendLoveNote").addEventListener("click",()=>publishHomeToday("I love you, Wanda. I’m thinking of you today. ♥","Savannah",1));
 
 $("#copyRecoverySummary").addEventListener("click",async()=>{
   const text=`EZ-TV prototype setup\nResident: ${value("#residentName")||"Wanda"}\nCaregiver access: this browser\nResident screen: ${cloudResident?"paired":"not paired"}\nKeep this caregiver browser available. Clearing its data may remove access; contact the prototype owner before resetting it.`;
