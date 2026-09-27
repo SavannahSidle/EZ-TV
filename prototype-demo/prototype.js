@@ -340,6 +340,18 @@ $("#queueHomeToday").addEventListener("click",async()=>{
   if(sent)$("#homeTodayMessage").value="";
 });
 $("#sendLoveNote").addEventListener("click",()=>publishHomeToday("I love you, Wanda. I’m thinking of you today. ♥","Savannah",1));
+$("#printCareCard").addEventListener("click",()=>{
+  if(!checked("#staffProfileVisible")||!checked("#consentCareTeam")){showToast("Approve care-team sharing in Profile and Access first");return}
+  const profile=collectSettings().life_profile;
+  $("#careCardName").textContent=`${profile.preferredName} · a little about me`;
+  $("#careCardStory").textContent=profile.lifeStory||"Ask me about the people and places I know.";
+  $("#careCardPlaces").textContent=profile.familiarPlaces?`Familiar places: ${profile.familiarPlaces}`:"";
+  $("#careCardPets").textContent=profile.pets?`Pets and animals: ${profile.pets}`:"";
+  const list=$("#careCardPeople");list.replaceChildren();
+  const printUrls=[];profile.familiarPeople.forEach(person=>{const row=document.createElement("p");const photo=workingPhotos[person.photoIndex];if(photo instanceof Blob){const image=document.createElement("img");image.src=URL.createObjectURL(photo);printUrls.push(image.src);image.alt="";row.append(image)}const words=document.createElement("span");words.textContent=`${person.name} · ${person.relationship}${person.note?` · ${person.note}`:""}`;row.append(words);list.append(row)});
+  window.addEventListener("afterprint",()=>printUrls.forEach(URL.revokeObjectURL),{once:true});
+  window.print();
+});
 
 $("#copyRecoverySummary").addEventListener("click",async()=>{
   const text=`EZ-TV prototype setup\nResident: ${value("#residentName")||"Wanda"}\nCaregiver access: this browser\nResident screen: ${cloudResident?"paired":"not paired"}\nKeep this caregiver browser available. Clearing its data may remove access; contact the prototype owner before resetting it.`;
