@@ -10,7 +10,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=36">
+  <link rel="stylesheet" href="styles.css?v=37">
 </head>
 <body>
   <div class="app-shell">
@@ -437,6 +437,6 @@
   <dialog class="modal" id="storyEditModal"><form id="storyForm"><div class="modal-heading"><div><p class="mono-label">FAMILY-CONTROLLED STORY</p><h2>Wanda’s story</h2></div><button class="modal-close" type="button" data-close="storyEditModal" aria-label="Close">×</button></div><label>Portrait (optional)<input id="storyPhoto" type="file" accept="image/*"></label><label>A little about Wanda<textarea id="storyAbout" maxlength="300" rows="4" placeholder="What matters to her, in her own words where possible"></textarea></label><label>A favourite place or memory<input id="storyPlace" maxlength="100"></label><label class="language-feature-paused">A familiar phrase in her language<input id="storyPhrase" maxlength="100" placeholder="Msit No’kmaq"></label><label class="language-feature-paused">Meaning for other people<input id="storyPhraseMeaning" maxlength="140" placeholder="All my relations"></label><label class="story-consent"><input id="storyFacilityConsent" type="checkbox"> Show this short story in the facility demo too</label><p class="demo-privacy">Website demo only: saved on this browser, not sent to another screen or a care home. Use fictional details.</p><button class="modal-submit" type="submit">Save story</button></form></dialog>
   <dialog class="modal story-read-modal" id="storyReadModal"><div class="modal-heading"><div><p class="mono-label">A LITTLE ABOUT ME</p><h2>Wanda’s story</h2></div><button class="modal-close" type="button" data-close="storyReadModal" aria-label="Close">×</button></div><div class="story-read-content"><img id="storyPortrait" src="assets/memories/garden-afternoon.jpg" alt="Illustrated family memory"><p id="storyReadAbout"></p><p id="storyReadPlace"></p><div class="story-phrase language-feature-paused" id="storyPhraseDisplay" hidden><strong id="storyPhraseText"></strong><span id="storyPhraseTranslation"></span></div><h3>People I know</h3><div id="storyPeople"></div></div></dialog>
   <div class="toast" id="toast" role="status"></div>
-  <script src="app.js?v=23"></script>
+  <script src="app.js?v=24"></script>
 </body>
 </html>
