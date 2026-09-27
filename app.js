@@ -320,7 +320,7 @@ function renderStory(){
   document.querySelector("#storyReadPlace").textContent=familyStory.place;
   document.querySelector("#storyPhrase").value=familyStory.phrase||"";
   document.querySelector("#storyPhraseMeaning").value=familyStory.meaning||"";
-  document.querySelector("#storyPhraseDisplay").hidden=!(familyStory.phrase&&familyStory.meaning);
+  document.querySelector("#storyPhraseDisplay").hidden=true;
   document.querySelector("#storyPhraseText").textContent=familyStory.phrase||"";
   document.querySelector("#storyPhraseTranslation").textContent=familyStory.meaning||"";
   const portrait=document.querySelector("#storyPortrait");portrait.src=familyStory.photo||"assets/memories/garden-afternoon.jpg";portrait.alt=familyStory.photo?"Family-selected portrait for Wanda":"Illustrated family memory";
@@ -328,7 +328,7 @@ function renderStory(){
   document.querySelector("#storyPlace").value=familyStory.place;
   document.querySelector("#storyFacilityConsent").checked=!!familyStory.facility;
   const facilityText=document.querySelector("#residentStory .story-person p");
-  facilityText.textContent=familyStory.facility?`${familyStory.about} ${familyStory.place}${familyStory.phrase&&familyStory.meaning?` ${familyStory.phrase} · ${familyStory.meaning}.`:""}`:"Family, gardens, lake days, music, and birthday traditions. Illustrated demo only.";
+  facilityText.textContent=familyStory.facility?`${familyStory.about} ${familyStory.place}`:"Family, gardens, lake days, music, and birthday traditions. Illustrated demo only.";
   document.querySelector("#residentStory .resident-story-heading>span").textContent=familyStory.facility?"Family chose to share this demo story":"Illustrated example · family sharing off";
 }
 renderFamily();renderStory();
