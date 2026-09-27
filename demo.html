@@ -79,7 +79,7 @@
           <textarea id="messageInput" maxlength="120">Hi Wanda, I love you. I’ll visit this afternoon.</textarea>
           <div class="quick-row" aria-label="Quick messages"><button type="button" data-message="Lunch is at 12:30. Enjoy your afternoon, Wanda.">Lunch reminder</button><button type="button" data-message="I’ll visit this afternoon. I’m looking forward to seeing you.">Visit reminder</button><button type="button" data-message="I love you, Wanda. I’m thinking of you today. ❤️">Thinking of you</button></div>
         </div>
-        <button class="send-button" id="sendMessage" type="button">Send to Wanda’s screen</button>
+        <button class="send-button" id="sendMessage" type="button">Send to Wanda’s screen</button><button class="send-button" id="sendLove" type="button" style="background:var(--panel-2);color:var(--text);border:1px solid var(--aqua);margin-top:-12px">♥ Send love from Savannah in one tap</button>
         <div class="divider"></div>
         <div class="action-copy"><h3>Control familiar media</h3><p>These buttons demonstrate how a caregiver can change what appears without asking Wanda to navigate anything.</p></div>
         <div class="action-grid"><button type="button" data-action="photo"><b>▧</b><span>Show family photo</span></button><button type="button" data-action="music"><b>♪</b><span>Play music</span></button><button type="button" data-action="home"><b>⌂</b><span>Return home</span></button></div>
@@ -149,6 +149,7 @@
     messageInput.addEventListener("input",updateCount);
     document.querySelectorAll("[data-message]").forEach(button=>button.addEventListener("click",()=>{messageInput.value=button.dataset.message;updateCount();messageInput.focus()}));
     document.querySelector("#sendMessage").addEventListener("click",sendMessage);
+    document.querySelector("#sendLove").addEventListener("click",()=>{messageInput.value="I love you, Wanda. I’m thinking of you today. ♥";updateCount();sendMessage()});
     document.querySelector("#closeMessage").addEventListener("click",()=>{messageCard.classList.remove("visible");activity.textContent="Wanda’s screen is ready."});
     document.querySelectorAll("[data-action]").forEach(button=>button.addEventListener("click",()=>{const action=button.dataset.action;if(action==="photo"){showView("photo");activity.textContent="Family photo is now showing on Wanda’s screen."}else if(action==="music"){showView("music");activity.textContent="Morning favourites are now playing on Wanda’s screen."}else{showView("home");activity.textContent="Wanda’s screen returned to the three familiar choices."}}));
     const dayControls=[...document.querySelectorAll("[data-day]")];
