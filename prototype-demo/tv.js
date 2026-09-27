@@ -52,7 +52,7 @@ function applyProfile(){
   document.querySelector("#tvStoryName").textContent=story.preferredName||current.profile.name;
   document.querySelector("#tvStoryText").textContent=story.lifeStory||"";
   document.querySelector("#tvStoryPlaces").textContent=story.familiarPlaces?`Places I enjoy: ${story.familiarPlaces}`:"";
-  const phrase=document.querySelector("#tvPhrase");phrase.hidden=!(story.familiarPhrase&&story.phraseMeaning);
+  const phrase=document.querySelector("#tvPhrase");phrase.hidden=true;
   document.querySelector("#tvPhraseText").textContent=story.familiarPhrase||"";
   document.querySelector("#tvPhraseMeaning").textContent=story.phraseMeaning||"";
   const people=document.querySelector("#tvStoryPeople");people.replaceChildren();storyPeopleUrls.forEach(URL.revokeObjectURL);storyPeopleUrls=[];
@@ -66,7 +66,7 @@ function applyProfile(){
   if(storyPhotoUrl)URL.revokeObjectURL(storyPhotoUrl);
   const portrait=document.querySelector("#tvStoryImage"),firstPhoto=visiblePhotos()[0];storyPhotoUrl=firstPhoto?URL.createObjectURL(firstPhoto.file):null;
   portrait.hidden=!storyPhotoUrl;if(storyPhotoUrl)portrait.src=storyPhotoUrl;else portrait.removeAttribute("src");
-  document.querySelector("#tvStoryButton").hidden=!(story.lifeStory||story.familiarPlaces||people.childElementCount||firstPhoto||!phrase.hidden);
+  document.querySelector("#tvStoryButton").hidden=!(story.lifeStory||story.familiarPlaces||people.childElementCount||firstPhoto);
   document.body.dataset.theme=current.settings?.theme||"original";
   const paused=Boolean(current.settings?.paused);
   document.querySelector("#pausedStage").hidden=!paused;
