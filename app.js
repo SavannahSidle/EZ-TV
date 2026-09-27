@@ -212,7 +212,7 @@ document.querySelector("#voiceControl").addEventListener("click",event=>{
 const supportPanel=document.querySelector("#supportPanel");
 document.querySelector("#helpControl").addEventListener("click",()=>supportPanel.classList.add("open"));
 document.querySelector("#closeSupport").addEventListener("click",()=>supportPanel.classList.remove("open"));
-document.querySelector("#supportMusic").addEventListener("click",()=>{supportPanel.classList.remove("open");openMedia("music")});
+document.querySelector("#supportMusic").addEventListener("click",()=>{supportPanel.classList.remove("open");openMedia("photos")});
 
 document.querySelectorAll(".care-tab").forEach(button=>button.addEventListener("click",()=>{
   document.querySelectorAll(".care-tab").forEach(tab=>tab.classList.toggle("active",tab===button));
@@ -289,7 +289,7 @@ document.querySelector("#addMediaButton").addEventListener("click",()=>showToast
 const familyKey="eztv-public-demo-family";
 const storyKey="eztv-public-demo-story";
 function readDemoData(key,fallback){try{return JSON.parse(localStorage.getItem(key))||fallback}catch{return fallback}}
-let familiarPeople=readDemoData(familyKey,[{name:"Maya",relationship:"Daughter",note:"Enjoys garden afternoons together"},{name:"Daniel",relationship:"Grandchild",note:"Loves sharing lake days"},{name:"Leila",relationship:"Grandchild",note:"Enjoys family birthday celebrations"}]);
+let familiarPeople=readDemoData(familyKey,[{name:"Savannah",relationship:"Daughter",note:"Enjoys garden afternoons together"},{name:"Daniel",relationship:"Grandchild",note:"Loves sharing lake days"},{name:"Leila",relationship:"Grandchild",note:"Enjoys family birthday celebrations"}]);
 let familyStory=readDemoData(storyKey,{about:"Wanda enjoys gardens, lake days, music, and time with family.",place:"A favourite memory: summer afternoons by the lake.",phrase:"",meaning:"",photo:"",facility:false});
 async function smallDemoImage(file){
   if(!file)return "";
@@ -313,11 +313,15 @@ function renderFamily(){
     details.append(title,relation,note);card.append(avatar,details,remove);grid.append(card);
   });
   const list=document.querySelector("#storyPeople");list.replaceChildren();
-  familiarPeople.forEach(person=>{const item=document.createElement("p");item.textContent=`${person.name} · ${person.relationship}${person.note?` · ${person.note}`:""}`;list.append(item)});
+  const printList=document.querySelector("#printStoryPeople");printList.replaceChildren();
+  familiarPeople.forEach(person=>{const item=document.createElement("p");item.textContent=`${person.name} · ${person.relationship}${person.note?` · ${person.note}`:""}`;list.append(item);printList.append(item.cloneNode(true))});
 }
 function renderStory(){
   document.querySelector("#storyReadAbout").textContent=familyStory.about;
   document.querySelector("#storyReadPlace").textContent=familyStory.place;
+  document.querySelector("#printStoryAbout").textContent=familyStory.about;
+  document.querySelector("#printStoryPlace").textContent=familyStory.place;
+  document.querySelector("#printStoryPortrait").src=familyStory.photo||"assets/memories/garden-afternoon.jpg";
   document.querySelector("#storyPhrase").value=familyStory.phrase||"";
   document.querySelector("#storyPhraseMeaning").value=familyStory.meaning||"";
   document.querySelector("#storyPhraseDisplay").hidden=true;
@@ -334,6 +338,7 @@ function renderStory(){
 renderFamily();renderStory();
 document.querySelector("#addPersonButton").addEventListener("click",()=>document.querySelector("#personModal").showModal());
 document.querySelector("#editStoryButton").addEventListener("click",()=>document.querySelector("#storyEditModal").showModal());
+document.querySelector("#printStoryButton").addEventListener("click",()=>{if(!familyStory.facility){showToast("Approve staff sharing in Edit Wanda’s story first");return}window.print()});
 document.querySelector("#residentStoryButton").addEventListener("click",()=>document.querySelector("#storyReadModal").showModal());
 document.querySelectorAll("[data-close]").forEach(button=>button.addEventListener("click",()=>document.getElementById(button.dataset.close).close()));
 document.querySelector("#personForm").addEventListener("submit",async event=>{
@@ -453,9 +458,9 @@ document.querySelectorAll("[data-overview-target]").forEach(button=>button.addEv
 let selectedSetupScreen="smart";
 let selectedSetupInternet="yes";
 const setupRecommendations={
-  smart:{title:"Use the existing screen first",summary:"Run EZ-TV full-screen on the compatible device already available. No EZ-TV hardware is needed for the pilot.",resident:"The same three-choice EZ-TV screen.",caregiver:"Checks compatibility, opens EZ-TV, pairs the screen, and approves the life profile."},
-  older:{title:"Add a preconfigured companion device",summary:"Connect an ordinary, preconfigured HDMI streaming device to the existing television. The resident never handles its menus.",resident:"The same three-choice EZ-TV screen, controlled with a simple remote or by a caregiver.",caregiver:"Connects power and HDMI once, or chooses managed installation."},
-  none:{title:"Start with a tablet or Ready Screen bundle",summary:"Use a tablet for the fastest pilot. For everyday room viewing, choose an inexpensive television or monitor with a preconfigured companion device and simple remote.",resident:"A personal tablet or a larger room screen with the same three choices.",caregiver:"Chooses the screen size and placement. EZ-TV or a partner can prepare and install the bundle."}
+  smart:{title:"Test the existing device",summary:"Open EZ-TV on Wanda’s computer or tablet and Caregiver Setup on your phone. A smart TV browser needs its own compatibility test.",resident:"Three choices on a computer or tablet screen.",caregiver:"Opens the resident page, pairs with its code, selects a few familiar photos, and checks both screens together."},
+  older:{title:"Use a computer with the TV, if available",summary:"A computer can show the browser through the TV’s HDMI input. EZ-TV has no supplied streaming device; a third-party device would be a later experiment.",resident:"Three choices displayed from the computer on the TV, if the remote and input work.",caregiver:"Connects a computer by HDMI and checks the TV input, restart, and controls. If this is cumbersome, test a tablet instead."},
+  none:{title:"Start with an existing tablet or computer",summary:"A tablet or computer is the current pilot route. No bundled screen or installation service exists.",resident:"A tablet or computer with the three familiar choices.",caregiver:"Chooses a safe place and charging arrangement, pairs the screen, and tests use with Wanda."}
 };
 function updateSetupRecommendation(){
   const recommendation=setupRecommendations[selectedSetupScreen];
@@ -463,8 +468,8 @@ function updateSetupRecommendation(){
   document.querySelector("#setupResultSummary").textContent=recommendation.summary;
   document.querySelector("#setupResident").textContent=recommendation.resident;
   document.querySelector("#setupCaregiver").textContent=recommendation.caregiver;
-  document.querySelector("#setupAutomation").textContent=selectedSetupInternet==="yes"?"Daily programming, local caching, restart recovery, and remote updates.":"Daily programming, local caching, and restart recovery. Remote updates resume when a connection is available.";
-  document.querySelector("#setupConnection").textContent=selectedSetupInternet==="yes"?"Use Wi-Fi or Ethernet for remote caregiver changes. Approved core content remains available during an interruption.":"Core content works from local storage. Add separately priced managed cellular when remote updates matter. Use USB only as a manual fallback.";
+  document.querySelector("#setupAutomation").textContent=selectedSetupInternet==="yes"?"Paired updates and a basic scheduled channel can be tested. Reliable restart and offline recovery still need validation.":"Previously loaded photos may remain in this browser. Automated recovery and dependable offline use are not established.";
+  document.querySelector("#setupConnection").textContent=selectedSetupInternet==="yes"?"Both devices need internet for remote changes. Test the exact room connection first.":"Remote changes cannot arrive without internet. USB would require someone to prepare and carry files; cellular is a future idea, not an offered plan.";
 }
 document.querySelectorAll("[data-setup-screen]").forEach(button=>button.addEventListener("click",()=>{
   selectedSetupScreen=button.dataset.setupScreen;
