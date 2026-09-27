@@ -11,7 +11,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="prototype.css?v=17">
+  <link rel="stylesheet" href="prototype.css?v=18">
 </head>
 <body class="caregiver-app">
   <header class="prototype-bar">
@@ -99,10 +99,10 @@
           <label>A little about Wanda<textarea id="lifeStory" rows="5" maxlength="600" placeholder="A mother and grandmother who loves animals, gardens, lake days, music, and family traditions…"></textarea></label>
           <label>Favourite places<input id="familiarPlaces" maxlength="240" placeholder="Home garden, cottage lake, Barrhaven…"></label>
           <label>Pets and animals<input id="pets" maxlength="240" placeholder="Princess the dog…"></label>
-          <label>A familiar phrase in her language<input id="familiarPhrase" maxlength="100" placeholder="Msit No’kmaq"></label>
-          <label>Meaning for family or staff<input id="phraseMeaning" maxlength="140" placeholder="All my relations"></label>
-          <button class="secondary-button" id="useWandaPhrase" type="button">Use Wanda’s example phrase</button>
-          <small class="phrase-hint">Use words and a translation the resident or family approves. This is a small connection cue, not a translation service.</small>
+          <label class="language-feature-paused">A familiar phrase in her language<input id="familiarPhrase" maxlength="100" placeholder="Msit No’kmaq"></label>
+          <label class="language-feature-paused">Meaning for family or staff<input id="phraseMeaning" maxlength="140" placeholder="All my relations"></label>
+          <button class="secondary-button language-feature-paused" id="useWandaPhrase" type="button">Use Wanda’s example phrase</button>
+          <small class="phrase-hint language-feature-paused">Use words and a translation the resident or family approves. This is a small connection cue, not a translation service.</small>
         </section>
         <section class="setup-card story-card">
           <div class="card-heading"><span>Favourites and belonging</span><small>Optional</small></div>
