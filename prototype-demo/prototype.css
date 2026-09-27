@@ -47,3 +47,6 @@
 .photo-view img{min-height:0;max-height:calc(100svh - 245px)}
 .checkin-history{margin:14px 0 0;padding-left:20px;color:var(--muted);font-size:.7rem;line-height:1.7;max-height:180px;overflow:auto}
 @media(max-width:760px){.photo-manager{grid-template-columns:1fr}.photo-item{grid-template-columns:72px minmax(0,1fr)}.photo-item img{width:72px;height:72px}.photo-actions{grid-column:1/-1;flex-direction:row}.pause-card{display:block}.pause-card button{margin-top:12px}}
+
+.profile-actions{display:flex;gap:10px;flex-wrap:wrap}.care-card-print{display:none}
+@media print{body>*{display:none!important}body>#careCardPrint{display:block!important;max-width:720px;margin:0 auto;padding:18px;color:#173037;background:white;font:18px/1.5 Arial,sans-serif}#careCardPrint h1{font-size:32px}#careCardPrint h2{font-size:21px}#careCardPrint #careCardPeople p{display:flex;align-items:center;gap:12px;border-top:1px solid #ddd;padding:10px 0}#careCardPrint img{width:64px;height:64px;object-fit:cover;border-radius:8px}#careCardPrint footer{border-top:1px solid #aaa;margin-top:24px;padding-top:12px;font-size:14px}}
