@@ -11,7 +11,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="prototype.css?v=20">
+  <link rel="stylesheet" href="prototype.css?v=21">
 </head>
 <body class="resident-only">
   <main>
@@ -26,21 +26,23 @@
     <section class="tv-screen active-screen" id="tvScreen" aria-label="Resident television">
       <div class="tv-home" id="tvHome">
         <div class="tv-heading">
-          <div><p class="eyebrow">GOOD EVENING</p><h1>What would you like, <span id="tvResidentName">Wanda</span>?</h1></div>
+          <div class="resident-greeting"><img id="welcomePhoto" alt="A familiar photograph" hidden><div><p class="eyebrow">GOOD EVENING</p><h1>What would you like, <span id="tvResidentName">Wanda</span>?</h1></div></div>
           <div class="clock"><strong id="clockTime"></strong><span id="clockDate"></span></div>
         </div>
-        <button class="home-today" id="homeToday" type="button" hidden><span>FROM HOME TODAY</span><b id="homeTodayText"></b><small id="homeTodaySender"></small></button>
+        <div class="tv-notices"><button class="home-today" id="homeToday" type="button" hidden><span>FROM HOME TODAY</span><b id="homeTodayText"></b><small id="homeTodaySender"></small></button>
         <div class="guide-prompt" id="guidePrompt" hidden><span>A familiar choice for right now</span><b id="guidePromptText">Family photos</b></div>
+        <button class="watch-invite" id="watchInvite" type="button" hidden>♡ Watch with Savannah</button></div>
         <div class="tv-choices" role="group" aria-label="Choose media">
           <button data-media="photos"><span class="choice-icon photo-icon"><img id="photoTileImage" alt="A familiar family photograph" hidden><span id="photoTileFallback">▧</span></span><b>Family photos</b><small>People you know</small></button>
           <button data-media="video"><span class="choice-icon play-icon">▶</span><b>Favourite show</b><small>Something familiar</small></button>
           <button data-media="audio"><span class="choice-icon music-icon">♪</span><b>Relaxing music</b><small>Music you enjoy</small></button>
         </div>
-        <div class="tv-home-actions"><button class="story-button" id="tvStoryButton" type="button" hidden>♡ About me</button><button class="familiar-button" id="whereSavannah" type="button">♡ Where’s Savannah?</button><button class="help-button" id="helpButton"><span>?</span> I need help</button></div>
+        <div class="tv-home-actions"><button class="story-button" id="tvStoryButton" type="button" hidden>♡ About me</button><button class="familiar-button" id="whereSavannah" type="button">♡ Where’s Savannah?</button><button class="quiet-button" id="quietButton" type="button">Quiet moment</button><button class="help-button" id="helpButton"><span>?</span> I need help</button></div>
       </div>
       <div class="media-stage" id="mediaStage" hidden><button class="back-button" id="backButton">← Back to choices</button><div class="media-content" id="mediaContent"></div></div>
       <div class="story-stage" id="tvStoryStage" hidden><button class="back-button" id="tvStoryBack" type="button">← Back to choices</button><div class="tv-story"><img id="tvStoryImage" alt="Family-selected photograph" hidden><div><p class="eyebrow">ABOUT ME</p><h2 id="tvStoryName">Wanda</h2><p id="tvStoryText"></p><p id="tvStoryPlaces"></p><div id="tvStoryPeople"></div><div class="tv-phrase language-feature-paused" id="tvPhrase" hidden><b id="tvPhraseText"></b><span id="tvPhraseMeaning"></span></div></div></div></div>
       <div class="savannah-stage" id="savannahStage" hidden><button class="back-button" id="savannahBack" type="button">← Back to choices</button><div class="savannah-content"><img id="savannahPhoto" alt="Family photograph" hidden><div><p class="eyebrow">SAVANNAH</p><h2 id="savannahText"></h2><audio id="savannahAudio" controls hidden></audio><button class="familiar-button" id="replyHeart" type="button">♥ A heart for Savannah</button><p id="replyStatus" role="status"></p></div></div></div>
+      <div class="quiet-stage" id="quietStage" hidden><button class="back-button" id="quietBack" type="button">← Back to choices</button><div><img id="quietPhoto" alt="A familiar calming picture" hidden><p>Take your time, Wanda.</p><button class="familiar-button" id="quietMusic" type="button" hidden>♪ Play familiar music</button></div></div>
       <div class="help-stage" id="helpStage" hidden><span class="help-orb">♥</span><p class="eyebrow">YOU ARE SAFE</p><h2 id="helpText">Someone from your care team is nearby.</h2><button class="primary-button" id="closeHelp">I'm okay</button></div>
       <div class="paused-stage" id="pausedStage" hidden><h1>Taking a break.</h1></div>
       <div class="quiet-status" id="quietStatus" aria-live="polite"></div>
@@ -49,6 +51,6 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="config.js?v=10"></script>
   <script src="cloud.js?v=15"></script>
-  <script src="tv.js?v=18"></script>
+  <script src="tv.js?v=19"></script>
 </body>
 </html>
