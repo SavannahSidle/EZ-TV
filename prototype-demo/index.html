@@ -11,7 +11,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="prototype.css?v=20">
+  <link rel="stylesheet" href="prototype.css?v=21">
 </head>
 <body class="caregiver-app">
   <header class="prototype-bar">
@@ -65,13 +65,14 @@
             <label class="file-drop" for="photoInput"><b>＋ Add photographs</b><span>JPG, PNG, or WebP</span><input id="photoInput" type="file" accept="image/jpeg,image/png,image/webp" multiple></label>
             <div class="photo-manager" id="photoManager" aria-live="polite"></div>
             <p class="file-status" id="photoStatus">No personal photos saved yet.</p>
-            <p class="card-intro">Give each photo a name and relationship. Hide a photo immediately without deleting it.</p>
+            <p class="card-intro">Give each photo a name and optional 15-second story. Mark Princess, a place, or something funny once. These stay inside Family photos on Wanda’s screen.</p>
           </section>
 
           <section class="setup-card single-media-card">
             <div class="card-heading"><span>Favourite show</span><small>Video</small></div>
             <div class="single-preview" id="videoPreview"><span>▶</span><p>No show added</p></div>
             <label class="file-drop compact" for="videoInput"><b>Choose video</b><input id="videoInput" type="file" accept="video/*"></label>
+            <label>What is this clip?<select id="videoMood"><option value="show">A familiar show</option><option value="smile">Something Wanda finds funny</option></select></label>
             <button class="remove-media" id="removeVideo" type="button" hidden>Remove video</button>
             <p class="file-status" id="videoStatus">No video saved yet.</p>
           </section>
@@ -183,6 +184,13 @@
           <button class="secondary-button" id="queueHomeToday" type="button">Add to Wanda’s channel</button> <button class="secondary-button" id="sendLoveNote" type="button">♥ Send love from Savannah</button>
           <p class="file-status" id="homeTodayStatus">Nothing waiting.</p>
         </section>
+        <section class="setup-card">
+          <div class="card-heading"><span>Watch together</span><small>Two screens</small></div>
+          <p class="card-intro">Invite Wanda to open the same uploaded clip or family photo while you open it here. Playback starts when each person presses play. No camera or call.</p>
+          <button class="secondary-button" id="inviteCoWatch" type="button">Invite Wanda to watch</button>
+          <div id="coWatchPreview" class="co-watch-preview" aria-live="polite"></div>
+          <p class="file-status" id="coWatchStatus">Send one clip or photo to Wanda’s screen first.</p>
+        </section>
       </div>
     </section>
 
@@ -220,6 +228,6 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="config.js?v=10"></script>
   <script src="cloud.js?v=15"></script>
-  <script src="prototype.js?v=20"></script>
+  <script src="prototype.js?v=21"></script>
 </body>
 </html>
