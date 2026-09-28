@@ -11,7 +11,10 @@ let tilePhotoUrl=null;
 let storyPhotoUrl=null;
 let storyPeopleUrls=[];
 let savannahPhotoUrl=null;
+let welcomePhotoUrl=null;
+let quietPhotoUrl=null;
 let photoIndex=0;
+let photoGroup="all";
 let cloudResidentId=null;
 let pairingStarted=false;
 let channelTimer=null;
@@ -24,7 +27,7 @@ async function putLocal(key,value){const db=await openDatabase();return new Prom
 function releaseUrls(){objectUrls.forEach(URL.revokeObjectURL);objectUrls=[]}
 function makeUrl(file){const url=URL.createObjectURL(file);objectUrls.push(url);return url}
 function emptyMarkup(label){return `<div class="empty-state"><span>+</span><h2>${label} is not ready yet</h2><p>Please choose something else.</p></div>`}
-function visiblePhotos(){return current.photos.map((file,index)=>({file,detail:current.settings?.photo_details?.[index]||{}})).filter(item=>item.detail.visible!==false)}
+function visiblePhotos(){return current.photos.map((file,index)=>({file,index,detail:current.settings?.photo_details?.[index]||{}})).filter(item=>item.detail.visible!==false)}
 function updatePhotoTile(){
   const image=document.querySelector("#photoTileImage");
   const fallback=document.querySelector("#photoTileFallback");
@@ -68,6 +71,14 @@ function applyProfile(){
   const portrait=document.querySelector("#tvStoryImage"),firstPhoto=visiblePhotos()[0];storyPhotoUrl=firstPhoto?URL.createObjectURL(firstPhoto.file):null;
   portrait.hidden=!storyPhotoUrl;if(storyPhotoUrl)portrait.src=storyPhotoUrl;else portrait.removeAttribute("src");
   document.querySelector("#tvStoryButton").hidden=!(story.lifeStory||story.familiarPlaces||people.childElementCount||firstPhoto);
+  if(welcomePhotoUrl)URL.revokeObjectURL(welcomePhotoUrl);
+  const welcome=document.querySelector("#welcomePhoto"),familiarFace=visiblePhotos().find(item=>item.detail.category==="people")||firstPhoto;welcomePhotoUrl=familiarFace?URL.createObjectURL(familiarFace.file):null;
+  welcome.hidden=!welcomePhotoUrl;if(welcomePhotoUrl)welcome.src=welcomePhotoUrl;else welcome.removeAttribute("src");
+  if(quietPhotoUrl)URL.revokeObjectURL(quietPhotoUrl);
+  const quiet=document.querySelector("#quietPhoto"),quietChoice=visiblePhotos().find(item=>item.detail.category==="place")||firstPhoto;
+  quietPhotoUrl=quietChoice?URL.createObjectURL(quietChoice.file):null;
+  quiet.hidden=!quietPhotoUrl;if(quietPhotoUrl)quiet.src=quietPhotoUrl;else quiet.removeAttribute("src");
+  document.querySelector("#quietMusic").hidden=!current.audio;
   if(savannahPhotoUrl)URL.revokeObjectURL(savannahPhotoUrl);
   const savannah=story.familiarPeople?.find(person=>/^savannah\b/i.test(person.name||""));
   const familiarPhoto=current.photos[savannah?.photoIndex];
@@ -82,8 +93,8 @@ function applyProfile(){
   document.body.dataset.theme=current.settings?.theme||"original";
   const paused=Boolean(current.settings?.paused);
   document.querySelector("#pausedStage").hidden=!paused;
-  if(paused){clearTimeout(channelTimer);releaseUrls();document.querySelectorAll("video,audio").forEach(media=>media.pause());mediaStage.hidden=true;helpStage.hidden=true;document.querySelector("#tvStoryStage").hidden=true;document.querySelector("#savannahStage").hidden=true;tvHome.hidden=true;mediaContent.innerHTML=""}
-  else if(mediaStage.hidden&&helpStage.hidden&&document.querySelector("#tvStoryStage").hidden&&document.querySelector("#savannahStage").hidden)tvHome.hidden=false;
+  if(paused){clearTimeout(channelTimer);releaseUrls();document.querySelectorAll("video,audio").forEach(media=>media.pause());mediaStage.hidden=true;helpStage.hidden=true;document.querySelector("#tvStoryStage").hidden=true;document.querySelector("#savannahStage").hidden=true;document.querySelector("#quietStage").hidden=true;tvHome.hidden=true;mediaContent.innerHTML=""}
+  else if(mediaStage.hidden&&helpStage.hidden&&document.querySelector("#tvStoryStage").hidden&&document.querySelector("#savannahStage").hidden&&document.querySelector("#quietStage").hidden)tvHome.hidden=false;
   document.querySelector(".clock").hidden=current.settings?.show_clock===false;
   const home=document.querySelector("#homeToday");
   home.hidden=!validHomeToday();
@@ -91,6 +102,8 @@ function applyProfile(){
   const guide=document.querySelector("#guidePrompt");
   guide.hidden=current.settings?.interaction_mode!=="guide";
   if(!guide.hidden)document.querySelector("#guidePromptText").textContent=mediaLabel(suggestedType());
+  const watch=current.settings?.watch_together;
+  document.querySelector("#watchInvite").hidden=!watch||Date.now()-new Date(watch.at).getTime()>10*60*1000;
   updatePhotoTile();if(!paused)scheduleChannel();
 }
 
@@ -147,7 +160,7 @@ async function fetchCloud(){
     if(item.type==="photo")next.photos.push(media);else next[item.type]=media;
   }
   await putLocal("snapshot",next);
-  if(!mediaStage.hidden||!helpStage.hidden||!document.querySelector("#savannahStage").hidden)closeMedia();
+  if(!mediaStage.hidden||!helpStage.hidden||!document.querySelector("#savannahStage").hidden||!document.querySelector("#quietStage").hidden)closeMedia();
   current=next;
   applyProfile();
   client.rpc("touch_device").catch(()=>{});
@@ -156,22 +169,41 @@ async function fetchCloud(){
 }
 
 function mediaUrl(item){return makeUrl(item)}
-function openMedia(type){
+function renderPhotoMedia(){
+  releaseUrls();
+  const all=visiblePhotos();
+  const groups=[{key:"all",label:"All photos"},{key:"pet",label:"Princess & pets"},{key:"place",label:"Familiar places"},{key:"smile",label:"Things that make me smile"}].filter(group=>group.key==="all"||all.some(item=>item.detail.category===group.key));
+  const photos=photoGroup==="all"?all:all.filter(item=>item.detail.category===photoGroup);
+  if(!photos.length){mediaContent.innerHTML=emptyMarkup("Family photos");return}
+  photoIndex=Math.min(photoIndex,photos.length-1);
+  const entry=photos[photoIndex];
+  mediaContent.innerHTML='<div class="photo-view"><div class="photo-groups" role="group" aria-label="Choose photographs"></div><img alt="Family photograph"><p class="photo-caption"></p><div class="photo-story" hidden></div><div class="photo-controls"><button id="previousPhoto" aria-label="Previous photograph">←</button><span></span><button id="nextPhoto" aria-label="Next photograph">→</button></div></div>';
+  const view=mediaContent.querySelector(".photo-view");view.querySelector("img").src=mediaUrl(entry.file);
+  view.querySelector(".photo-caption").textContent=current.settings?.show_captions===false?"":[entry.detail.name,entry.detail.relationship].filter(Boolean).join(" · ");
+  view.querySelector(".photo-controls span").textContent=`${photoIndex+1} of ${photos.length}`;
+  groups.forEach(group=>{const button=document.createElement("button");button.type="button";button.textContent=group.label;button.className=photoGroup===group.key?"selected":"";button.setAttribute("aria-pressed",String(photoGroup===group.key));button.addEventListener("click",()=>{photoGroup=group.key;photoIndex=0;renderPhotoMedia()});view.querySelector(".photo-groups").append(button)});
+  if(current.video&&current.settings?.video_mood==="smile"){
+    const clip=document.createElement("button");clip.type="button";clip.textContent="Funny clip";clip.addEventListener("click",()=>openMedia("video"));view.querySelector(".photo-groups").append(clip);
+  }
+  const story=view.querySelector(".photo-story");story.hidden=!(entry.detail.story||/^data:audio\//.test(entry.detail.voice||""));
+  if(!story.hidden){if(entry.detail.story){const words=document.createElement("p");words.textContent=entry.detail.story;story.append(words)}if(/^data:audio\//.test(entry.detail.voice||"")){const voice=document.createElement("audio");voice.controls=true;voice.src=entry.detail.voice;voice.setAttribute("aria-label","Hear the story behind this photograph");story.append(voice)}}
+  view.querySelector("#previousPhoto").onclick=()=>{photoIndex=(photoIndex-1+photos.length)%photos.length;renderPhotoMedia()};
+  view.querySelector("#nextPhoto").onclick=()=>{photoIndex=(photoIndex+1)%photos.length;renderPhotoMedia()};
+}
+function openMedia(type,options={}){
   if(current.settings?.paused)return;
   if(type==="music")type="audio";
-  releaseUrls();photoIndex=0;tvHome.hidden=true;helpStage.hidden=true;mediaStage.hidden=false;
-  if(type==="photos"){
-    const photos=visiblePhotos();
-    if(!photos.length){mediaContent.innerHTML=emptyMarkup("Family photos");return}
-    const render=()=>{releaseUrls();const entry=photos[photoIndex];const caption=current.settings?.show_captions===false?"":[entry.detail.name,entry.detail.relationship].filter(Boolean).join(" · ");mediaContent.innerHTML=`<div class="photo-view"><img alt="Family photograph ${photoIndex+1}"><div class="photo-controls"><button id="previousPhoto" aria-label="Previous photograph">←</button><span>${photoIndex+1} of ${photos.length}</span><button id="nextPhoto" aria-label="Next photograph">→</button></div><p class="photo-caption"></p></div>`;mediaContent.querySelector("img").src=mediaUrl(entry.file);mediaContent.querySelector(".photo-caption").textContent=caption;document.querySelector("#previousPhoto").onclick=()=>{photoIndex=(photoIndex-1+photos.length)%photos.length;render()};document.querySelector("#nextPhoto").onclick=()=>{photoIndex=(photoIndex+1)%photos.length;render()}};
-    render();return;
-  }
+  releaseUrls();photoIndex=options.photoIndex??0;photoGroup=options.group||"all";tvHome.hidden=true;helpStage.hidden=true;document.querySelector("#quietStage").hidden=true;mediaStage.hidden=false;
+  if(type==="photos"){renderPhotoMedia();return}
   const item=current[type];
   if(!item){mediaContent.innerHTML=emptyMarkup(type==="video"?"Favourite show":"Relaxing music");return}
   const url=mediaUrl(item);
-  mediaContent.innerHTML=type==="video"?`<video src="${url}" controls autoplay playsinline></video>`:`<audio src="${url}" controls autoplay></audio>`;
+  mediaContent.innerHTML='<div class="repeat-media"><div class="repeat-player"></div><button class="repeat-button" type="button">↺ Play that again</button></div>';
+  const media=document.createElement(type==="video"?"video":"audio");media.src=url;media.controls=true;media.playsInline=true;media.autoplay=true;
+  mediaContent.querySelector(".repeat-player").append(media);
+  mediaContent.querySelector(".repeat-button").addEventListener("click",()=>{media.currentTime=0;media.play().catch(()=>{})});
 }
-function closeMedia(){releaseUrls();document.querySelectorAll("video,audio").forEach(media=>media.pause());mediaStage.hidden=true;helpStage.hidden=true;document.querySelector("#tvStoryStage").hidden=true;document.querySelector("#savannahStage").hidden=true;tvHome.hidden=Boolean(current.settings?.paused);mediaContent.innerHTML=""}
+function closeMedia(){releaseUrls();document.querySelectorAll("video,audio").forEach(media=>media.pause());mediaStage.hidden=true;helpStage.hidden=true;document.querySelector("#tvStoryStage").hidden=true;document.querySelector("#savannahStage").hidden=true;document.querySelector("#quietStage").hidden=true;tvHome.hidden=Boolean(current.settings?.paused);mediaContent.innerHTML=""}
 function openHomeToday(){
   if(current.settings?.paused||!validHomeToday())return;
   clearTimeout(channelTimer);tvHome.hidden=true;helpStage.hidden=true;mediaStage.hidden=false;
@@ -186,6 +218,15 @@ function scheduleChannel(){
 }
 document.querySelectorAll("[data-media]").forEach(button=>button.addEventListener("click",()=>openMedia(button.dataset.media)));
 document.querySelector("#homeToday").addEventListener("click",openHomeToday);
+document.querySelector("#watchInvite").addEventListener("click",()=>{
+  const invite=current.settings?.watch_together;
+  if(!invite||Date.now()-new Date(invite.at).getTime()>10*60*1000)return;
+  const selected=visiblePhotos().findIndex(item=>item.index===invite.photoIndex);
+  openMedia(invite.type,{photoIndex:Math.max(0,selected)});
+});
+document.querySelector("#quietButton").addEventListener("click",()=>{if(current.settings?.paused)return;clearTimeout(channelTimer);tvHome.hidden=true;mediaStage.hidden=true;helpStage.hidden=true;document.querySelector("#quietStage").hidden=false});
+document.querySelector("#quietBack").addEventListener("click",closeMedia);
+document.querySelector("#quietMusic").addEventListener("click",()=>openMedia("audio"));
 document.querySelector("#whereSavannah").addEventListener("click",()=>{if(current.settings?.paused)return;clearTimeout(channelTimer);tvHome.hidden=true;mediaStage.hidden=true;helpStage.hidden=true;document.querySelector("#tvStoryStage").hidden=true;document.querySelector("#replyStatus").textContent="";document.querySelector("#savannahStage").hidden=false});
 document.querySelector("#savannahBack").addEventListener("click",closeMedia);
 document.querySelector("#replyHeart").addEventListener("click",async()=>{
@@ -201,7 +242,7 @@ document.querySelector("#closeHelp").addEventListener("click",closeMedia);
 document.addEventListener("keydown",event=>{
   if(current.settings?.paused)return;
   if(event.key==="Escape"||event.key==="Backspace"||event.key==="Home"){event.preventDefault();closeMedia();return}
-  if(!mediaStage.hidden||!helpStage.hidden||!document.querySelector("#tvStoryStage").hidden||!document.querySelector("#savannahStage").hidden)return;
+  if(!mediaStage.hidden||!helpStage.hidden||!document.querySelector("#tvStoryStage").hidden||!document.querySelector("#savannahStage").hidden||!document.querySelector("#quietStage").hidden)return;
   const buttons=[...document.querySelectorAll(".tv-choices button:not([hidden])")];const active=document.activeElement;let index=buttons.indexOf(active);
   if(event.key==="ArrowRight"||event.key==="ArrowDown"){event.preventDefault();buttons[(index+1+buttons.length)%buttons.length]?.focus()}
   if(event.key==="ArrowLeft"||event.key==="ArrowUp"){event.preventDefault();buttons[(index-1+buttons.length)%buttons.length]?.focus()}
@@ -216,4 +257,4 @@ async function start(){
   }else await loadLocal();
   if("serviceWorker" in navigator)navigator.serviceWorker.register("service-worker.js").catch(()=>{});
 }
-start();
+start().catch(()=>{quietStatus.textContent="Using familiar choices";applyProfile()});
