@@ -11,7 +11,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="prototype.css?v=19">
+  <link rel="stylesheet" href="prototype.css?v=20">
 </head>
 <body class="caregiver-app">
   <header class="prototype-bar">
@@ -91,7 +91,7 @@
     </div>
 
     <section class="care-section" data-care-page="profile" aria-labelledby="lifeProfileTitle">
-      <div class="workspace-title"><div><p class="eyebrow">PORTABLE LIFE PROFILE</p><h1 id="lifeProfileTitle">Keep Wanda known.</h1><p>One small profile can move with her from home to care. Wanda and her family decide what appears and who may see it.</p></div><div class="profile-actions"><button class="secondary-button" id="printCareCard" type="button">Print staff story card</button><button class="primary-button section-save" type="button" data-save-settings>Save profile</button></div></div>
+      <div class="workspace-title"><div><p class="eyebrow">LIFE PROFILE</p><h1 id="lifeProfileTitle">Keep Wanda known.</h1><p>Start with a few people, places, and words she recognizes on her own screen.</p></div><button class="primary-button section-save" type="button" data-save-settings>Save profile</button></div>
       <div class="profile-grid">
         <section class="setup-card story-card">
           <div class="card-heading"><span>The person</span><small>Resident approved</small></div>
@@ -103,6 +103,16 @@
           <label class="language-feature-paused">Meaning for family or staff<input id="phraseMeaning" maxlength="140" placeholder="All my relations"></label>
           <button class="secondary-button language-feature-paused" id="useWandaPhrase" type="button">Use Wanda’s example phrase</button>
           <small class="phrase-hint language-feature-paused">Use words and a translation the resident or family approves. This is a small connection cue, not a translation service.</small>
+        </section>
+        <section class="setup-card story-card">
+          <div class="card-heading"><span>Where’s Savannah?</span><small>For Wanda’s screen</small></div>
+          <p class="card-intro">One familiar face and a short message written by Savannah. You can add a real voice recording. No generated voice and no promises about visits.</p>
+          <label>What Savannah wants Wanda to hear<textarea id="savannahMessage" rows="3" maxlength="180" placeholder="Hi Mom. I love you. Here’s a picture of us."></textarea></label>
+          <label>Optional voice recording<input id="savannahVoice" type="file" accept="audio/*"></label>
+          <p class="file-status" id="savannahVoiceStatus">No recording added. Text works on its own.</p>
+          <button class="secondary-button" id="removeSavannahVoice" type="button">Remove recording</button>
+          <button class="primary-button" id="saveSavannahMessage" type="button">Save for Wanda</button>
+          <p class="card-intro">For the pilot, choose a short file under 500 KB. A photo of Savannah from Familiar people appears alongside this message.</p>
         </section>
         <section class="setup-card story-card">
           <div class="card-heading"><span>Favourites and belonging</span><small>Optional</small></div>
@@ -207,10 +217,9 @@
   </main>
 
   <div class="toast" id="toast" role="status"></div>
-  <article id="careCardPrint" class="care-card-print" aria-hidden="true"><h1 id="careCardName"></h1><p id="careCardStory"></p><p id="careCardPlaces"></p><p id="careCardPets"></p><h2>People I know</h2><div id="careCardPeople"></div><footer>Shared by family as a conversation cue. Ask the person what they would like to share today.</footer></article>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="config.js?v=10"></script>
   <script src="cloud.js?v=15"></script>
-  <script src="prototype.js?v=19"></script>
+  <script src="prototype.js?v=20"></script>
 </body>
 </html>
