@@ -808,6 +808,3 @@ body.light-mode[data-interface-theme="garden"] .facility-rail button.active,
 body.light-mode[data-interface-theme="garden"] .setup-question button.active{background:#cfe0d3;border-color:#93b09b;color:#304c39}
 body.light-mode[data-interface-theme="garden"] .page-appearance button[data-interface-theme="garden"]{background:#f0f6f1;border-color:#b2c9b8;color:#55755f}
 body.light-mode[data-interface-theme="garden"] .page-appearance button[data-interface-theme="garden"].active{background:#dbe9de;border-color:#82a18b;color:#3f624a;box-shadow:0 3px 10px rgba(54,92,66,.08)}
-
-.story-actions{display:flex;gap:10px;flex-wrap:wrap;justify-content:flex-end}.print-story-card{display:none}
-@media print{body>*{display:none!important}body>#printStoryCard{display:block!important;max-width:720px;margin:0 auto;padding:18px;color:#172d35;background:white;font:18px/1.5 Arial,sans-serif}#printStoryCard img{width:220px;height:170px;object-fit:cover;border-radius:8px}#printStoryCard h1{font-size:32px}#printStoryCard h2{font-size:21px}#printStoryCard footer{border-top:1px solid #aaa;margin-top:24px;padding-top:12px;font-size:14px}}
