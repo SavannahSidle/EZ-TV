@@ -313,15 +313,11 @@ function renderFamily(){
     details.append(title,relation,note);card.append(avatar,details,remove);grid.append(card);
   });
   const list=document.querySelector("#storyPeople");list.replaceChildren();
-  const printList=document.querySelector("#printStoryPeople");printList.replaceChildren();
-  familiarPeople.forEach(person=>{const item=document.createElement("p");item.textContent=`${person.name} · ${person.relationship}${person.note?` · ${person.note}`:""}`;list.append(item);printList.append(item.cloneNode(true))});
+  familiarPeople.forEach(person=>{const item=document.createElement("p");item.textContent=`${person.name} · ${person.relationship}${person.note?` · ${person.note}`:""}`;list.append(item)});
 }
 function renderStory(){
   document.querySelector("#storyReadAbout").textContent=familyStory.about;
   document.querySelector("#storyReadPlace").textContent=familyStory.place;
-  document.querySelector("#printStoryAbout").textContent=familyStory.about;
-  document.querySelector("#printStoryPlace").textContent=familyStory.place;
-  document.querySelector("#printStoryPortrait").src=familyStory.photo||"assets/memories/garden-afternoon.jpg";
   document.querySelector("#storyPhrase").value=familyStory.phrase||"";
   document.querySelector("#storyPhraseMeaning").value=familyStory.meaning||"";
   document.querySelector("#storyPhraseDisplay").hidden=true;
@@ -338,7 +334,6 @@ function renderStory(){
 renderFamily();renderStory();
 document.querySelector("#addPersonButton").addEventListener("click",()=>document.querySelector("#personModal").showModal());
 document.querySelector("#editStoryButton").addEventListener("click",()=>document.querySelector("#storyEditModal").showModal());
-document.querySelector("#printStoryButton").addEventListener("click",()=>{if(!familyStory.facility){showToast("Approve staff sharing in Edit Wanda’s story first");return}window.print()});
 document.querySelector("#residentStoryButton").addEventListener("click",()=>document.querySelector("#storyReadModal").showModal());
 document.querySelectorAll("[data-close]").forEach(button=>button.addEventListener("click",()=>document.getElementById(button.dataset.close).close()));
 document.querySelector("#personForm").addEventListener("submit",async event=>{
