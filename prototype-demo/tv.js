@@ -10,6 +10,7 @@ let objectUrls=[];
 let tilePhotoUrl=null;
 let storyPhotoUrl=null;
 let storyPeopleUrls=[];
+let savannahPhotoUrl=null;
 let photoIndex=0;
 let cloudResidentId=null;
 let pairingStarted=false;
@@ -67,11 +68,22 @@ function applyProfile(){
   const portrait=document.querySelector("#tvStoryImage"),firstPhoto=visiblePhotos()[0];storyPhotoUrl=firstPhoto?URL.createObjectURL(firstPhoto.file):null;
   portrait.hidden=!storyPhotoUrl;if(storyPhotoUrl)portrait.src=storyPhotoUrl;else portrait.removeAttribute("src");
   document.querySelector("#tvStoryButton").hidden=!(story.lifeStory||story.familiarPlaces||people.childElementCount||firstPhoto);
+  if(savannahPhotoUrl)URL.revokeObjectURL(savannahPhotoUrl);
+  const savannah=story.familiarPeople?.find(person=>/^savannah\b/i.test(person.name||""));
+  const familiarPhoto=current.photos[savannah?.photoIndex];
+  const savannahImage=document.querySelector("#savannahPhoto");
+  savannahPhotoUrl=familiarPhoto&&current.settings?.photo_details?.[savannah.photoIndex]?.visible!==false?URL.createObjectURL(familiarPhoto):null;
+  savannahImage.hidden=!savannahPhotoUrl;
+  if(savannahPhotoUrl)savannahImage.src=savannahPhotoUrl;else savannahImage.removeAttribute("src");
+  document.querySelector("#savannahText").textContent=current.settings?.savannah_note?.text||"You are loved, Wanda.";
+  const voice=document.querySelector("#savannahAudio"),recording=current.settings?.savannah_note?.audio||"";
+  voice.hidden=!/^data:audio\//.test(recording);
+  if(!voice.hidden)voice.src=recording;else voice.removeAttribute("src");
   document.body.dataset.theme=current.settings?.theme||"original";
   const paused=Boolean(current.settings?.paused);
   document.querySelector("#pausedStage").hidden=!paused;
-  if(paused){clearTimeout(channelTimer);releaseUrls();document.querySelectorAll("video,audio").forEach(media=>media.pause());mediaStage.hidden=true;helpStage.hidden=true;document.querySelector("#tvStoryStage").hidden=true;tvHome.hidden=true;mediaContent.innerHTML=""}
-  else if(mediaStage.hidden&&helpStage.hidden&&document.querySelector("#tvStoryStage").hidden)tvHome.hidden=false;
+  if(paused){clearTimeout(channelTimer);releaseUrls();document.querySelectorAll("video,audio").forEach(media=>media.pause());mediaStage.hidden=true;helpStage.hidden=true;document.querySelector("#tvStoryStage").hidden=true;document.querySelector("#savannahStage").hidden=true;tvHome.hidden=true;mediaContent.innerHTML=""}
+  else if(mediaStage.hidden&&helpStage.hidden&&document.querySelector("#tvStoryStage").hidden&&document.querySelector("#savannahStage").hidden)tvHome.hidden=false;
   document.querySelector(".clock").hidden=current.settings?.show_clock===false;
   const home=document.querySelector("#homeToday");
   home.hidden=!validHomeToday();
@@ -135,7 +147,7 @@ async function fetchCloud(){
     if(item.type==="photo")next.photos.push(media);else next[item.type]=media;
   }
   await putLocal("snapshot",next);
-  if(!mediaStage.hidden||!helpStage.hidden)closeMedia();
+  if(!mediaStage.hidden||!helpStage.hidden||!document.querySelector("#savannahStage").hidden)closeMedia();
   current=next;
   applyProfile();
   client.rpc("touch_device").catch(()=>{});
@@ -159,7 +171,7 @@ function openMedia(type){
   const url=mediaUrl(item);
   mediaContent.innerHTML=type==="video"?`<video src="${url}" controls autoplay playsinline></video>`:`<audio src="${url}" controls autoplay></audio>`;
 }
-function closeMedia(){releaseUrls();document.querySelectorAll("video,audio").forEach(media=>media.pause());mediaStage.hidden=true;helpStage.hidden=true;document.querySelector("#tvStoryStage").hidden=true;tvHome.hidden=Boolean(current.settings?.paused);mediaContent.innerHTML=""}
+function closeMedia(){releaseUrls();document.querySelectorAll("video,audio").forEach(media=>media.pause());mediaStage.hidden=true;helpStage.hidden=true;document.querySelector("#tvStoryStage").hidden=true;document.querySelector("#savannahStage").hidden=true;tvHome.hidden=Boolean(current.settings?.paused);mediaContent.innerHTML=""}
 function openHomeToday(){
   if(current.settings?.paused||!validHomeToday())return;
   clearTimeout(channelTimer);tvHome.hidden=true;helpStage.hidden=true;mediaStage.hidden=false;
@@ -174,6 +186,13 @@ function scheduleChannel(){
 }
 document.querySelectorAll("[data-media]").forEach(button=>button.addEventListener("click",()=>openMedia(button.dataset.media)));
 document.querySelector("#homeToday").addEventListener("click",openHomeToday);
+document.querySelector("#whereSavannah").addEventListener("click",()=>{if(current.settings?.paused)return;clearTimeout(channelTimer);tvHome.hidden=true;mediaStage.hidden=true;helpStage.hidden=true;document.querySelector("#tvStoryStage").hidden=true;document.querySelector("#replyStatus").textContent="";document.querySelector("#savannahStage").hidden=false});
+document.querySelector("#savannahBack").addEventListener("click",closeMedia);
+document.querySelector("#replyHeart").addEventListener("click",async()=>{
+  const reply={kind:"heart",at:new Date().toISOString()};
+  try{await putLocal("resident_reply",reply);document.querySelector("#replyStatus").textContent="A heart for Savannah is saved here. This pilot does not send it to her phone yet."}
+  catch{document.querySelector("#replyStatus").textContent="That didn’t save. Please try again."}
+});
 document.querySelector("#tvStoryButton").addEventListener("click",()=>{if(current.settings?.paused)return;clearTimeout(channelTimer);tvHome.hidden=true;mediaStage.hidden=true;helpStage.hidden=true;document.querySelector("#tvStoryStage").hidden=false});
 document.querySelector("#tvStoryBack").addEventListener("click",closeMedia);
 document.querySelector("#backButton").addEventListener("click",closeMedia);
@@ -182,7 +201,7 @@ document.querySelector("#closeHelp").addEventListener("click",closeMedia);
 document.addEventListener("keydown",event=>{
   if(current.settings?.paused)return;
   if(event.key==="Escape"||event.key==="Backspace"||event.key==="Home"){event.preventDefault();closeMedia();return}
-  if(!mediaStage.hidden||!helpStage.hidden||!document.querySelector("#tvStoryStage").hidden)return;
+  if(!mediaStage.hidden||!helpStage.hidden||!document.querySelector("#tvStoryStage").hidden||!document.querySelector("#savannahStage").hidden)return;
   const buttons=[...document.querySelectorAll(".tv-choices button:not([hidden])")];const active=document.activeElement;let index=buttons.indexOf(active);
   if(event.key==="ArrowRight"||event.key==="ArrowDown"){event.preventDefault();buttons[(index+1+buttons.length)%buttons.length]?.focus()}
   if(event.key==="ArrowLeft"||event.key==="ArrowUp"){event.preventDefault();buttons[(index-1+buttons.length)%buttons.length]?.focus()}
