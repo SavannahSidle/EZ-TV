@@ -54,6 +54,7 @@
     @media(max-width:900px){.topbar{height:112px;min-height:112px}}
     @media(max-width:680px){.topbar{height:108px;min-height:108px}.demo-appearance-row button{padding:7px 9px}}
     @media(max-width:620px){.topbar{padding:12px 14px;gap:8px}.top-actions a{font-size:.58rem;padding:8px}.mode-toggle{font-size:.58rem;padding:8px}.intro,.split-demo,.privacy-note{padding-left:14px;padding-right:14px}.split-demo{padding-top:10px}.caregiver-body,.tv-wrap{padding:14px}.choice-grid{grid-template-columns:1fr;gap:7px}.resident-choice{min-height:82px;display:flex;justify-content:flex-start;gap:14px;text-align:left}.resident-choice b{margin:0}.tv-screen{min-height:650px;padding:22px 16px}.tv-top h2{font-size:2.2rem}.clock b{font-size:1.15rem}.action-grid{grid-template-columns:1fr}.action-grid button{min-height:58px;display:flex;justify-content:center;gap:10px}.message-card{left:16px;right:16px;bottom:70px}.memory-image{height:230px}}
+    .find-button,.reply-demo,.back-demo{border:1px solid var(--aqua);background:var(--panel-2);color:var(--text);border-radius:9px;padding:12px 15px;font-weight:700}.find-button{min-height:54px}.reply-demo{min-height:58px;margin:15px auto}.back-demo{margin:10px auto;display:block}.savannah-demo{max-width:480px}.savannah-demo .memory-image{height:180px}.savannah-demo h3{margin:8px 0}.tv-footer .find-button{font-size:.78rem}.reply-note{font-size:.67rem;color:var(--muted)}
   </style>
 </head>
 <body>
@@ -80,6 +81,8 @@
           <div class="quick-row" aria-label="Quick messages"><button type="button" data-message="Lunch is at 12:30. Enjoy your afternoon, Wanda.">Lunch reminder</button><button type="button" data-message="I’ll visit this afternoon. I’m looking forward to seeing you.">Visit reminder</button><button type="button" data-message="I love you, Wanda. I’m thinking of you today. ❤️">Thinking of you</button></div>
         </div>
         <button class="send-button" id="sendMessage" type="button">Send to Wanda’s screen</button><button class="send-button" id="sendLove" type="button" style="background:var(--panel-2);color:var(--text);border:1px solid var(--aqua);margin-top:-12px">♥ Send love from Savannah in one tap</button>
+        <div class="action-copy"><h3>Where’s Savannah?</h3><p>Choose a short, truthful message. Wanda opens it herself. The picture below is an illustration, not a real family photo.</p></div>
+        <label class="field-label" for="savannahDemoMessage">Savannah’s message</label><textarea id="savannahDemoMessage" maxlength="180" style="min-height:74px;margin-top:-12px">Hi Mom. I love you. Here’s a picture of us.</textarea>
         <div class="divider"></div>
         <div class="action-copy"><h3>Control familiar media</h3><p>These buttons demonstrate how a caregiver can change what appears without asking Wanda to navigate anything.</p></div>
         <div class="action-grid"><button type="button" data-action="photo"><b>▧</b><span>Show family photo</span></button><button type="button" data-action="music"><b>♪</b><span>Play music</span></button><button type="button" data-action="home"><b>⌂</b><span>Return home</span></button></div>
@@ -101,9 +104,10 @@
             <div class="choice-grid" id="homeView"><div class="resident-choice"><b>▧</b><span>Family photos<small>People you know</small></span></div><div class="resident-choice"><b>▶</b><span>Favourite show<small>Your next episode</small></span></div><div class="resident-choice"><b>♪</b><span>Relaxing music<small>Your favourite music</small></span></div></div>
             <div class="media-view" id="photoView"><div><span class="channel-badge mono" id="photoMoment"></span><img class="memory-image" src="assets/memories/garden-afternoon.jpg" alt="An anonymous family memory in a sunny garden"><h3>Garden afternoon</h3><p>A familiar family memory</p></div></div>
             <div class="media-view" id="musicView"><div><span class="channel-badge mono" id="musicMoment"></span><div class="music-disc" aria-hidden="true"></div><h3>Morning favourites</h3><p>Preview of a familiar playlist</p></div></div>
+            <div class="media-view" id="savannahView"><div class="savannah-demo"><img class="memory-image" src="assets/memories/garden-afternoon.jpg" alt="Illustrated family scene in a garden"><h3>Savannah</h3><p id="savannahDemoText"></p><button class="reply-demo" id="replyDemoHeart" type="button">♥ A heart for Savannah</button><button class="back-demo" id="savannahDemoBack" type="button">Back to choices</button><p class="reply-note">Example picture. The paired pilot can use a family photo and a genuine voice recording.</p></div></div>
           </div>
           <div class="message-card" id="messageCard" aria-live="assertive"><small class="mono">MESSAGE FROM FAMILY</small><p id="recipientMessage"></p><button id="closeMessage" type="button" aria-label="Close message">×</button></div>
-          <div class="tv-footer"><span class="voice-dot"><i></i> Say “photos,” “show,” or “music”</span><span>Simple Resident View</span></div>
+          <div class="tv-footer"><button class="find-button" id="findSavannahDemo" type="button">♡ Where’s Savannah?</button><span>Simple Resident View</span></div>
         </div>
       </div>
     </section>
@@ -117,7 +121,7 @@
     const messageCard=document.querySelector("#messageCard");
     const recipientMessage=document.querySelector("#recipientMessage");
     const activity=document.querySelector("#activity");
-    const views={home:document.querySelector("#homeView"),photo:document.querySelector("#photoView"),music:document.querySelector("#musicView")};
+    const views={home:document.querySelector("#homeView"),photo:document.querySelector("#photoView"),music:document.querySelector("#musicView"),savannah:document.querySelector("#savannahView")};
 
     const appearanceButtons=[...document.querySelectorAll("[data-interface-theme]")];
     const modeButton=document.querySelector("#demoMode");
@@ -150,6 +154,9 @@
     document.querySelectorAll("[data-message]").forEach(button=>button.addEventListener("click",()=>{messageInput.value=button.dataset.message;updateCount();messageInput.focus()}));
     document.querySelector("#sendMessage").addEventListener("click",sendMessage);
     document.querySelector("#sendLove").addEventListener("click",()=>{messageInput.value="I love you, Wanda. I’m thinking of you today. ♥";updateCount();sendMessage()});
+    document.querySelector("#findSavannahDemo").addEventListener("click",()=>{document.querySelector("#savannahDemoText").textContent=document.querySelector("#savannahDemoMessage").value.trim()||"You are loved, Wanda.";showView("savannah");activity.textContent="Wanda opened Savannah’s message."});
+    document.querySelector("#replyDemoHeart").addEventListener("click",()=>{activity.textContent="♥ Wanda sent a heart to Savannah. No typing or call needed.";document.querySelector("#replyDemoHeart").textContent="♥ Heart sent"});
+    document.querySelector("#savannahDemoBack").addEventListener("click",()=>showView("home"));
     document.querySelector("#closeMessage").addEventListener("click",()=>{messageCard.classList.remove("visible");activity.textContent="Wanda’s screen is ready."});
     document.querySelectorAll("[data-action]").forEach(button=>button.addEventListener("click",()=>{const action=button.dataset.action;if(action==="photo"){showView("photo");activity.textContent="Family photo is now showing on Wanda’s screen."}else if(action==="music"){showView("music");activity.textContent="Morning favourites are now playing on Wanda’s screen."}else{showView("home");activity.textContent="Wanda’s screen returned to the three familiar choices."}}));
     const dayControls=[...document.querySelectorAll("[data-day]")];
