@@ -21,6 +21,7 @@ const DEFAULT_SETTINGS={
   comfort_plan:{people:"",words:"You are safe. Savannah knows where you are.",actions:"",avoid:""},
   day_plan:{morning:"music",afternoon:"photos",evening:"video"},
   home_today:null,
+  savannah_note:{text:"Hi Mom. I love you. Here’s a picture of us.",audio:""},
   consent:{personalMedia:false,careTeam:false}
 };
 let workingSettings=structuredClone(DEFAULT_SETTINGS);
@@ -75,6 +76,8 @@ function applySettings(settings){
   setRadio("residentTheme",workingSettings.theme);setRadio("interactionMode",workingSettings.interaction_mode);
   $("#channelEnabled").checked=workingSettings.channel_enabled;$("#showClock").checked=workingSettings.show_clock;$("#showCaptions").checked=workingSettings.show_captions;
   const profile=workingSettings.life_profile;$("#preferredName").value=profile.preferredName||"Wanda";$("#lifeStory").value=profile.lifeStory;$("#familiarPlaces").value=profile.familiarPlaces;$("#pets").value=profile.pets;$("#familiarPhrase").value=profile.familiarPhrase||"";$("#phraseMeaning").value=profile.phraseMeaning||"";familiarPeople=(profile.familiarPeople||[]).map(person=>({...person}));renderPairedPeople();$("#favouriteFoods").value=profile.favouriteFoods;$("#favouriteShows").value=profile.favouriteShows;$("#conversationStarters").value=profile.conversationStarters;$("#languages").value=profile.languages;$("#culture").value=profile.culture;$("#interests").value=profile.interests;$("#staffProfileVisible").checked=profile.staffProfileVisible;
+  $("#savannahMessage").value=workingSettings.savannah_note?.text||"";
+  $("#savannahVoiceStatus").textContent=workingSettings.savannah_note?.audio?"Voice recording ready.":"No recording added. Text works on its own.";
   const comfort=workingSettings.comfort_plan;$("#comfortPeople").value=comfort.people;$("#comfortWords").value=comfort.words;$("#comfortActions").value=comfort.actions;$("#comfortAvoid").value=comfort.avoid;
   $("#morningContent").value=workingSettings.day_plan.morning;$("#afternoonContent").value=workingSettings.day_plan.afternoon;$("#eveningContent").value=workingSettings.day_plan.evening;
   $("#consentPersonalMedia").checked=workingSettings.consent.personalMedia;$("#consentCareTeam").checked=workingSettings.consent.careTeam;
@@ -340,17 +343,30 @@ $("#queueHomeToday").addEventListener("click",async()=>{
   if(sent)$("#homeTodayMessage").value="";
 });
 $("#sendLoveNote").addEventListener("click",()=>publishHomeToday("I love you, Wanda. I’m thinking of you today. ♥","Savannah",1));
-$("#printCareCard").addEventListener("click",()=>{
-  if(!checked("#staffProfileVisible")||!checked("#consentCareTeam")){showToast("Approve care-team sharing in Profile and Access first");return}
-  const profile=collectSettings().life_profile;
-  $("#careCardName").textContent=`${profile.preferredName} · a little about me`;
-  $("#careCardStory").textContent=profile.lifeStory||"Ask me about the people and places I know.";
-  $("#careCardPlaces").textContent=profile.familiarPlaces?`Familiar places: ${profile.familiarPlaces}`:"";
-  $("#careCardPets").textContent=profile.pets?`Pets and animals: ${profile.pets}`:"";
-  const list=$("#careCardPeople");list.replaceChildren();
-  const printUrls=[];profile.familiarPeople.forEach(person=>{const row=document.createElement("p");const photo=workingPhotos[person.photoIndex];if(photo instanceof Blob){const image=document.createElement("img");image.src=URL.createObjectURL(photo);printUrls.push(image.src);image.alt="";row.append(image)}const words=document.createElement("span");words.textContent=`${person.name} · ${person.relationship}${person.note?` · ${person.note}`:""}`;row.append(words);list.append(row)});
-  window.addEventListener("afterprint",()=>printUrls.forEach(URL.revokeObjectURL),{once:true});
-  window.print();
+$("#savannahVoice").addEventListener("change",async event=>{
+  const file=event.target.files[0];event.target.value="";
+  if(!file)return;
+  if(!file.type.startsWith("audio/")||file.size>500000){showToast("Choose a short audio file under 500 KB");return}
+  try{
+    const audio=await new Promise((resolve,reject)=>{const reader=new FileReader();reader.onload=()=>resolve(reader.result);reader.onerror=()=>reject(reader.error);reader.readAsDataURL(file)});
+    workingSettings.savannah_note={...workingSettings.savannah_note,audio};
+    $("#savannahVoiceStatus").textContent="Voice recording ready. Press Save for Wanda.";
+  }catch{showToast("Could not read that recording")}
+});
+$("#removeSavannahVoice").addEventListener("click",()=>{
+  workingSettings.savannah_note={...workingSettings.savannah_note,audio:""};
+  $("#savannahVoice").value="";
+  $("#savannahVoiceStatus").textContent="No recording added. Press Save for Wanda.";
+});
+$("#saveSavannahMessage").addEventListener("click",async()=>{
+  const text=value("#savannahMessage");if(!text){showToast("Write a short, truthful message first");return}
+  const previous=workingSettings.savannah_note;
+  workingSettings.savannah_note={...previous,text};
+  try{
+    if(cloudResident)await window.ezCloud.saveSettings(cloudResident.id,collectSettings());
+    await saveLocal();
+    showToast(cloudResident?"Saved for Wanda’s paired screen. Check it there.":"Saved here. Pair Wanda’s screen to deliver it.");
+  }catch(error){workingSettings.savannah_note=previous;showToast("Could not save. Check the connection and try again.")}
 });
 
 $("#copyRecoverySummary").addEventListener("click",async()=>{
