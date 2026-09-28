@@ -20,6 +20,8 @@ const DEFAULT_SETTINGS={
   life_profile:{preferredName:"Wanda",lifeStory:"",familiarPlaces:"",pets:"",familiarPhrase:"",phraseMeaning:"",familiarPeople:[],favouriteFoods:"",favouriteShows:"",conversationStarters:"",languages:"",culture:"",interests:"",staffProfileVisible:false},
   comfort_plan:{people:"",words:"You are safe. Savannah knows where you are.",actions:"",avoid:""},
   day_plan:{morning:"music",afternoon:"photos",evening:"video"},
+  video_mood:"show",
+  watch_together:null,
   home_today:null,
   savannah_note:{text:"Hi Mom. I love you. Here’s a picture of us.",audio:""},
   consent:{personalMedia:false,careTeam:false}
@@ -65,6 +67,7 @@ function collectSettings(){
     life_profile:{preferredName:value("#preferredName")||value("#residentName")||"Wanda",lifeStory:value("#lifeStory"),familiarPlaces:value("#familiarPlaces"),pets:value("#pets"),familiarPhrase:value("#familiarPhrase"),phraseMeaning:value("#phraseMeaning"),familiarPeople:familiarPeople.map(person=>({...person})),favouriteFoods:value("#favouriteFoods"),favouriteShows:value("#favouriteShows"),conversationStarters:value("#conversationStarters"),languages:value("#languages"),culture:value("#culture"),interests:value("#interests"),staffProfileVisible:checked("#staffProfileVisible")},
     comfort_plan:{people:value("#comfortPeople"),words:value("#comfortWords"),actions:value("#comfortActions"),avoid:value("#comfortAvoid")},
     day_plan:{morning:$("#morningContent")?.value||"music",afternoon:$("#afternoonContent")?.value||"photos",evening:$("#eveningContent")?.value||"video"},
+    video_mood:$("#videoMood").value,
     consent:{personalMedia:checked("#consentPersonalMedia"),careTeam:checked("#consentCareTeam")}
   };
   return workingSettings;
@@ -72,7 +75,7 @@ function collectSettings(){
 
 function applySettings(settings){
   workingSettings={...structuredClone(DEFAULT_SETTINGS),...(settings||{}),life_profile:{...DEFAULT_SETTINGS.life_profile,...(settings?.life_profile||{})},comfort_plan:{...DEFAULT_SETTINGS.comfort_plan,...(settings?.comfort_plan||{})},day_plan:{...DEFAULT_SETTINGS.day_plan,...(settings?.day_plan||{})},consent:{...DEFAULT_SETTINGS.consent,...(settings?.consent||{})}};
-  photoDetails=(workingSettings.photo_details||[]).map(item=>({name:item.name||"",relationship:item.relationship||"",visible:item.visible!==false}));
+  photoDetails=(workingSettings.photo_details||[]).map(item=>({name:item.name||"",relationship:item.relationship||"",visible:item.visible!==false,category:item.category||"people",story:item.story||"",voice:item.voice||""}));
   setRadio("residentTheme",workingSettings.theme);setRadio("interactionMode",workingSettings.interaction_mode);
   $("#channelEnabled").checked=workingSettings.channel_enabled;$("#showClock").checked=workingSettings.show_clock;$("#showCaptions").checked=workingSettings.show_captions;
   const profile=workingSettings.life_profile;$("#preferredName").value=profile.preferredName||"Wanda";$("#lifeStory").value=profile.lifeStory;$("#familiarPlaces").value=profile.familiarPlaces;$("#pets").value=profile.pets;$("#familiarPhrase").value=profile.familiarPhrase||"";$("#phraseMeaning").value=profile.phraseMeaning||"";familiarPeople=(profile.familiarPeople||[]).map(person=>({...person}));renderPairedPeople();$("#favouriteFoods").value=profile.favouriteFoods;$("#favouriteShows").value=profile.favouriteShows;$("#conversationStarters").value=profile.conversationStarters;$("#languages").value=profile.languages;$("#culture").value=profile.culture;$("#interests").value=profile.interests;$("#staffProfileVisible").checked=profile.staffProfileVisible;
@@ -80,6 +83,7 @@ function applySettings(settings){
   $("#savannahVoiceStatus").textContent=workingSettings.savannah_note?.audio?"Voice recording ready.":"No recording added. Text works on its own.";
   const comfort=workingSettings.comfort_plan;$("#comfortPeople").value=comfort.people;$("#comfortWords").value=comfort.words;$("#comfortActions").value=comfort.actions;$("#comfortAvoid").value=comfort.avoid;
   $("#morningContent").value=workingSettings.day_plan.morning;$("#afternoonContent").value=workingSettings.day_plan.afternoon;$("#eveningContent").value=workingSettings.day_plan.evening;
+  $("#videoMood").value=workingSettings.video_mood||"show";
   $("#consentPersonalMedia").checked=workingSettings.consent.personalMedia;$("#consentCareTeam").checked=workingSettings.consent.careTeam;
   renderHomeTodayStatus();
   renderPauseStatus();
@@ -131,20 +135,31 @@ function renderPhotoManager(){
   const manager=$("#photoManager");manager.innerHTML="";
   workingPhotos.forEach((photo,index)=>{
     const url=URL.createObjectURL(photo);thumbnailUrls.push(url);
-    const detail=photoDetails[index]||{name:"",relationship:"",visible:true};photoDetails[index]=detail;
+    const detail=photoDetails[index]||{name:"",relationship:"",visible:true,category:"people",story:"",voice:""};photoDetails[index]=detail;
     const item=document.createElement("div");item.className="photo-item";
-    item.innerHTML=`<img alt="Photograph ${index+1}"><div class="photo-fields"><label>Name or place<input data-field="name" maxlength="80" placeholder="Wanda and Savannah"></label><label>Relationship or caption<input data-field="relationship" maxlength="100" placeholder="Daughter, at the lake"></label><label class="photo-visible"><input type="checkbox" data-field="visible"> Show on Wanda’s screen</label></div><div class="photo-actions"><button type="button" data-action="left" aria-label="Move photograph ${index+1} left" ${index===0?"disabled":""}>←</button><button type="button" data-action="right" aria-label="Move photograph ${index+1} right" ${index===workingPhotos.length-1?"disabled":""}>→</button><button type="button" class="delete-photo" data-action="delete" aria-label="Delete photograph ${index+1}">Delete</button></div>`;
+    item.innerHTML=`<img alt="Photograph ${index+1}"><div class="photo-fields"><label>Name or place<input data-field="name" maxlength="80" placeholder="Wanda and Savannah"></label><label>Relationship or caption<input data-field="relationship" maxlength="100" placeholder="Daughter, at the lake"></label><label>Small story about this photograph<textarea data-field="story" maxlength="200" rows="2" placeholder="We planted these flowers together."></textarea></label><label>Group<select data-field="category"><option value="people">People and family</option><option value="pet">Princess and pets</option><option value="place">Places she knows</option><option value="smile">Things she finds funny</option></select></label><label>Optional real voice story, under 200 KB<input type="file" data-story-voice accept="audio/*"></label><button type="button" class="remove-media" data-remove-voice>Remove voice story</button><label class="photo-visible"><input type="checkbox" data-field="visible"> Show on Wanda’s screen</label></div><div class="photo-actions"><button type="button" data-action="left" aria-label="Move photograph ${index+1} left" ${index===0?"disabled":""}>←</button><button type="button" data-action="right" aria-label="Move photograph ${index+1} right" ${index===workingPhotos.length-1?"disabled":""}>→</button><button type="button" class="delete-photo" data-action="delete" aria-label="Delete photograph ${index+1}">Delete</button></div>`;
     item.querySelector("img").src=url;
     item.querySelector('[data-field="name"]').value=detail.name;
     item.querySelector('[data-field="relationship"]').value=detail.relationship;
+    item.querySelector('[data-field="story"]').value=detail.story||"";
+    item.querySelector('[data-field="category"]').value=detail.category||"people";
     item.querySelector('[data-field="visible"]').checked=detail.visible!==false;
+    item.querySelector('[data-remove-voice]').hidden=!detail.voice;
+    item.querySelector('[data-story-voice]').addEventListener('change',async event=>{
+      const file=event.target.files[0];event.target.value="";
+      if(!file)return;
+      if(!file.type.startsWith("audio/")||file.size>200000){showToast("Choose a voice story under 200 KB");return}
+      try{detail.voice=await new Promise((resolve,reject)=>{const reader=new FileReader();reader.onload=()=>resolve(reader.result);reader.onerror=()=>reject(reader.error);reader.readAsDataURL(file)});item.querySelector('[data-remove-voice]').hidden=false;markUnsaved();showToast("Voice story added. Press Send to TV")}
+      catch{showToast("Could not read that recording")}
+    });
+    item.querySelector('[data-remove-voice]').addEventListener('click',()=>{detail.voice="";item.querySelector('[data-remove-voice]').hidden=true;markUnsaved()});
     item.querySelectorAll("[data-field]").forEach(input=>input.addEventListener("change",async()=>{
       detail[input.dataset.field]=input.type==="checkbox"?input.checked:input.value.trim();
       if(input.dataset.field!=="visible"){markUnsaved();return}
       try{await saveLocal();if(cloudResident)await window.ezCloud.saveSettings(cloudResident.id,collectSettings());setSync(cloudResident?"TV updated":"Saved on this device");showToast(input.checked?"Photo shown":"Photo hidden")}
       catch(error){console.error(error);setSync("Needs attention",true);showToast("Could not update TV. Check the connection")}
     }));
-    item.querySelectorAll("button").forEach(button=>button.addEventListener("click",()=>{
+    item.querySelectorAll(".photo-actions button").forEach(button=>button.addEventListener("click",()=>{
       if(button.dataset.action==="delete"){workingPhotos.splice(index,1);photoDetails.splice(index,1);familiarPeople.forEach(person=>{if(person.photoIndex===index)person.photoIndex=null;else if(person.photoIndex>index)person.photoIndex--})}
       if(button.dataset.action==="left"&&index>0){[workingPhotos[index-1],workingPhotos[index]]=[workingPhotos[index],workingPhotos[index-1]];[photoDetails[index-1],photoDetails[index]]=[photoDetails[index],photoDetails[index-1]];familiarPeople.forEach(person=>{if(person.photoIndex===index)person.photoIndex=index-1;else if(person.photoIndex===index-1)person.photoIndex=index})}
       if(button.dataset.action==="right"&&index<workingPhotos.length-1){[workingPhotos[index+1],workingPhotos[index]]=[workingPhotos[index],workingPhotos[index+1]];[photoDetails[index+1],photoDetails[index]]=[photoDetails[index],photoDetails[index+1]];familiarPeople.forEach(person=>{if(person.photoIndex===index)person.photoIndex=index+1;else if(person.photoIndex===index+1)person.photoIndex=index})}
@@ -343,6 +358,28 @@ $("#queueHomeToday").addEventListener("click",async()=>{
   if(sent)$("#homeTodayMessage").value="";
 });
 $("#sendLoveNote").addEventListener("click",()=>publishHomeToday("I love you, Wanda. I’m thinking of you today. ♥","Savannah",1));
+let coWatchPreviewUrl=null;
+$("#inviteCoWatch").addEventListener("click",async()=>{
+  const firstVisible=workingPhotos.findIndex((_,i)=>photoDetails[i]?.visible!==false);
+  const type=workingVideo?"video":firstVisible>=0?"photos":null;
+  if(!type){showToast("Add a short clip or photograph and send it to Wanda first");return}
+  if(!cloudResident){showToast("Pair Wanda’s screen before inviting her");return}
+  const previous=workingSettings.watch_together;
+  workingSettings.watch_together={id:crypto.randomUUID(),type,at:new Date().toISOString(),photoIndex:firstVisible};
+  try{
+    await window.ezCloud.saveSettings(cloudResident.id,collectSettings());
+    await saveLocal();
+    const preview=$("#coWatchPreview");preview.replaceChildren();
+    if(coWatchPreviewUrl)URL.revokeObjectURL(coWatchPreviewUrl);
+    coWatchPreviewUrl=URL.createObjectURL(type==="video"?workingVideo:workingPhotos[firstVisible]);
+    const media=document.createElement(type==="video"?"video":"img");media.src=coWatchPreviewUrl;
+    if(type==="video"){media.controls=true;media.playsInline=true}else media.alt="Family photograph to see together";
+    preview.append(media);
+    const again=document.createElement("button");again.type="button";again.className="secondary-button";again.textContent="Again";
+    again.addEventListener("click",()=>{if(type==="video"){media.currentTime=0;media.play().catch(()=>{})}else preview.scrollIntoView({block:"nearest"})});preview.append(again);
+    $("#coWatchStatus").textContent="Invitation sent to Wanda’s paired screen. Press play here when she is ready; check both screens.";
+  }catch(error){workingSettings.watch_together=previous;showToast("Could not invite Wanda. Check the connection")}
+});
 $("#savannahVoice").addEventListener("change",async event=>{
   const file=event.target.files[0];event.target.value="";
   if(!file)return;
