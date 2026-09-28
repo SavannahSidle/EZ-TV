@@ -48,5 +48,15 @@
 .checkin-history{margin:14px 0 0;padding-left:20px;color:var(--muted);font-size:.7rem;line-height:1.7;max-height:180px;overflow:auto}
 @media(max-width:760px){.photo-manager{grid-template-columns:1fr}.photo-item{grid-template-columns:72px minmax(0,1fr)}.photo-item img{width:72px;height:72px}.photo-actions{grid-column:1/-1;flex-direction:row}.pause-card{display:block}.pause-card button{margin-top:12px}}
 
-.profile-actions{display:flex;gap:10px;flex-wrap:wrap}.care-card-print{display:none}
-@media print{body>*{display:none!important}body>#careCardPrint{display:block!important;max-width:720px;margin:0 auto;padding:18px;color:#173037;background:white;font:18px/1.5 Arial,sans-serif}#careCardPrint h1{font-size:32px}#careCardPrint h2{font-size:21px}#careCardPrint #careCardPeople p{display:flex;align-items:center;gap:12px;border-top:1px solid #ddd;padding:10px 0}#careCardPrint img{width:64px;height:64px;object-fit:cover;border-radius:8px}#careCardPrint footer{border-top:1px solid #aaa;margin-top:24px;padding-top:12px;font-size:14px}}
+[hidden]{display:none!important}
+.familiar-button{border:1px solid var(--aqua);border-radius:10px;background:var(--panel,#092032);color:var(--text);font-weight:700;font-size:clamp(.9rem,1.4vw,1.25rem);min-height:60px;padding:12px 22px}
+.familiar-button:focus-visible{outline:3px solid var(--aqua);outline-offset:3px}
+.savannah-stage{position:absolute;inset:0;display:grid;grid-template-rows:auto minmax(0,1fr);gap:16px;padding:clamp(18px,4vw,52px);background:var(--void,#03070d);overflow:auto}
+.savannah-content{display:grid;grid-template-columns:minmax(0,1fr) minmax(300px,1fr);gap:clamp(20px,5vw,70px);align-items:center;width:min(100%,1150px);margin:auto;text-align:left}
+.savannah-content img{width:100%;max-height:62svh;object-fit:contain;border-radius:12px}
+.savannah-content:has(img[hidden]){grid-template-columns:1fr;max-width:720px;text-align:center}
+.savannah-content h2{font-size:clamp(2rem,4vw,4rem);line-height:1.1;font-weight:500;margin:12px 0 22px}
+.savannah-content audio{display:block;max-width:100%;margin:0 0 24px}
+.savannah-content #replyStatus{color:var(--muted);font-size:clamp(.8rem,1.1vw,1rem);line-height:1.5;max-width:35ch}
+.resident-only[data-theme="warm"] .savannah-stage{background:#f7efe6}.resident-only[data-theme="garden"] .savannah-stage{background:#eef6f0}
+@media(max-width:760px){.tv-home-actions{gap:6px;flex-wrap:wrap}.tv-home-actions .familiar-button{min-height:46px;font-size:.75rem;padding:9px 11px}.savannah-content{grid-template-columns:1fr;gap:12px;text-align:center}.savannah-content img{max-height:25svh}.savannah-content audio{margin:0 auto 18px}.savannah-content #replyStatus{margin-inline:auto}}
