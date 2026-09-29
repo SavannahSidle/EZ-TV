@@ -808,3 +808,12 @@ body.light-mode[data-interface-theme="garden"] .facility-rail button.active,
 body.light-mode[data-interface-theme="garden"] .setup-question button.active{background:#cfe0d3;border-color:#93b09b;color:#304c39}
 body.light-mode[data-interface-theme="garden"] .page-appearance button[data-interface-theme="garden"]{background:#f0f6f1;border-color:#b2c9b8;color:#55755f}
 body.light-mode[data-interface-theme="garden"] .page-appearance button[data-interface-theme="garden"].active{background:#dbe9de;border-color:#82a18b;color:#3f624a;box-shadow:0 3px 10px rgba(54,92,66,.08)}
+
+/* Scoped Why EZ-TV alignment and landscape comparison. */
+.how-grid article{display:grid;grid-template-columns:minmax(0,1fr) auto;align-content:start;column-gap:24px}
+.how-grid article>span{grid-column:1;grid-row:1;align-self:center}
+.how-grid article>.how-icon{grid-column:2;grid-row:1;justify-self:end;align-self:center;margin:0;white-space:nowrap}
+.how-grid article>h3,.how-grid article>p{grid-column:1/-1}
+.comparison-table .comparison-row{grid-template-columns:1fr 1.5fr 1.5fr 1.5fr 1.5fr}
+.how-grid article>.how-icon{min-height:48px;margin-bottom:18px}
+.how-grid article>span{padding-bottom:18px}
