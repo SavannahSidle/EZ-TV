@@ -454,7 +454,7 @@ let selectedSetupScreen="smart";
 let selectedSetupInternet="yes";
 const setupRecommendations={
   smart:{title:"Test the existing device",summary:"Open EZ-TV on Wanda’s computer or tablet and Caregiver Setup on your phone. A smart TV browser needs its own compatibility test.",resident:"Three choices on a computer or tablet screen.",caregiver:"Opens the resident page, pairs with its code, selects a few familiar photos, and checks both screens together."},
-  older:{title:"Use a computer with the TV, if available",summary:"A computer can show the browser through the TV’s HDMI input. EZ-TV has no supplied streaming device; a third-party device would be a later experiment.",resident:"Three choices displayed from the computer on the TV, if the remote and input work.",caregiver:"Connects a computer by HDMI and checks the TV input, restart, and controls. If this is cumbersome, test a tablet instead."},
+  older:{title:"Use a computer with the TV, if available",summary:"A computer can show the browser through the TV’s HDMI input. EZ-TV has no supplied streaming device; a third-party device would be a later experiment.",resident:"Familiar content displayed from the computer on the TV; test passive use or suitable fixed controls.",caregiver:"Connects a computer by HDMI and checks the TV input, restart, and controls. If this is cumbersome, test a tablet instead."},
   none:{title:"Start with an existing tablet or computer",summary:"A tablet or computer is the current pilot route. No bundled screen or installation service exists.",resident:"A tablet or computer with the three familiar choices.",caregiver:"Chooses a safe place and charging arrangement, pairs the screen, and tests use with Wanda."}
 };
 function updateSetupRecommendation(){
